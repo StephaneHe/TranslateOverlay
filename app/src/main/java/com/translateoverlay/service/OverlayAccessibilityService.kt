@@ -25,6 +25,7 @@ import com.translateoverlay.core.BubbleVisibilityPolicy
 import com.translateoverlay.overlay.BubbleController
 import com.translateoverlay.overlay.ScreenMetrics
 import com.translateoverlay.overlay.TranslationOverlayView
+import com.translateoverlay.pipeline.Diag
 import com.translateoverlay.pipeline.PipelineOutcome
 import com.translateoverlay.pipeline.StyleEstimator
 import com.translateoverlay.pipeline.TranslationPipeline
@@ -200,11 +201,15 @@ class OverlayAccessibilityService : AccessibilityService() {
                     val bitmap = Bitmap.wrapHardwareBuffer(buffer, result.colorSpace)
                         ?.copy(Bitmap.Config.ARGB_8888, false)
                     buffer.close()
+                    Diag.log { "screenshot ok ${bitmap?.width}x${bitmap?.height}" }
                     cont.resume(bitmap)
                 }
 
                 // e.g. ERROR_TAKE_SCREENSHOT_SECURE_WINDOW: fall back to the accessibility tree only.
-                override fun onFailure(errorCode: Int) = cont.resume(null)
+                override fun onFailure(errorCode: Int) {
+                    Log.w(TAG, "takeScreenshot failed: error $errorCode")
+                    cont.resume(null)
+                }
             })
         }
     }
