@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
+import android.util.Log
 import android.view.Display
 import android.view.Gravity
 import android.view.WindowManager
@@ -35,6 +36,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -60,6 +62,7 @@ class OverlayAccessibilityService : AccessibilityService() {
     private var job: Job? = null
     private var bubbleVisible = false
     private var foregroundPackage: String? = null
+    private var connected = false
     private var lastScreenshotAt = 0L
     private var transientPackages: Set<String> = emptySet()
     private val handler = Handler(Looper.getMainLooper())
@@ -80,6 +83,7 @@ class OverlayAccessibilityService : AccessibilityService() {
                 updateBubble(s)
             }
         }
+        connected = true
         _running.value = true
         refreshForeground()
     }
@@ -118,6 +122,8 @@ class OverlayAccessibilityService : AccessibilityService() {
     }
 
     private fun updateBubble(s: Settings) {
+        // Once disconnected, the window token is dead: adding the bubble again would crash.
+        if (!connected) return
         val locked = getSystemService(KeyguardManager::class.java)?.isKeyguardLocked == true
         val show = !locked && overlay == null && BubbleVisibilityPolicy.shouldShow(
             bubbleEnabled = s.bubbleEnabled,
@@ -148,6 +154,7 @@ class OverlayAccessibilityService : AccessibilityService() {
     }
 
     private suspend fun translateScreen() {
+        val startedAt = SystemClock.uptimeMillis()
         val s = settingsRepo.settings.value
         val screen = ScreenMetrics.bounds(this)
         val nodes = NodeTextCollector.collect(windows, packageName, screen)
@@ -169,6 +176,7 @@ class OverlayAccessibilityService : AccessibilityService() {
         } finally {
             screenshot?.recycle()
         }
+        Log.i(TAG, "translateScreen: ${nodes.size} nodes, ${outcome.javaClass.simpleName} in ${SystemClock.uptimeMillis() - startedAt} ms")
         when (outcome) {
             is PipelineOutcome.Success -> {
                 val langs = outcome.sourceLanguages.joinToString(", ") { it.uppercase() }
@@ -242,21 +250,27 @@ class OverlayAccessibilityService : AccessibilityService() {
     private fun toast(message: String) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 
     override fun onUnbind(intent: Intent?): Boolean {
+        connected = false
         _running.value = false
+        scope.coroutineContext[Job]?.cancelChildren()
+        dismissOverlay()
+        if (::bubble.isInitialized) bubble.destroy()
         return super.onUnbind(intent)
     }
 
     override fun onDestroy() {
+        connected = false
         _running.value = false
+        scope.cancel()
         handler.removeCallbacks(foregroundCheck)
         dismissOverlay()
         if (::bubble.isInitialized) bubble.destroy()
         ocr.close()
-        scope.cancel()
         super.onDestroy()
     }
 
     companion object {
+        private const val TAG = "TranslateOverlay"
         private const val MIN_SCREENSHOT_INTERVAL_MS = 1100L
         private val SYSTEM_UI = setOf("com.android.systemui")
 

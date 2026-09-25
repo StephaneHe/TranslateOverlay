@@ -37,12 +37,25 @@ class BubbleController(
         PixelFormat.TRANSLUCENT,
     ).apply { gravity = Gravity.TOP or Gravity.START }
 
+    init {
+        // Size must be known before the first setVisible(), which computes the position from it.
+        settings.settings.value.let { applyAppearance(it.bubbleSizeDp, it.bubbleOpacity) }
+    }
+
     fun applyAppearance(sizeDp: Int, opacity: Float) {
-        sizePx = (sizeDp * density).toInt()
+        val newSize = (sizeDp * density).toInt()
+        view.alpha = opacity
+        if (newSize == sizePx) return
+        val screen = ScreenMetrics.bounds(context)
+        val stuckRight = attached && params.x + sizePx >= screen.width - 1
+        sizePx = newSize
         params.width = sizePx
         params.height = sizePx
-        view.alpha = opacity
-        if (attached) wm.updateViewLayout(view, params)
+        if (attached) {
+            if (stuckRight) params.x = screen.width - sizePx
+            clampInto(screen.width, screen.height)
+            wm.updateViewLayout(view, params)
+        }
     }
 
     fun setVisible(visible: Boolean) {
@@ -54,10 +67,11 @@ class BubbleController(
             params.y = saved?.second ?: (screen.height / 3)
             clampInto(screen.width, screen.height)
             view.visibility = View.VISIBLE
-            wm.addView(view, params)
+            // BadTokenException if the service is being disconnected: stay detached.
+            if (runCatching { wm.addView(view, params) }.isFailure) return
         } else {
             snapAnimator?.cancel()
-            wm.removeView(view)
+            runCatching { wm.removeView(view) }
         }
         attached = visible
     }
