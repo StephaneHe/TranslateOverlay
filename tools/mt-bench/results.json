@@ -1,0 +1,702 @@
+[
+ {
+  "id": "he1",
+  "pair": "he-fr",
+  "kind": "titre",
+  "src": "המועמד המוביל של המצביעים הליברלים - והתרסקות הקואליציה",
+  "ref": "Le candidat favori des électeurs libéraux – et l'effondrement de la coalition",
+  "mlkit": "Le premier candidat des pointeurs libéraux - et le crash de la coalition",
+  "out": {
+   "mlkit": "Le premier candidat des pointeurs libéraux - et le crash de la coalition",
+   "opus": null,
+   "opus_pivot": "Le candidat principal des électeurs libéraux - et le crash de la coalition",
+   "nllb600": "Le candidat leader des électeurs libéraux et l'effondrement de la coalition",
+   "nllb1.3b": "Le principal candidat des électeurs libéraux - et l'effondrement de la coalition",
+   "tgemma4b": "Le candidat favori des électeurs libéraux – et l'effondrement de la coalition",
+   "google": "Le candidat tête de liste des électeurs libéraux - et l'effondrement de la coalition"
+  },
+  "ms": {
+   "opus": 2643,
+   "opus_pivot": 37768,
+   "nllb600": 56264,
+   "nllb1.3b": 66701,
+   "tgemma4b": 5322,
+   "google": 971
+  }
+ },
+ {
+  "id": "he2",
+  "pair": "he-fr",
+  "kind": "titre",
+  "src": "הרוג בתאונה בבקעת הירדן, 3 פצועים במצב קשה",
+  "ref": "Un mort dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave",
+  "mlkit": "Tuer dans un accident dans la vallée de la Jordanie, 3 blessés en mode difficile",
+  "out": {
+   "mlkit": "Tuer dans un accident dans la vallée de la Jordanie, 3 blessés en mode difficile",
+   "opus": null,
+   "opus_pivot": "Tué dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave",
+   "nllb600": "Tué dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave",
+   "nllb1.3b": "Mort dans un accident dans la vallée du Jourdain, trois blessés dans un état grave.",
+   "tgemma4b": "Décès dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave.",
+   "google": "Tué dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave"
+  },
+  "ms": {
+   "opus": 2276,
+   "opus_pivot": 710,
+   "nllb600": 591,
+   "nllb1.3b": 1044,
+   "tgemma4b": 5551,
+   "google": 807
+  }
+ },
+ {
+  "id": "he3",
+  "pair": "he-fr",
+  "kind": "titre",
+  "src": "נקבע מותו של הצעיר שנורה בגליל המערבי",
+  "ref": "Le décès du jeune homme blessé par balle en Galilée occidentale a été prononcé",
+  "mlkit": "La jeune femme a été déterminée que le jeune homme a été abattu dans la galilée occidentale",
+  "out": {
+   "mlkit": "La jeune femme a été déterminée que le jeune homme a été abattu dans la galilée occidentale",
+   "opus": null,
+   "opus_pivot": "La mort du jeune homme abattu en Galilée occidentale a été déterminée.",
+   "nllb600": "Le décès d'un jeune homme tué en Galilée occidentale",
+   "nllb1.3b": "Déterminé mort du jeune homme abattu en Galilée de l'Ouest.",
+   "tgemma4b": "La mort du jeune homme, abattu dans le nord de la Palestine, a été confirmée.",
+   "google": "La mort du jeune homme abattu en Galilée occidentale a été déterminée"
+  },
+  "ms": {
+   "opus": 1926,
+   "opus_pivot": 558,
+   "nllb600": 438,
+   "nllb1.3b": 877,
+   "tgemma4b": 5258,
+   "google": 784
+  }
+ },
+ {
+  "id": "he4",
+  "pair": "he-fr",
+  "kind": "titre",
+  "src": "חשש לטביעת אדם בחוף באשקלון, 2 צעירים שהיו איתו חולצו, אחד במצב קשה",
+  "ref": "Crainte d'une noyade sur une plage d'Ashkelon : deux jeunes qui l'accompagnaient ont été secourus, l'un dans un état grave",
+  "mlkit": "Craignant l'inflation d'une personne sur la plage à Ashkelon, 2 jeunes qui étaient avec lui ont été montrés, une dans une situation difficile",
+  "out": {
+   "mlkit": "Craignant l'inflation d'une personne sur la plage à Ashkelon, 2 jeunes qui étaient avec lui ont été montrés, une dans une situation difficile",
+   "opus": null,
+   "opus_pivot": "Peur de noyer un homme sur une plage à Ashkelon, 2 jeunes qui étaient avec lui ont été sauvés, un dans un état grave",
+   "nllb600": "Il craint d'avoir retrouvé un homme sur la plage de Bachelon, deux jeunes hommes qui étaient avec lui ont traversé, l'un est en grave état.",
+   "nllb1.3b": "Crainte de noyade sur la plage d'Ashkelon, deux jeunes hommes avec lui ont été secourus, l'un dans un état critique.",
+   "tgemma4b": "Préoccupation concernant un possible noyade d'une personne sur la plage d'Ashkelon. Deux jeunes ont été secourus, l'un dans un état grave.",
+   "google": "Crainte d'un homme qui se noie sur la plage d'Ashkelon, 2 jeunes hommes qui l'accompagnaient ont été secourus, dont un dans un état grave"
+  },
+  "ms": {
+   "opus": 2106,
+   "opus_pivot": 1066,
+   "nllb600": 913,
+   "nllb1.3b": 1664,
+   "tgemma4b": 6588,
+   "google": 875
+  }
+ },
+ {
+  "id": "he5",
+  "pair": "he-fr",
+  "kind": "titre",
+  "src": "בכיר איראני: \"לא נתגמש על תוכנית הגרעין\"",
+  "ref": "Un haut responsable iranien : « Nous ne transigerons pas sur le programme nucléaire »",
+  "mlkit": "Senior iranien: \"Ne pas être rencontré sur le programme nucléaire\"",
+  "out": {
+   "mlkit": "Senior iranien: \"Ne pas être rencontré sur le programme nucléaire\"",
+   "opus": null,
+   "opus_pivot": "Iran : « Nous ne nous plierons pas au programme nucléaire »",
+   "nllb600": "Un responsable iranien: \"Nous ne gagnerons pas le programme nucléaire\"",
+   "nllb1.3b": "Officiel iranien: \"Nous ne nous appesantirons pas sur le programme nucléaire\"",
+   "tgemma4b": "Un haut responsable iranien : « Nous ne céderons pas sur le programme nucléaire. »",
+   "google": "Un haut responsable iranien : \"Nous ne serons pas flexibles sur le programme nucléaire\""
+  },
+  "ms": {
+   "opus": 1923,
+   "opus_pivot": 537,
+   "nllb600": 555,
+   "nllb1.3b": 1140,
+   "tgemma4b": 5067,
+   "google": 566
+  }
+ },
+ {
+  "id": "he6",
+  "pair": "he-fr",
+  "kind": "ui",
+  "src": "לכל המבזקים",
+  "ref": "Toutes les brèves",
+  "mlkit": "Boire tous les éclairs",
+  "out": {
+   "mlkit": "Boire tous les éclairs",
+   "opus": null,
+   "opus_pivot": "Pour tous les flashs",
+   "nllb600": "Pour tous ceux qui brillent",
+   "nllb1.3b": "Pour tous les éclairs",
+   "tgemma4b": "Pour tous les articles de presse",
+   "google": "À tous les clignotants"
+  },
+  "ms": {
+   "opus": 2017,
+   "opus_pivot": 275,
+   "nllb600": 214,
+   "nllb1.3b": 390,
+   "tgemma4b": 3666,
+   "google": 443
+  }
+ },
+ {
+  "id": "he7",
+  "pair": "he-fr",
+  "kind": "pub",
+  "src": "מחליפה את התצוגה ואתם נהנים ממחירים מיוחדים",
+  "ref": "Renouvelle son exposition et vous profitez de prix spéciaux",
+  "mlkit": "Remplace l'affichage et vous profitez des prix spéciaux",
+  "out": {
+   "mlkit": "Remplace l'affichage et vous profitez des prix spéciaux",
+   "opus": null,
+   "opus_pivot": "Remplacez l'écran et vous profitez de prix spéciaux",
+   "nllb600": "Il remplace l'exposition et vous bénéficiez de prix spéciaux.",
+   "nllb1.3b": "Remplace l'écran et vous bénéficiez de prix spéciaux",
+   "tgemma4b": "Elle remplace l'affichage actuel et vous offre des prix spéciaux.",
+   "google": "Remplacez l'écran et profitez de prix spéciaux"
+  },
+  "ms": {
+   "opus": 1856,
+   "opus_pivot": 529,
+   "nllb600": 460,
+   "nllb1.3b": 864,
+   "tgemma4b": 4557,
+   "google": 728
+  }
+ },
+ {
+  "id": "he8",
+  "pair": "he-fr",
+  "kind": "pub",
+  "src": "חגיגת טרייד אין",
+  "ref": "La fête de la reprise (trade-in)",
+  "mlkit": "La célébration des échanges n'a pas",
+  "out": {
+   "mlkit": "La célébration des échanges n'a pas",
+   "opus": null,
+   "opus_pivot": "La fête de l’échange",
+   "nllb600": "Il n'y a pas de fête de Triade.",
+   "nllb1.3b": "La célébration du commerce n'a pas",
+   "tgemma4b": "Célébration du \"trade-in\"",
+   "google": "Le commerce en fête"
+  },
+  "ms": {
+   "opus": 1863,
+   "opus_pivot": 320,
+   "nllb600": 340,
+   "nllb1.3b": 571,
+   "tgemma4b": 4038,
+   "google": 1619
+  }
+ },
+ {
+  "id": "he9",
+  "pair": "he-fr",
+  "kind": "pub",
+  "src": "יש הצעות שחייבים לקחת",
+  "ref": "Il y a des offres à ne pas manquer",
+  "mlkit": "Il y a des enchères à prendre",
+  "out": {
+   "mlkit": "Il y a des enchères à prendre",
+   "opus": null,
+   "opus_pivot": "Il y a des suggestions qui doivent être prises",
+   "nllb600": "Il y a des propositions à prendre.",
+   "nllb1.3b": "Il y a des offres à prendre",
+   "tgemma4b": "Il existe des propositions qui doivent être prises en compte.",
+   "google": "Il y a des offres qu'il faut accepter"
+  },
+  "ms": {
+   "opus": 1873,
+   "opus_pivot": 436,
+   "nllb600": 313,
+   "nllb1.3b": 555,
+   "tgemma4b": 4102,
+   "google": 900
+  }
+ },
+ {
+  "id": "he10",
+  "pair": "he-fr",
+  "kind": "titre",
+  "src": "מבחן דרך: החשמלית הקטנה עם הנשמה הספורטיבית",
+  "ref": "Essai routier : la petite électrique à l'âme sportive",
+  "mlkit": "Testez à travers: la petite électricité avec l'âme sportive",
+  "out": {
+   "mlkit": "Testez à travers: la petite électricité avec l'âme sportive",
+   "opus": null,
+   "opus_pivot": "Road Test : le petit tramway avec l’âme sportive",
+   "nllb600": "Test de route: petit train électrique avec l'âme sportive",
+   "nllb1.3b": "Test de route: le petit tramway avec l'esprit sportif",
+   "tgemma4b": "Test : Le petit véhicule électrique performant",
+   "google": "Essai routier : le petit tramway à l'âme sportive"
+  },
+  "ms": {
+   "opus": 1888,
+   "opus_pivot": 515,
+   "nllb600": 403,
+   "nllb1.3b": 670,
+   "tgemma4b": 3936,
+   "google": 1428
+  }
+ },
+ {
+  "id": "he11",
+  "pair": "he-fr",
+  "kind": "pub",
+  "src": "רק 2,390 ₪ לחודש: קיה ספורטאז' בנזין במסלול ליסינג אטרקטיבי",
+  "ref": "Seulement 2 390 ₪ par mois : Kia Sportage essence en formule de leasing attractive",
+  "mlkit": "Seulement 2,390 NIS par mois: Test de Kia Sportage dans une piste de location attrayante",
+  "out": {
+   "mlkit": "Seulement 2,390 NIS par mois: Test de Kia Sportage dans une piste de location attrayante",
+   "opus": null,
+   "opus_pivot": "Seulement 2.390 par mois: Kia Sportage essence sur une piste de location attrayante",
+   "nllb600": "Seulement 2 390  par mois: Kiya Sportage à essence sur une piste de lising attrayante",
+   "nllb1.3b": "Seulement 2 390 $ par mois: Kia Sporty à l'essence sur une piste de location attractive",
+   "tgemma4b": "À partir de seulement 2 390 ₪ par mois : Kia Sportage, modèle essence, avec un contrat de location avantageux.",
+   "google": "Seulement 2 390 NIS par mois : l'essence Kia Sportage sur une voie de location attractive"
+  },
+  "ms": {
+   "opus": 1884,
+   "opus_pivot": 784,
+   "nllb600": 680,
+   "nllb1.3b": 1136,
+   "tgemma4b": 6110,
+   "google": 1165
+  }
+ },
+ {
+  "id": "he12",
+  "pair": "he-fr",
+  "kind": "pub",
+  "src": "המכירה אסורה למי שטרם מלאו לו 18 שנים",
+  "ref": "La vente est interdite aux moins de 18 ans",
+  "mlkit": "La vente est interdite de la mettre fin pendant 18 ans",
+  "out": {
+   "mlkit": "La vente est interdite de la mettre fin pendant 18 ans",
+   "opus": null,
+   "opus_pivot": "La vente est interdite pour ceux qui n'ont pas encore 18 ans.",
+   "nllb600": "La vente est interdite aux personnes de moins de 18 ans.",
+   "nllb1.3b": "La vente est interdite aux moins de 18 ans.",
+   "tgemma4b": "La vente est interdite aux personnes de moins de 18 ans.",
+   "google": "La vente est interdite aux moins de 18 ans"
+  },
+  "ms": {
+   "opus": 1987,
+   "opus_pivot": 589,
+   "nllb600": 451,
+   "nllb1.3b": 642,
+   "tgemma4b": 4521,
+   "google": 1307
+  }
+ },
+ {
+  "id": "he13",
+  "pair": "he-fr",
+  "kind": "titre",
+  "src": "שני נופלים ביישוב הקטן, בית מול בית",
+  "ref": "Deux soldats tombés dans la petite localité, maison face à maison",
+  "mlkit": "Deux tombant dans la petite colonie, une maison devant une maison",
+  "out": {
+   "mlkit": "Deux tombant dans la petite colonie, une maison devant une maison",
+   "opus": null,
+   "opus_pivot": "Deux chutes dans le petit village, maison en face de la maison",
+   "nllb600": "Deux chutes dans un petit village, maison contre maison.",
+   "nllb1.3b": "Deux tombent dans le petit village, maison contre maison.",
+   "tgemma4b": "Deux maisons, côte à côte, dans un petit village.",
+   "google": "Deux tombent dans le petit village, maison contre maison"
+  },
+  "ms": {
+   "opus": 1872,
+   "opus_pivot": 489,
+   "nllb600": 324,
+   "nllb1.3b": 586,
+   "tgemma4b": 4303,
+   "google": 1408
+  }
+ },
+ {
+  "id": "he14",
+  "pair": "he-fr",
+  "kind": "pub",
+  "src": "בצעו את המבחן",
+  "ref": "Faites le test",
+  "mlkit": null,
+  "out": {
+   "mlkit": null,
+   "opus": null,
+   "opus_pivot": "Effectuez le test.",
+   "nllb600": "Faites le test.",
+   "nllb1.3b": "Faites le test.",
+   "tgemma4b": "Réalisez le test.",
+   "google": "Faites le test"
+  },
+  "ms": {
+   "opus": 1882,
+   "opus_pivot": 321,
+   "nllb600": 224,
+   "nllb1.3b": 408,
+   "tgemma4b": 3664,
+   "google": 1125
+  }
+ },
+ {
+  "id": "he15",
+  "pair": "he-fr",
+  "kind": "pub",
+  "src": "עם חודש ראשון מתנה!",
+  "ref": "Avec le premier mois offert !",
+  "mlkit": null,
+  "out": {
+   "mlkit": null,
+   "opus": null,
+   "opus_pivot": "Avec un cadeau du premier mois !",
+   "nllb600": "Avec le premier mois de cadeau!",
+   "nllb1.3b": "Avec un cadeau du premier mois !",
+   "tgemma4b": "Profitez d'un premier mois offert !",
+   "google": "Avec un cadeau du premier mois !"
+  },
+  "ms": {
+   "opus": 1891,
+   "opus_pivot": 355,
+   "nllb600": 242,
+   "nllb1.3b": 489,
+   "tgemma4b": 3894,
+   "google": 861
+  }
+ },
+ {
+  "id": "he16",
+  "pair": "he-fr",
+  "kind": "ui",
+  "src": "לפרטים נוספים",
+  "ref": "Pour plus de détails",
+  "mlkit": "Pour plus de détails",
+  "out": {
+   "mlkit": "Pour plus de détails",
+   "opus": null,
+   "opus_pivot": "Pour plus de détails",
+   "nllb600": "Pour plus de détails",
+   "nllb1.3b": "Pour plus de détails",
+   "tgemma4b": "Pour plus d'informations",
+   "google": "pour plus de détails"
+  },
+  "ms": {
+   "opus": 1875,
+   "opus_pivot": 303,
+   "nllb600": 216,
+   "nllb1.3b": 406,
+   "tgemma4b": 3544,
+   "google": 173
+  }
+ },
+ {
+  "id": "en1",
+  "pair": "en-fr",
+  "kind": "wiki",
+  "src": "An obligate carnivore, requiring a predominantly meat-based diet, it has retractable claws adapted to killing small prey species such as mice and rats.",
+  "ref": "Carnivore strict nécessitant une alimentation principalement carnée, il possède des griffes rétractiles adaptées à la capture de petites proies comme les souris et les rats.",
+  "mlkit": "Un carnivore contrausse, nécessitant un régime alimentaire à base de viande, il a des griffes rétractables adaptées à la tuer de petites espèces de proie telles que des souris et des rats.",
+  "out": {
+   "mlkit": "Un carnivore contrausse, nécessitant un régime alimentaire à base de viande, il a des griffes rétractables adaptées à la tuer de petites espèces de proie telles que des souris et des rats.",
+   "opus": "Un carnivore obligatoire, nécessitant un régime principalement à base de viande, il a des griffes rétractables adaptées à tuer les petites espèces de proies telles que les souris et les rats.",
+   "opus_pivot": "Un carnivore obligatoire, nécessitant un régime principalement à base de viande, il a des griffes rétractables adaptées à tuer les petites espèces de proies telles que les souris et les rats.",
+   "nllb600": "Carnivore obligatoire, nécessitant une alimentation principalement à base de viande, il possède des griffes rétractables adaptées à tuer de petites espèces de proies telles que les souris et les rats.",
+   "nllb1.3b": "Carnivore obligé, nécessitant un régime principalement à base de viande, il a des griffes rétractables adaptées pour tuer de petites espèces de proies telles que les souris et les rats.",
+   "tgemma4b": "Cet animal, carnivore par nécessité, exige un régime alimentaire principalement composé de viande. Il possède des griffes rétractiles adaptées à la capture de petites proies, telles que les souris et les rats.",
+   "google": "Carnivore obligatoire, nécessitant une alimentation majoritairement carnée, il possède des griffes rétractables adaptées pour tuer de petites proies telles que les souris et les rats."
+  },
+  "ms": {
+   "opus": 772,
+   "opus_pivot": 580,
+   "nllb600": 1184,
+   "nllb1.3b": 2075,
+   "tgemma4b": 7126,
+   "google": 1184
+  }
+ },
+ {
+  "id": "en2",
+  "pair": "en-fr",
+  "kind": "wiki",
+  "src": "It is a social species, but a solitary hunter and a crepuscular predator.",
+  "ref": "C'est une espèce sociale, mais un chasseur solitaire et un prédateur crépusculaire.",
+  "mlkit": "C'est une espèce sociale, mais un chasseur solitaire et un crécuscularprédicator.",
+  "out": {
+   "mlkit": "C'est une espèce sociale, mais un chasseur solitaire et un crécuscularprédicator.",
+   "opus": "C'est une espèce sociale, mais un chasseur solitaire et un prédateur crépusculaire.",
+   "opus_pivot": "C'est une espèce sociale, mais un chasseur solitaire et un prédateur crépusculaire.",
+   "nllb600": "C'est une espèce sociale, mais une chasseuse solitaire et un prédateur crépusculaire.",
+   "nllb1.3b": "C'est une espèce sociale, mais un chasseur solitaire et un prédateur crépusculaire.",
+   "tgemma4b": "C'est une espèce sociale, mais elle est un chasseur solitaire et un prédateur nocturne.",
+   "google": "C'est une espèce sociale, mais un chasseur solitaire et un prédateur crépusculaire."
+  },
+  "ms": {
+   "opus": 421,
+   "opus_pivot": 271,
+   "nllb600": 725,
+   "nllb1.3b": 1345,
+   "tgemma4b": 5128,
+   "google": 616
+  }
+ },
+ {
+  "id": "en3",
+  "pair": "en-fr",
+  "kind": "wiki",
+  "src": "The cat (Felis catus), also called domestic cat and house cat, is a small domesticated carnivorous mammal.",
+  "ref": "Le chat (Felis catus), aussi appelé chat domestique, est un petit mammifère carnivore domestiqué.",
+  "mlkit": "Le chat (Felis Catus), également appelé chat domestique et chat de la maison, est un petit mammifère carnivore domestiqué.",
+  "out": {
+   "mlkit": "Le chat (Felis Catus), également appelé chat domestique et chat de la maison, est un petit mammifère carnivore domestiqué.",
+   "opus": "Le chat (Felis catus), également appelé chat domestique et chat domestique, est un petit mammifère carnivore domestiqué.",
+   "opus_pivot": "Le chat (Felis catus), également appelé chat domestique et chat domestique, est un petit mammifère carnivore domestiqué.",
+   "nllb600": "Le chat (Felis catus), également appelé chat domestique et chat domestique, est un petit mammifère carnivore domestiqué.",
+   "nllb1.3b": "Le chat (Felis catus), également appelé chat domestique et chat de maison, est un petit mammifère carnivore domestiqué.",
+   "tgemma4b": "Le chat (Felis catus), également appelé chat domestique ou chat de compagnie, est un petit mammifère carnivore domestiqué.",
+   "google": "Le chat (Felis catus), également appelé chat domestique et chat domestique, est un petit mammifère carnivore domestiqué."
+  },
+  "ms": {
+   "opus": 571,
+   "opus_pivot": 479,
+   "nllb600": 771,
+   "nllb1.3b": 1404,
+   "tgemma4b": 5852,
+   "google": 996
+  }
+ },
+ {
+  "id": "en4",
+  "pair": "en-fr",
+  "kind": "pub",
+  "src": "Today only, while stocks last",
+  "ref": "Aujourd'hui seulement, dans la limite des stocks disponibles",
+  "mlkit": "Aujourd'hui seulement, tandis que les stocks durent",
+  "out": {
+   "mlkit": "Aujourd'hui seulement, tandis que les stocks durent",
+   "opus": "Aujourd'hui seulement, jusqu'à ce que les stocks durent",
+   "opus_pivot": "Aujourd'hui seulement, jusqu'à ce que les stocks durent",
+   "nllb600": "Ce n'est qu'aujourd'hui, pendant que les stocks durent.",
+   "nllb1.3b": "Seulement aujourd'hui, tant que les stocks durent",
+   "tgemma4b": "Uniquement aujourd'hui, tant que les stocks le permettent.",
+   "google": "Aujourd'hui seulement, jusqu'à épuisement des stocks"
+  },
+  "ms": {
+   "opus": 314,
+   "opus_pivot": 224,
+   "nllb600": 489,
+   "nllb1.3b": 759,
+   "tgemma4b": 4235,
+   "google": 609
+  }
+ },
+ {
+  "id": "en5",
+  "pair": "en-fr",
+  "kind": "pub",
+  "src": "Everything 50% off",
+  "ref": "Tout à -50 %",
+  "mlkit": "Tout 50% de rabais",
+  "out": {
+   "mlkit": "Tout 50% de rabais",
+   "opus": "Tout 50% de rabais",
+   "opus_pivot": "Tout 50% de rabais",
+   "nllb600": "Tout est à 50% de réduction.",
+   "nllb1.3b": "50% de réduction sur tout .",
+   "tgemma4b": "Tout à 50 % de réduction",
+   "google": "Tout à 50% de réduction"
+  },
+  "ms": {
+   "opus": 181,
+   "opus_pivot": 89,
+   "nllb600": 215,
+   "nllb1.3b": 359,
+   "tgemma4b": 3843,
+   "google": 419
+  }
+ },
+ {
+  "id": "en6",
+  "pair": "en-fr",
+  "kind": "pub",
+  "src": "Summer sale",
+  "ref": "Soldes d'été",
+  "mlkit": "Vente d'été",
+  "out": {
+   "mlkit": "Vente d'été",
+   "opus": "Soldes d'été",
+   "opus_pivot": "Soldes d'été",
+   "nllb600": "Vente d'été",
+   "nllb1.3b": "Ventes d'été",
+   "tgemma4b": "Vente d'été",
+   "google": "Soldes d'été"
+  },
+  "ms": {
+   "opus": 190,
+   "opus_pivot": 144,
+   "nllb600": 185,
+   "nllb1.3b": 313,
+   "tgemma4b": 3529,
+   "google": 708
+  }
+ },
+ {
+  "id": "en7",
+  "pair": "en-fr",
+  "kind": "ui",
+  "src": "Talk",
+  "ref": "Discussion",
+  "mlkit": "Talk",
+  "out": {
+   "mlkit": "Talk",
+   "opus": "Parler",
+   "opus_pivot": "Parler",
+   "nllb600": "Parlez",
+   "nllb1.3b": "Parlez !",
+   "tgemma4b": "Discuter",
+   "google": "Parler"
+  },
+  "ms": {
+   "opus": 112,
+   "opus_pivot": 110,
+   "nllb600": 167,
+   "nllb1.3b": 275,
+   "tgemma4b": 3299,
+   "google": 208
+  }
+ },
+ {
+  "id": "en8",
+  "pair": "en-fr",
+  "kind": "wiki",
+  "src": "For other uses, see Cat (disambiguation).",
+  "ref": "Pour les autres significations, voir Chat (homonymie).",
+  "mlkit": "Pour d'autres utilisations, voir Cat (Disambimuation).",
+  "out": {
+   "mlkit": "Pour d'autres utilisations, voir Cat (Disambimuation).",
+   "opus": "Pour les articles homonymes, voir Cat (homonymie).",
+   "opus_pivot": "Pour les articles homonymes, voir Cat (homonymie).",
+   "nllb600": "Pour d' autres usages, voir Cat (disambiguation).",
+   "nllb1.3b": "Pour d'autres utilisations, voir Cat (disambiguation).",
+   "tgemma4b": "Pour d'autres utilisations, voir « Chat (page d'homonymie) ».",
+   "google": "Pour d'autres utilisations, voir Chat (homonymie)."
+  },
+  "ms": {
+   "opus": 393,
+   "opus_pivot": 233,
+   "nllb600": 408,
+   "nllb1.3b": 746,
+   "tgemma4b": 5172,
+   "google": 574
+  }
+ },
+ {
+  "id": "eh1",
+  "pair": "en-he",
+  "kind": "wiki",
+  "src": "It is a member of Felidae, the family of mammals in the order Carnivora also colloquially referred to as cats.",
+  "ref": "הוא שייך למשפחת החתוליים (Felidae), משפחת יונקים מסדרת הטורפים, המכונים בשפה המדוברת גם חתולים.",
+  "mlkit": "זה חבר של Felidae, משפחת יונקים בסדר קרנבלורה המכונה גם colluqueal cols.",
+  "out": {
+   "mlkit": "זה חבר של Felidae, משפחת יונקים בסדר קרנבלורה המכונה גם colluqueal cols.",
+   "opus": "הוא חבר בFelidae, משפחת היונקים בסדרה Carnivora (Carnivora) המכונה גם חתולים.",
+   "opus_pivot": "הוא חבר בFelidae, משפחת היונקים בסדרה Carnivora (Carnivora) המכונה גם חתולים.",
+   "nllb600": "הוא בן משפחה של Felidae, משפחה של יונקים בסדרה Carnivora הנקראת גם כחתולים.",
+   "nllb1.3b": "הוא חבר בFelidae, המשפחה של יונקים בסדר Carnivora המכונה גם חתולים.",
+   "tgemma4b": "זוהי מין המשתייך למשפחת ה-Felidae, שהיא גם משפחת היונקים בסדרת החיות הניזונות מבעלי חיים, ומוכרת גם בשם \"חתולים\".",
+   "google": "הוא חבר ב-Felidae, משפחת היונקים בסדר הקרניבור המכונה גם חתולים."
+  },
+  "ms": {
+   "opus": 11897,
+   "opus_pivot": 439,
+   "nllb600": 648,
+   "nllb1.3b": 1072,
+   "tgemma4b": 7963,
+   "google": 716
+  }
+ },
+ {
+  "id": "eh2",
+  "pair": "en-he",
+  "kind": "wiki",
+  "src": "An obligate carnivore, requiring a predominantly meat-based diet, it has retractable claws adapted to killing small prey species such as mice and rats.",
+  "ref": "טורף מוחלט הנזקק לתזונה המבוססת בעיקר על בשר, יש לו ציפורניים נשלפות המותאמות לצידת טרף קטן כמו עכברים וחולדות.",
+  "mlkit": "טורקורה מחייבת, המחייבת דיאטה מבוססת בשר בעיקר, יש לו טפרים נשלף להתאים להרוג מינים טרף קטנים כגון עכברים וחולדות.",
+  "out": {
+   "mlkit": "טורקורה מחייבת, המחייבת דיאטה מבוססת בשר בעיקר, יש לו טפרים נשלף להתאים להרוג מינים טרף קטנים כגון עכברים וחולדות.",
+   "opus": "טורף obliagate, הדורש בעיקר דיאטה מבוססת בשר, יש לו טפרים נסוגים מותאם להרוג מיני טרף קטנים כמו עכברים וחולדות.",
+   "opus_pivot": "טורף obliagate, הדורש בעיקר דיאטה מבוססת בשר, יש לו טפרים נסוגים מותאם להרוג מיני טרף קטנים כמו עכברים וחולדות.",
+   "nllb600": "הוא חובש בשר, ודורש דיאטה מבוססת בשר בעיקר, ויש לו מפרקים נסחפים המתאימים לרצוח מינים של טרפים קטנים כגון עכברים ועכברים.",
+   "nllb1.3b": "טורף מחויב, הדורש דיאטה מבוססת בשר בעיקר, יש לו ציפורניים נסוגות שהותאמו להרוג מינים קטנים של טרף כגון עכברים ועכברים.",
+   "tgemma4b": "טור צמצמי, הדורש בעיקר תזונה המבוססת על בשר, ובעל טפרים נשלפים המותאמים לציד טורפים קטנים כמו עכברים וכר,",
+   "google": "טורף חובה, הדורש תזונה המבוססת בעיקר על בשר, יש לו טפרים נשלפים המותאמים להרוג מיני טרף קטנים כמו עכברים וחולדות."
+  },
+  "ms": {
+   "opus": 582,
+   "opus_pivot": 417,
+   "nllb600": 1160,
+   "nllb1.3b": 2005,
+   "tgemma4b": 7736,
+   "google": 837
+  }
+ },
+ {
+  "id": "eh3",
+  "pair": "en-he",
+  "kind": "wiki",
+  "src": "The cat (Felis catus), also called domestic cat and house cat, is a small domesticated carnivorous mammal.",
+  "ref": "החתול (Felis catus), המכונה גם חתול הבית, הוא יונק טורף קטן ומבוית.",
+  "mlkit": "החתול (פליס קאטוס), המכונה גם חתול בית וחתול בית, הוא יונק טורפים קטן מבוית.",
+  "out": {
+   "mlkit": "החתול (פליס קאטוס), המכונה גם חתול בית וחתול בית, הוא יונק טורפים קטן מבוית.",
+   "opus": "החתול (Felis Catus) הוא יונק אוכל בשר קטן.",
+   "opus_pivot": "החתול (Felis Catus) הוא יונק אוכל בשר קטן.",
+   "nllb600": "החתול (Felis catus), שנקרא גם חתול ביתי וחתול בית, הוא יונק קטן.",
+   "nllb1.3b": "החתול (Felis catus), המכונה גם חתול בית וחתול בית, הוא יונק טורף קטן.",
+   "tgemma4b": "החתול (Felis catus), המכונה גם חתול ביתי או חתול מחמד, הוא יונק טורף קטן, שהוכחד על ידי בני אדם.",
+   "google": "החתול (Felis catus), הנקרא גם חתול בית וחתול בית, הוא יונק טורף מבוית קטן."
+  },
+  "ms": {
+   "opus": 502,
+   "opus_pivot": 337,
+   "nllb600": 760,
+   "nllb1.3b": 1382,
+   "tgemma4b": 7060,
+   "google": 622
+  }
+ },
+ {
+  "id": "eh4",
+  "pair": "en-he",
+  "kind": "ui",
+  "src": "Talk",
+  "ref": "שיחה",
+  "mlkit": "Talk",
+  "out": {
+   "mlkit": "Talk",
+   "opus": "דבר",
+   "opus_pivot": "דבר",
+   "nllb600": "דבר.",
+   "nllb1.3b": "תדברי.",
+   "tgemma4b": "שיחה",
+   "google": "לְדַבֵּר"
+  },
+  "ms": {
+   "opus": 98,
+   "opus_pivot": 98,
+   "nllb600": 212,
+   "nllb1.3b": 262,
+   "tgemma4b": 3223,
+   "google": 177
+  }
+ }
+]
