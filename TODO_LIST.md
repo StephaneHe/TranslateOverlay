@@ -25,3 +25,7 @@
 - [ ] 2026-09-25 19:31 — Post-MVP : OCR des vidéos en lecture (capture pendant la lecture, sous-titres incrustés)
 - [x] 2026-09-25 20:29 — ynet.co.il (hébreu→français, images comprises) : modèle Tesseract best, OCR par ligne, passes éparses multi-échelles, zones ignorées, nœuds repliés/empilés, bruit yiddish ; 1.3.0 (74 tests) (fait 2026-09-25 20:29)
 - [ ] 2026-09-25 20:29 — À valider sur device : 1.3.0 sur la page d'accueil ynet réelle (4 écrans, captures 01–04 perdues lors de l'interruption), temps de traduction (visé ≤ 5 s), non-régression article anglais / mème / Google Photos
+- [x] 2026-09-25 21:02 — Étude moteurs de traduction (docs/TRANSLATION_ENGINES.md, banc tools/mt-bench) + abstraction moteur : ML Kit / Azure / Google Cloud, clé chiffrée, repli ML Kit ; 1.4.0 (80 tests) (fait 2026-09-25 21:02)
+- [ ] 2026-09-25 21:02 — À valider sur device : écran Paramètres › Moteur de traduction, enregistrement/test/suppression de clé, repli ML Kit sans réseau, légende « · Azure » dans l'overlay, 1.3.0/1.4.0 sur ynet réel
+- [ ] 2026-09-25 21:02 — Attente utilisateur : choix du moteur en ligne (Azure recommandé / Google Cloud) et clé API
+- [ ] 2026-09-25 21:02 — Post-MVP : moteur hors-ligne de meilleure qualité (Opus-MT/Bergamot int8 via ONNX Runtime, he→en→fr, +8 à +10 chrF sur ML Kit)

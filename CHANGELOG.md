@@ -3,6 +3,28 @@
 Toutes les évolutions notables de ce projet sont documentées ici.
 Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), versionnage [SemVer](https://semver.org/lang/fr/).
 
+## [1.4.0] - 2026-09-25
+
+Qualité de traduction (« les traductions sont mauvaises »). Étude et mesures :
+`docs/TRANSLATION_ENGINES.md` (banc `tools/mt-bench/`, 28 segments réels ynet/Wikipédia).
+
+### Ajouté
+- Moteur de traduction interchangeable (Paramètres › Moteur de traduction) :
+  - **ML Kit** (hors-ligne, défaut, toujours utilisé en repli) ;
+  - **Microsoft Azure Translator** (recommandé : he↔fr direct, 2 M caractères/mois gratuits,
+    « no trace ») ;
+  - **Google Cloud Translation v2** (meilleur score mesuré : chrF++ he→fr 63,5 contre 44,5 pour
+    ML Kit, en→fr 75,5 contre 58,3).
+- Clé API saisie dans l'application, **chiffrée** (AES-GCM, clé Android Keystore), jamais affichée
+  ni sauvegardée (exclue des sauvegardes et transferts), bouton « Tester ».
+- Une seule requête par langue source et par écran (lots selon les limites de chaque service),
+  cache des traductions.
+- Repli automatique sur ML Kit sans clé, sans réseau, clé refusée ou quota épuisé, avec message ;
+  le moteur utilisé est indiqué dans la légende de l'overlay.
+
+### Modifié
+- Textes de divulgation et « À propos » : le texte n'est envoyé qu'au service en ligne choisi.
+
 ## [1.3.0] - 2026-09-25
 
 Hébreu → français sur ynet.co.il (site de référence), y compris le texte **dans** les images, sans

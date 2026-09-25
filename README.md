@@ -6,7 +6,7 @@ gras). Langue source détectée automatiquement, langue cible configurable (fran
 Traduction, détection de langue et OCR **sur l'appareil** (Google ML Kit) : pas de clé API, hors-ligne
 une fois les modèles téléchargés.
 
-Version 1.2.0 — Android 8+ (OCR et imitation des couleurs : Android 11+). Étude technique : [docs/PLAN.md](docs/PLAN.md).
+Version 1.4.0 — Android 8+ (OCR et imitation des couleurs : Android 11+). Étude technique : [docs/PLAN.md](docs/PLAN.md).
 
 ## Permissions
 
@@ -29,6 +29,19 @@ Aucune autre permission (ni `SYSTEM_ALERT_WINDOW`, ni MediaProjection, ni accès
 
 Paramètres : langue cible, applications exclues (bulle masquée), OCR et écriture OCR, modèles
 téléchargés, Wi-Fi uniquement, taille/opacité de la bulle, version.
+
+## Moteur de traduction
+
+Par défaut **ML Kit** (hors-ligne, qualité limitée : passe par l'anglais). Pour une bien meilleure
+qualité (mesures : `docs/TRANSLATION_ENGINES.md`), choisir dans Paramètres › Moteur de traduction :
+
+- **Microsoft Azure Translator** (recommandé) : créer une ressource « Translator » niveau gratuit F0
+  (2 M caractères/mois) sur portal.azure.com, copier la clé et la région ;
+- **Google Cloud Translation** : activer l'API « Cloud Translation » dans un projet avec
+  facturation (500 k caractères/mois gratuits), créer une clé API.
+
+La clé est chiffrée sur l'appareil (Android Keystore), jamais sauvegardée. Sans clé, sans réseau
+ou en cas d'erreur, la traduction retombe automatiquement sur ML Kit.
 
 ## Hébreu (et langues RTL)
 
