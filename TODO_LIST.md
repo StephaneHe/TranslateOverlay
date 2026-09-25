@@ -14,4 +14,7 @@
 - [ ] 2026-09-25 16:57 — Post-MVP : moteur de traduction alternatif (DeepL en ligne / LLM local) pour la qualité
 - [ ] 2026-09-25 16:57 — Post-MVP : tests instrumentés + préparation Play (déclaration Accessibility API, vidéo)
 - [x] 2026-09-25 17:39 — Installation adb sur V30T (Android 12) + vérifications UI sans service : aucun crash ; accueil, version 1.0.0 (1), apps exclues, sélecteur de langue, téléchargement modèle FR, divulgation, page du service OK (captures docs/screenshots/) (fait 2026-09-25 17:39)
-- [ ] 2026-09-25 17:39 — Valider sur V30T le flux bulle → traduction → overlay une fois le service activé manuellement par l'utilisateur
+- [x] 2026-09-25 17:39 — Valider sur V30T le flux bulle → traduction → overlay une fois le service activé manuellement par l'utilisateur (fait 2026-09-25 18:06 — service activé par adb avec autorisation ; EN→FR et DE→FR OK en ~2,5 s ; bascule original, fermeture, exclusion OK ; 7 bugs corrigés en 1.0.1)
+- [ ] 2026-09-25 18:06 — Post-MVP : ne pas fusionner titre et sous-titre web d'un même élément (ex. « Hauskatze » + « domestizierte Katze »)
+- [ ] 2026-09-25 18:06 — Post-MVP : ignorer les logos/marques (ex. mot-symbole Wikipedia traduit en « E wikipedia »)
+- [ ] 2026-09-25 18:06 — Post-MVP : prévoir un mode de test compatible uiautomator (UiAutomation suspend les services d'accessibilité)
