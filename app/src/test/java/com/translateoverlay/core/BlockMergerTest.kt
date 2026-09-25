@@ -93,6 +93,21 @@ class BlockMergerTest {
     }
 
     @Test
+    fun `text of an image inside a node box is kept when it reads something else`() {
+        // Chrome: one text block spanning a paragraph above and below a poster image.
+        val nodes = listOf(node("Our store news Read the latest. Thank you for shopping with us.", 48, 315, 1032, 1353))
+        val poster = ocr("SUMMER SALE", 110, 710, 800, 781)
+        val heading = ocr("Our store neWS", 49, 329, 532, 390)
+
+        val merged = BlockMerger.merge(nodes, listOf(poster, heading))
+
+        assertTrue(merged.any { it.text == "SUMMER SALE" && it.source == BlockSource.OCR })
+        assertTrue(merged.none { it.text == "Our store neWS" }) // same text as the node: absorbed
+        val enriched = merged.single { it.source == BlockSource.NODE }
+        assertEquals(listOf("Our store neWS"), enriched.lines.map { it.text }) // poster line not attached
+    }
+
+    @Test
     fun `blank and empty nodes are ignored`() {
         val merged = BlockMerger.merge(listOf(node("  ", 0, 0, 10, 10), node("x", 5, 5, 5, 20)), emptyList())
         assertTrue(merged.isEmpty())

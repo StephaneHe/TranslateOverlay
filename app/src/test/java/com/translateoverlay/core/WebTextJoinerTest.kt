@@ -54,6 +54,36 @@ class WebTextJoinerTest {
     }
 
     @Test
+    fun `same element runs separated by an image are not joined`() {
+        // Chrome exposed h2, p, (img), p texts as siblings of the same parent.
+        val blocks = WebTextJoiner.join(
+            listOf(
+                run("Our store news", p1, 48, 315, 540, 395),
+                run("Read the latest announcement.", p1, 48, 460, 1030, 570),
+                run("Thank you for shopping.", p1, 48, 1295, 980, 1355),
+            ),
+        )
+        assertEquals(3, blocks.size)
+        assertTrue(WebTextJoiner.separatedByGap(Box(48, 460, 1030, 570), Box(48, 1295, 980, 1355)))
+        assertFalse(WebTextJoiner.separatedByGap(Box(0, 0, 100, 50), Box(0, 52, 100, 102)))
+    }
+
+    @Test
+    fun `citation superscript does not split a paragraph`() {
+        // "... past the sign.[1] In many countries ..." (Wikipedia, raised and smaller "[1]").
+        val blocks = WebTextJoiner.join(
+            listOf(
+                run("and pedestrians before continuing past the sign.", p1, 48, 330, 1000, 460),
+                run("[1]", Any(), 150, 395, 190, 425),
+                run(" In many countries, the sign is a red octagon.", p2, 190, 400, 1000, 540),
+            ),
+        )
+        assertEquals(1, blocks.size)
+        assertTrue(WebTextJoiner.isSuperscriptNeighbour(Box(150, 395, 190, 425), Box(190, 400, 1000, 540)))
+        assertFalse(WebTextJoiner.isSuperscriptNeighbour(Box(48, 640, 170, 690), Box(210, 640, 290, 690))) // tabs
+    }
+
+    @Test
     fun `heading followed by paragraph stays separate`() {
         val blocks = WebTextJoiner.join(
             listOf(run("Title", p1, 0, 0, 300, 60), run("Body text", p2, 0, 80, 900, 130)),

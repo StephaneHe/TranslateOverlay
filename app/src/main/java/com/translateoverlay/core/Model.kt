@@ -34,7 +34,8 @@ enum class BlockSource { NODE, OCR }
 
 enum class TextAlign { START, CENTER, END }
 
-data class TextLine(val text: String, val box: Box)
+/** @property confidence OCR confidence in [0, 1] (1 when unknown). */
+data class TextLine(val text: String, val box: Box, val confidence: Float = 1f)
 
 /** A piece of on-screen text to translate, with its location and optional OCR line geometry. */
 data class TextBlock(
@@ -52,6 +53,7 @@ data class BlockStyle(
     val align: TextAlign,
     val bold: Boolean,
     val alignMeasured: Boolean = false,
+    val outlineColor: Int? = null,
 )
 
 data class TranslatedBlock(

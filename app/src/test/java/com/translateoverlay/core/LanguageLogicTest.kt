@@ -55,6 +55,24 @@ class LanguageLogicTest {
     }
 
     @Test
+    fun `short label plausible in the target language is left alone`() {
+        // "Partager" on a French phone was identified as Danish, then pulled to English.
+        assertEquals("fr", LanguageVoter.resolve("da", "en", textLength = 8, target = "fr", targetPlausible = true))
+        assertEquals("fr", LanguageVoter.resolve(UNDETERMINED, "en", textLength = 8, target = "fr", targetPlausible = true))
+        assertEquals("en", LanguageVoter.resolve("da", "en", textLength = 8, target = "fr", targetPlausible = false))
+        // Long text: plausibility does not override a reliable detection.
+        assertEquals("en", LanguageVoter.resolve("en", "en", textLength = 80, target = "fr", targetPlausible = true))
+    }
+
+    @Test
+    fun `ui in target language when most short labels read as target`() {
+        assertTrue(LanguageVoter.uiInTarget(listOf(true, false)))
+        assertTrue(LanguageVoter.uiInTarget(listOf(true, true, false)))
+        assertFalse(LanguageVoter.uiInTarget(listOf(false, false, true)))
+        assertFalse(LanguageVoter.uiInTarget(emptyList()))
+    }
+
+    @Test
     fun `dominant of blocks ignores short blocks unless all are short`() {
         val votes = listOf("ro" to 4, "ro" to 5, "ro" to 6, "ro" to 7, "en" to 120)
         assertEquals("en", LanguageVoter.dominantOfBlocks(votes))
@@ -74,6 +92,9 @@ class LanguageLogicTest {
         assertFalse(TranslatableFilter.isTranslatable("en.wikipedia.org/wiki/Cat"))
         assertFalse(TranslatableFilter.isTranslatable("example.com"))
         assertFalse(TranslatableFilter.isTranslatable("localhost:8765/index.html"))
+        assertFalse(TranslatableFilter.isTranslatable("A O localhost:8765/he + 33")) // OCR of Chrome's toolbar
+        assertTrue(TranslatableFilter.isTranslatable("I am here"))
+        assertTrue(TranslatableFilter.isTranslatable("5 € off"))
         assertFalse(TranslatableFilter.isTranslatable("9 de.wikipedia.org/'"))
         assertTrue(TranslatableFilter.isTranslatable("Visit example.com today"))
         assertTrue(TranslatableFilter.isTranslatable("Hello. World"))

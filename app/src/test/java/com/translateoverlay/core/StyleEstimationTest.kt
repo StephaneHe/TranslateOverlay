@@ -50,6 +50,44 @@ class StyleEstimationTest {
     }
 
     @Test
+    fun `meme on a noisy photo is not inverted when the ring colour is known`() {
+        // White Impact fill dominates the box; the photo behind is spread over many colour bins.
+        val rnd = java.util.Random(1)
+        val width = 100
+        val rows = 20
+        val pixels = IntArray(width * rows) { i ->
+            val x = i % width
+            when {
+                x % 10 in 2..6 -> white
+                x % 10 == 1 || x % 10 == 7 -> black
+                else -> Argb.rgb(90 + rnd.nextInt(60), 110 + rnd.nextInt(60), 70 + rnd.nextInt(60))
+            }
+        }
+        val photo = Argb.rgb(120, 140, 100)
+        val naive = ColorEstimator.estimate(pixels, width, rows, 20f)!!
+        val hinted = ColorEstimator.estimate(pixels, width, rows, 20f, backgroundHint = photo)!!
+        assertEquals(white, naive.background) // the bug: white letters taken as background
+        assertEquals(photo, hinted.background)
+        assertEquals(white, hinted.text)
+        assertEquals(black, hinted.outline)
+    }
+
+    @Test
+    fun `coloured links in a paragraph are not an outline`() {
+        val blue = Argb.rgb(51, 102, 204)
+        val pixels = IntArray(100 * 5) { i -> if (i % 10 < 2) black else if (i % 10 < 4) blue else white }
+        val est = ColorEstimator.estimate(pixels, 100, 5, 20f)!!
+        assertNull(est.outline)
+    }
+
+    @Test
+    fun `median colour of a ring`() {
+        val ring = intArrayOf(Argb.rgb(10, 20, 30), Argb.rgb(12, 22, 32), Argb.rgb(250, 250, 250))
+        assertEquals(Argb.rgb(12, 22, 32), ColorEstimator.medianColor(ring))
+        assertNull(ColorEstimator.medianColor(IntArray(0)))
+    }
+
+    @Test
     fun `invalid input returns null`() {
         assertNull(ColorEstimator.estimate(IntArray(3), 10, 10, 20f))
         assertNull(ColorEstimator.estimate(IntArray(0), 0, 0, 20f))

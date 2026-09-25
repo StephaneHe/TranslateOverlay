@@ -1,5 +1,6 @@
 package com.translateoverlay.core
 
+import kotlin.math.abs
 import kotlin.math.sqrt
 
 /** ARGB helpers without android.graphics.Color so the logic stays JVM-testable. */
@@ -24,20 +25,32 @@ object Argb {
     fun contrasting(bg: Int): Int = if (luminance(bg) > 0.55) rgb(0x11, 0x11, 0x11) else rgb(0xFA, 0xFA, 0xFA)
 }
 
-data class ColorEstimate(val background: Int, val text: Int, val strokeRatio: Double)
+/** @property outline colour of a contrasting outline around the glyphs (memes, video subtitles), if any. */
+data class ColorEstimate(val background: Int, val text: Int, val strokeRatio: Double, val outline: Int? = null)
 
 /**
  * Estimates background colour, text colour and stroke thickness from the pixels behind a block.
- * Background = most frequent quantised colour; text = most frequent colour clearly distinct from it.
+ * Background = [backgroundHint] when given (colour sampled just around the text), otherwise the
+ * most frequent quantised colour; text = most frequent colour clearly distinct from it.
+ *
+ * The hint matters on photos: a noisy background spreads over many colour bins, so the uniform
+ * fill of big white meme letters would otherwise win and the style would come out inverted.
  */
 object ColorEstimator {
     private const val INK_DISTANCE = 90.0
+    private const val OUTLINE_LUMINANCE_GAP = 0.6
 
     /**
      * @param pixels row-major ARGB pixels, [width] × [rows]
      * @param textHeightPx approximate glyph height, used to normalise stroke width for bold detection
      */
-    fun estimate(pixels: IntArray, width: Int, rows: Int, textHeightPx: Float): ColorEstimate? {
+    fun estimate(
+        pixels: IntArray,
+        width: Int,
+        rows: Int,
+        textHeightPx: Float,
+        backgroundHint: Int? = null,
+    ): ColorEstimate? {
         if (width <= 0 || rows <= 0 || pixels.size < width * rows) return null
         val counts = HashMap<Int, IntArray>() // key -> [count, sumR, sumG, sumB]
         for (i in 0 until width * rows) {
@@ -46,11 +59,20 @@ object ColorEstimator {
             val acc = counts.getOrPut(key) { IntArray(4) }
             acc[0]++; acc[1] += Argb.r(p); acc[2] += Argb.g(p); acc[3] += Argb.b(p)
         }
-        val bgAcc = counts.values.maxByOrNull { it[0] } ?: return null
-        val background = average(bgAcc)
+        val background = backgroundHint ?: counts.values.maxByOrNull { it[0] }?.let(::average) ?: return null
 
         val inkBins = counts.values.filter { Argb.distance(average(it), background) >= INK_DISTANCE }
-        val text = inkBins.maxByOrNull { it[0] }?.let { average(it) } ?: Argb.contrasting(background)
+        val textBin = inkBins.maxByOrNull { it[0] }
+        val text = textBin?.let { average(it) } ?: Argb.contrasting(background)
+        // A second ink colour covering a good part of the glyphs, at the opposite end of the lightness
+        // scale (white/black, yellow/black), is an outline. Mere colour differences (blue links in a
+        // black paragraph) are not.
+        val outline = textBin?.let { tb ->
+            inkBins.filter {
+                val c = average(it)
+                abs(Argb.luminance(c) - Argb.luminance(text)) >= OUTLINE_LUMINANCE_GAP && it[0] * 10 >= tb[0] * 3
+            }.maxByOrNull { it[0] }?.let { average(it) }
+        }
 
         // Mean horizontal run length of "ink" pixels, relative to text height.
         var runs = 0
@@ -69,7 +91,14 @@ object ColorEstimator {
         }
         val meanRun = if (runs == 0) 0.0 else runPixels.toDouble() / runs
         val strokeRatio = if (textHeightPx <= 0f) 0.0 else meanRun / textHeightPx
-        return ColorEstimate(background, text, strokeRatio)
+        return ColorEstimate(background, text, strokeRatio, outline)
+    }
+
+    /** Per-channel median: robust colour of a noisy background ring. */
+    fun medianColor(pixels: IntArray): Int? {
+        if (pixels.isEmpty()) return null
+        fun median(channel: (Int) -> Int) = pixels.map(channel).sorted()[pixels.size / 2]
+        return Argb.rgb(median(Argb::r), median(Argb::g), median(Argb::b))
     }
 
     /**

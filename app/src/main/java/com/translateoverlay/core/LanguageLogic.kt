@@ -42,13 +42,25 @@ object LanguageVoter {
         dominant: String?,
         textLength: Int = Int.MAX_VALUE,
         target: String? = null,
+        targetPlausible: Boolean = false,
     ): String = when {
-        detected == UNDETERMINED -> dominant ?: UNDETERMINED
         // Already in the target language (e.g. browser UI in the user's language): never re-translate it.
         target != null && LanguageTags.sameLanguage(detected, target) -> detected
+        // Short label that reads as the target language too ("Partager", "Modifier" on a French phone,
+        // identified as Danish or undetermined): leave the device's own UI alone.
+        textLength < MIN_RELIABLE_LENGTH && target != null && targetPlausible -> target
+        detected == UNDETERMINED -> dominant ?: UNDETERMINED
         textLength < MIN_RELIABLE_LENGTH && dominant != null -> dominant
         else -> detected
     }
+
+    /**
+     * True when most short UI labels read as the target language: the app is displayed in the
+     * user's language, so its undetermined labels (dates like "25 sept.") are left alone too.
+     */
+    fun uiInTarget(shortLabelsPlausibleInTarget: List<Boolean>): Boolean =
+        shortLabelsPlausibleInTarget.isNotEmpty() &&
+            shortLabelsPlausibleInTarget.count { it } * 2 >= shortLabelsPlausibleInTarget.size
 
     /** Votes of reliable (long enough) blocks only, unless there are none. */
     fun dominantOfBlocks(votes: List<Pair<String, Int>>): String? =
@@ -67,17 +79,13 @@ object TranslatableFilter {
 
     fun isTranslatable(text: String): Boolean {
         // URL-like tokens are removed first: OCR often glues icon glyphs to an address bar ("9 de.site.org/").
-        val t = text.trim().split(WHITESPACE).filterNot { urlOrEmail.matches(it) }.joinToString(" ")
-        if (t.isEmpty()) return false
-        var letters = 0
-        for (ch in t) {
-            if (Character.isLetter(ch)) {
-                if (isIdeographicOrSyllabic(ch)) return true
-                letters++
-                if (letters >= 2) return true
-            }
+        val tokens = text.trim().split(WHITESPACE).filterNot { it.isEmpty() || urlOrEmail.matches(it) }
+        // At least one real word (2+ letters) or one ideograph: isolated letters around icons and
+        // numbers ("A O + 33", OCR of a browser toolbar) are noise, not text.
+        return tokens.any { token ->
+            token.any { Character.isLetter(it) && isIdeographicOrSyllabic(it) } ||
+                token.count { Character.isLetter(it) } >= 2
         }
-        return false
     }
 
     private fun isIdeographicOrSyllabic(ch: Char): Boolean {

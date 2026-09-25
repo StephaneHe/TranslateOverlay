@@ -3,9 +3,11 @@ package com.translateoverlay.core
 /**
  * Combines text from the accessibility tree (exact text) with OCR results (text inside images).
  *
- * - Accessibility blocks win: an OCR block mostly covered by accessibility blocks is dropped.
- * - OCR lines lying inside an accessibility block are attached to it, giving line geometry
- *   used later to estimate text size and alignment.
+ * - Accessibility blocks win: an OCR block mostly covered by accessibility blocks **reading the same
+ *   text** is dropped. Geometry alone is not enough: a node's box may enclose an image (e.g. a web
+ *   container whose text sits above and below a picture), and the text inside that image must stay.
+ * - OCR lines lying inside an accessibility block and reading its text are attached to it, giving
+ *   line geometry used later to estimate text size and alignment.
  */
 object BlockMerger {
 
@@ -23,7 +25,9 @@ object BlockMerger {
         val ocrLines = ocr.flatMap { block -> block.lines.ifEmpty { listOf(TextLine(block.text, block.box)) } }
 
         val enrichedNodes = cleanNodes.mapNotNull { node ->
-            val inside = ocrLines.filter { node.box.containsPoint(it.box.centerX, it.box.centerY) }
+            val inside = ocrLines.filter {
+                node.box.containsPoint(it.box.centerX, it.box.centerY) && TextMatch.matches(it.text, node.text)
+            }
             when {
                 inside.isNotEmpty() -> node.copy(lines = inside.sortedBy { it.box.top })
                 confirmLatinNodesWithOcr && isMostlyLatin(node.text) -> null
@@ -34,8 +38,10 @@ object BlockMerger {
         val keptOcr = ocr.filter { block ->
             val area = block.box.area
             if (area == 0L) return@filter false
-            val covered = cleanNodes.sumOf { it.box.intersectionArea(block.box) }
-            covered.toDouble() / area < overlapThreshold
+            val overlapping = cleanNodes.filter { it.box.intersectionArea(block.box) > 0 }
+            val covered = overlapping.sumOf { it.box.intersectionArea(block.box) }
+            val sameText = TextMatch.matches(block.text, overlapping.joinToString(" ") { it.text })
+            !(covered.toDouble() / area >= overlapThreshold && sameText)
         }
 
         return (enrichedNodes + keptOcr).sortedWith(compareBy({ it.box.top }, { it.box.left }))
