@@ -44,6 +44,8 @@ class MainActivity : ComponentActivity() {
                     Screen.HOME -> HomeScreen(
                         settings = app.settings,
                         engine = app.engine,
+                        secrets = app.secrets,
+                        router = app.router,
                         serviceEnabled = serviceEnabledState.value,
                         onOpenAccessibility = ::openAccessibilitySettings,
                         onOpenAppInfo = ::openAppInfo,

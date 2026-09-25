@@ -19,12 +19,22 @@ import com.translateoverlay.core.TranslatableFilter
 import com.translateoverlay.core.TranslatedBlock
 import com.translateoverlay.core.UNDETERMINED
 import com.translateoverlay.settings.Settings
+import com.translateoverlay.translate.OnlineFailure
 import com.translateoverlay.translate.TranslationEngine
+import com.translateoverlay.translate.TranslationProvider
+import com.translateoverlay.translate.TranslatorRouter
+import com.translateoverlay.translate.shortLabel
 import kotlinx.coroutines.withTimeout
 import java.util.Locale
 
 sealed interface PipelineOutcome {
-    data class Success(val blocks: List<TranslatedBlock>, val sourceLanguages: Set<String>) : PipelineOutcome
+    /** @property engine label of the engine that translated; [notice] explains a fallback. */
+    data class Success(
+        val blocks: List<TranslatedBlock>,
+        val sourceLanguages: Set<String>,
+        val engine: String = "ML Kit",
+        val notice: String? = null,
+    ) : PipelineOutcome
     data class NoResult(val message: String) : PipelineOutcome
     data class Failure(val message: String) : PipelineOutcome
 }
@@ -32,6 +42,7 @@ sealed interface PipelineOutcome {
 /** capture results → merge → language detection → model check → translation → style. */
 class TranslationPipeline(
     private val engine: TranslationEngine,
+    private val router: TranslatorRouter,
     private val ocr: OcrRecognizer,
     private val styles: StyleEstimator,
 ) {
@@ -120,27 +131,33 @@ class TranslationPipeline(
             )
         }
 
-        val sources = work.map { languages[it] }.toSet()
-        val missing = (sources + target) - engine.downloadedModels()
-        if (missing.isNotEmpty()) {
-            val names = missing.joinToString { TranslationEngine.displayName(it) }
-            if (!engine.canDownloadNow(settings.wifiOnlyDownloads)) {
-                return PipelineOutcome.Failure(
-                    "Modèle(s) de traduction manquant(s) : $names. " +
-                        if (settings.wifiOnlyDownloads) "Connectez-vous au Wi-Fi ou autorisez les données mobiles dans les paramètres."
-                        else "Aucune connexion Internet.",
-                )
+        // One request per source language with an online engine; ML Kit (offline) otherwise or
+        // as fallback when the online engine has no key or fails.
+        val provider = settings.provider.takeIf { router.isReady(it) } ?: TranslationProvider.MLKIT
+        var fallback: OnlineFailure? = null
+        val translated = HashMap<Int, String?>()
+        for ((lang, indices) in work.groupBy { languages[it] }) {
+            val texts = indices.map { blocks[it].text }
+            val online = router.translateOnline(provider, texts, lang, target, settings.azureRegion) { fallback = it }
+            val out = online ?: run {
+                ensureMlKitModels(setOf(lang, target), settings, onProgress)?.let { return it }
+                texts.map { runCatching { engine.translate(lang, target, it) }.getOrNull() }
             }
-            onProgress("Téléchargement du modèle : $names…")
-            for (code in missing) {
-                withTimeout(DOWNLOAD_TIMEOUT_MS) { engine.download(code, settings.wifiOnlyDownloads) }
-            }
+            indices.forEachIndexed { k, i -> translated[i] = out[k] }
         }
+        val usedOnline = provider.online && fallback == null
+        val engineLabel = if (usedOnline) provider.shortLabel() else "ML Kit"
+        val notice = fallback?.let { "${settings.provider.shortLabel()} indisponible (${it.message}) : traduction hors-ligne ML Kit" }
+            ?: if (settings.provider.online && !router.isReady(settings.provider)) {
+                "Clé ${settings.provider.shortLabel()} absente : traduction hors-ligne ML Kit"
+            } else {
+                null
+            }
 
         val result = work.mapNotNull { i ->
             val block = blocks[i]
             val lang = languages[i]
-            val translation = runCatching { engine.translate(lang, target, block.text) }.getOrNull()
+            val translation = translated[i]
                 ?.let { CaseStyle.apply(block.text, it, Locale.forLanguageTag(target)) }
                 ?: return@mapNotNull null
             if (translation.isBlank() || translation.trim().equals(block.text.trim(), ignoreCase = true)) {
@@ -152,7 +169,26 @@ class TranslationPipeline(
             TranslatedBlock(block, if (trustOcr) style else style.copy(alignMeasured = false), lang, translation)
         }
         if (result.isEmpty()) return PipelineOutcome.Failure("La traduction a échoué")
-        return PipelineOutcome.Success(result, result.map { it.sourceLanguage }.toSet())
+        return PipelineOutcome.Success(result, result.map { it.sourceLanguage }.toSet(), engineLabel, notice)
+    }
+
+    /** Makes sure ML Kit models are present (downloading them if allowed); returns a failure otherwise. */
+    private suspend fun ensureMlKitModels(codes: Set<String>, settings: Settings, onProgress: (String) -> Unit): PipelineOutcome? {
+        val missing = codes - engine.downloadedModels()
+        if (missing.isEmpty()) return null
+        val names = missing.joinToString { TranslationEngine.displayName(it) }
+        if (!engine.canDownloadNow(settings.wifiOnlyDownloads)) {
+            return PipelineOutcome.Failure(
+                "Modèle(s) de traduction manquant(s) : $names. " +
+                    if (settings.wifiOnlyDownloads) "Connectez-vous au Wi-Fi ou autorisez les données mobiles dans les paramètres."
+                    else "Aucune connexion Internet.",
+            )
+        }
+        onProgress("Téléchargement du modèle : $names…")
+        for (code in missing) {
+            withTimeout(DOWNLOAD_TIMEOUT_MS) { engine.download(code, settings.wifiOnlyDownloads) }
+        }
+        return null
     }
 
     private companion object {

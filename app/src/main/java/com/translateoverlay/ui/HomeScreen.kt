@@ -48,7 +48,9 @@ import androidx.compose.ui.unit.dp
 import com.translateoverlay.BuildConfig
 import com.translateoverlay.settings.OcrScript
 import com.translateoverlay.settings.SettingsRepository
+import com.translateoverlay.translate.SecretStore
 import com.translateoverlay.translate.TranslationEngine
+import com.translateoverlay.translate.TranslatorRouter
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,6 +58,8 @@ import kotlin.math.roundToInt
 fun HomeScreen(
     settings: SettingsRepository,
     engine: TranslationEngine,
+    secrets: SecretStore,
+    router: TranslatorRouter,
     serviceEnabled: Boolean,
     onOpenAccessibility: () -> Unit,
     onOpenAppInfo: () -> Unit,
@@ -93,6 +97,8 @@ fun HomeScreen(
                 settings::setWifiOnlyDownloads,
             )
 
+            TranslationEngineSection(s, settings, secrets, router)
+
             SectionTitle("Capture du texte")
             SwitchRow(
                 "Lire aussi le texte dans les images (OCR)",
@@ -122,8 +128,9 @@ fun HomeScreen(
             SectionTitle("À propos")
             Text(
                 "Version ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n" +
-                    "Traduction, détection de langue et OCR : Google ML Kit, sur l'appareil. " +
-                    "Aucun contenu d'écran n'est envoyé ni conservé.",
+                    "OCR et détection de langue sur l'appareil (ML Kit, Tesseract). Traduction : ML Kit " +
+                    "hors-ligne, ou le moteur en ligne choisi ci-dessus (le texte lui est alors envoyé). " +
+                    "Aucun contenu d'écran n'est conservé.",
                 style = MaterialTheme.typography.bodySmall,
             )
             Spacer(Modifier.height(24.dp))
@@ -140,7 +147,9 @@ fun HomeScreen(
                         "• afficher la bulle flottante au-dessus des autres applications ;\n" +
                         "• détecter l'application au premier plan afin de masquer la bulle dans les applications exclues ;\n" +
                         "• lire le texte affiché et faire une capture d'écran, uniquement quand vous touchez la bulle, pour le traduire.\n\n" +
-                        "Tout est traité sur l'appareil. Aucune donnée n'est collectée, envoyée ou partagée.",
+                        "Par défaut, tout est traité sur l'appareil. Si vous choisissez un moteur de traduction en " +
+                        "ligne (Azure ou Google), le texte à traduire est envoyé à ce seul service au moment du " +
+                        "toucher. Rien n'est collecté ni conservé par l'application.",
                 )
             },
             confirmButton = {

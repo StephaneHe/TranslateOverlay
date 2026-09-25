@@ -11,8 +11,8 @@ android {
         applicationId = "com.translateoverlay"
         minSdk = 26
         targetSdk = 35
-        versionCode = 5
-        versionName = "1.3.0"
+        versionCode = 6
+        versionName = "1.4.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         // ML Kit ships ~28 MB of native code per ABI: keep phone ABIs only (add "x86_64" for emulators).
         ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a") }
@@ -71,4 +71,6 @@ dependencies {
     implementation("com.github.adaptech-cz.Tesseract4Android:tesseract4android:4.7.0")
 
     testImplementation("junit:junit:4.13.2")
+    // Real org.json on the JVM (android.jar only has stubs): online protocol tests.
+    testImplementation("org.json:json:20240303")
 }

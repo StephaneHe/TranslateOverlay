@@ -74,7 +74,7 @@ class OverlayAccessibilityService : AccessibilityService() {
         val app = application as TranslateOverlayApp
         settingsRepo = app.settings
         engine = app.engine
-        pipeline = TranslationPipeline(engine, ocr, StyleEstimator(resources.displayMetrics.scaledDensity))
+        pipeline = TranslationPipeline(engine, app.router, ocr, StyleEstimator(resources.displayMetrics.scaledDensity))
         bubble = BubbleController(this, settingsRepo, ::onBubbleTap, ::openSettings)
         transientPackages = inputMethodPackages() + SYSTEM_UI
 
@@ -182,7 +182,11 @@ class OverlayAccessibilityService : AccessibilityService() {
         when (outcome) {
             is PipelineOutcome.Success -> {
                 val langs = outcome.sourceLanguages.joinToString(", ") { it.uppercase() }
-                showOverlay(outcome, s.targetLanguage, "$langs → ${s.targetLanguage.uppercase()} · touchez hors du texte pour fermer")
+                outcome.notice?.let { toast(it) }
+                showOverlay(
+                    outcome, s.targetLanguage,
+                    "$langs → ${s.targetLanguage.uppercase()} · ${outcome.engine} · touchez hors du texte pour fermer",
+                )
             }
             is PipelineOutcome.NoResult -> toast(outcome.message)
             is PipelineOutcome.Failure -> toast(outcome.message)

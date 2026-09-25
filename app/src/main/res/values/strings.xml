@@ -3,5 +3,5 @@
     <string name="app_name">TranslateOverlay</string>
     <string name="service_label">TranslateOverlay – bulle de traduction</string>
     <string name="service_summary">Affiche une bulle flottante qui traduit le texte de l\'écran en surimpression.</string>
-    <string name="service_description">TranslateOverlay utilise ce service pour : afficher la bulle flottante au-dessus des applications, savoir quelle application est au premier plan (pour la masquer dans les applications exclues), lire le texte affiché et faire une capture d\'écran UNIQUEMENT lorsque vous touchez la bulle, afin de le traduire. Tout est traité sur l\'appareil ; aucun contenu d\'écran n\'est envoyé ni conservé.</string>
+    <string name="service_description">TranslateOverlay utilise ce service pour : afficher la bulle flottante au-dessus des applications, savoir quelle application est au premier plan (pour la masquer dans les applications exclues), lire le texte affiché et faire une capture d\'écran UNIQUEMENT lorsque vous touchez la bulle, afin de le traduire. Tout est traité sur l\'appareil, sauf si vous choisissez un moteur de traduction en ligne dans les paramètres (le texte à traduire est alors envoyé à ce seul service). Aucun contenu d\'écran n\'est conservé.</string>
 </resources>

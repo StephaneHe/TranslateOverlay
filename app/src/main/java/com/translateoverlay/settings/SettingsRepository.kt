@@ -3,6 +3,7 @@ package com.translateoverlay.settings
 import android.content.Context
 import android.content.SharedPreferences
 import com.translateoverlay.core.Script
+import com.translateoverlay.translate.TranslationProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,6 +29,9 @@ data class Settings(
     val wifiOnlyDownloads: Boolean = true,
     val bubbleSizeDp: Int = 52,
     val bubbleOpacity: Float = 0.85f,
+    val provider: TranslationProvider = TranslationProvider.MLKIT,
+    /** Azure resource region ("francecentral"…); blank for a global resource. Not a secret. */
+    val azureRegion: String = "",
 )
 
 /** SharedPreferences-backed settings exposed as a [StateFlow] shared by the UI and the service. */
@@ -59,6 +63,9 @@ class SettingsRepository(context: Context) {
             wifiOnlyDownloads = prefs.getBoolean(K_WIFI, d.wifiOnlyDownloads),
             bubbleSizeDp = prefs.getInt(K_BUBBLE_SIZE, d.bubbleSizeDp),
             bubbleOpacity = prefs.getFloat(K_BUBBLE_OPACITY, d.bubbleOpacity),
+            provider = prefs.getString(K_PROVIDER, null)
+                ?.let { runCatching { TranslationProvider.valueOf(it) }.getOrNull() } ?: d.provider,
+            azureRegion = prefs.getString(K_AZURE_REGION, d.azureRegion) ?: d.azureRegion,
         )
     }
 
@@ -69,6 +76,8 @@ class SettingsRepository(context: Context) {
     fun setWifiOnlyDownloads(v: Boolean) = prefs.edit().putBoolean(K_WIFI, v).apply()
     fun setBubbleSizeDp(v: Int) = prefs.edit().putInt(K_BUBBLE_SIZE, v).apply()
     fun setBubbleOpacity(v: Float) = prefs.edit().putFloat(K_BUBBLE_OPACITY, v).apply()
+    fun setProvider(v: TranslationProvider) = prefs.edit().putString(K_PROVIDER, v.name).apply()
+    fun setAzureRegion(v: String) = prefs.edit().putString(K_AZURE_REGION, v.trim()).apply()
 
     fun setExcluded(pkg: String, excluded: Boolean) {
         val next = _settings.value.excludedPackages.toMutableSet()
@@ -94,6 +103,8 @@ class SettingsRepository(context: Context) {
         const val K_WIFI = "wifi_only_downloads"
         const val K_BUBBLE_SIZE = "bubble_size_dp"
         const val K_BUBBLE_OPACITY = "bubble_opacity"
+        const val K_PROVIDER = "translation_provider"
+        const val K_AZURE_REGION = "azure_region"
         const val K_BUBBLE_X = "bubble_x"
         const val K_BUBBLE_Y = "bubble_y"
     }
