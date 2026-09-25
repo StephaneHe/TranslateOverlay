@@ -51,6 +51,56 @@ class OcrLogicTest {
     }
 
     @Test
+    fun `middling latin lines are re-read only when another script is on screen`() {
+        // ynet: mixed Hebrew/Latin lines read by the Latin model at 0.39-0.57.
+        val mixed = line("mercedes-benz.co.il:o'v9715 ont T7 ninoa x Nm", 0.53f)
+        val latin = line("Mercedes-Benz", 0.86f)
+        assertTrue(OcrSelection.shouldReread(mixed, otherScriptOnScreen = true))
+        assertFalse(OcrSelection.shouldReread(mixed, otherScriptOnScreen = false))
+        assertFalse(OcrSelection.shouldReread(latin, otherScriptOnScreen = true))
+    }
+
+    @Test
+    fun `alternative reading replaces latin only when plausible and confident`() {
+        val garbage = line("mann n Įpn n | Colmob", 0.39f)
+        assertTrue(OcrSelection.preferAlternative(garbage, line("בכפוף לתקנון באתר החברה", 0.8f), Script.HEBREW))
+        assertFalse(OcrSelection.preferAlternative(garbage, line("בכפוף לתקנון", 0.4f), Script.HEBREW)) // not confident
+        assertFalse(OcrSelection.preferAlternative(line("Mercedes-Benz", 0.86f), line("מרצדס", 0.62f), Script.HEBREW))
+        assertFalse(OcrSelection.preferAlternative(garbage, line("| 1 7 ח", 0.9f), Script.HEBREW)) // not text
+    }
+
+    @Test
+    fun `overlapping readings keep the most confident`() {
+        val merged = TextLine("הגיגת טרייר אין ור קונים", Box(121, 724, 901, 939), 0.65f)
+        val header = TextLine("חגיגת טרייד אין", Box(388, 724, 682, 762), 0.92f)
+        val other = TextLine("מבחן דרך", Box(334, 2121, 1013, 2208), 0.93f)
+        assertEquals(setOf(header, other), OcrLines.dedupe(listOf(merged, header, other)).toSet())
+    }
+
+    @Test
+    fun `a complete line beats a more confident fragment of it`() {
+        val full = TextLine("יש הצעות שחייבים לקחת", Box(192, 798, 890, 858), 0.89f)
+        val fragment = TextLine("יש הצ", Box(700, 798, 890, 858), 0.93f)
+        assertEquals(listOf(full), OcrLines.dedupe(listOf(fragment, full)))
+    }
+
+    @Test
+    fun `ocr in input fields and system bars is ignored`() {
+        val urlBar = Box(160, 120, 740, 220)
+        assertTrue(OcrLines.inZones(Box(169, 150, 738, 199), listOf(urlBar)))
+        assertFalse(OcrLines.inZones(Box(203, 654, 871, 779), listOf(urlBar)))
+    }
+
+    @Test
+    fun `tesseract preparation`() {
+        assertEquals(3, OcrSelection.tesseractScale(20))
+        assertEquals(2, OcrSelection.tesseractScale(34))
+        assertEquals(1, OcrSelection.tesseractScale(60))
+        assertTrue(OcrSelection.shouldInvert(0.1)) // white text on a dark banner
+        assertFalse(OcrSelection.shouldInvert(0.9))
+    }
+
+    @Test
     fun `only line shaped regions are re-read`() {
         assertTrue(OcrSelection.isWorthRereading(Box(308, 676, 1032, 735), "T272 Dh TOPn yYNn"))
         assertFalse(OcrSelection.isWorthRereading(Box(49, 155, 95, 201), "G")) // toolbar icon

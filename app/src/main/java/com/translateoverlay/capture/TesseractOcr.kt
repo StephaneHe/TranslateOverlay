@@ -18,7 +18,7 @@ class TesseractOcr(private val context: Context, private val language: String = 
 
     private fun api(): TessBaseAPI = api ?: run {
         // Tesseract expects <dataPath>/tessdata/<lang>.traineddata on the file system.
-        val dataPath = File(context.filesDir, "tesseract")
+        val dataPath = File(context.filesDir, DATA_DIR)
         val file = File(dataPath, "tessdata/$language.traineddata")
         if (!file.exists()) {
             file.parentFile?.mkdirs()
@@ -28,14 +28,23 @@ class TesseractOcr(private val context: Context, private val language: String = 
         }
         TessBaseAPI().also {
             check(it.init(dataPath.absolutePath, language, TessBaseAPI.OEM_LSTM_ONLY)) { "Tesseract init failed" }
-            it.setPageSegMode(TessBaseAPI.PageSegMode.PSM_AUTO)
             api = it
         }
     }
 
-    /** Blocking; run off the main thread. */
-    fun recognize(bitmap: Bitmap): List<TextBlock> {
+    /**
+     * Blocking; run off the main thread.
+     * @param singleBlock true for a crop around one text region (no page layout analysis)
+     */
+    fun recognize(bitmap: Bitmap, singleBlock: Boolean = false, sparse: Boolean = false): List<TextBlock> {
         val tess = api()
+        tess.setPageSegMode(
+            when {
+                singleBlock -> TessBaseAPI.PageSegMode.PSM_SINGLE_BLOCK
+                sparse -> TessBaseAPI.PageSegMode.PSM_SPARSE_TEXT
+                else -> TessBaseAPI.PageSegMode.PSM_AUTO
+            },
+        )
         tess.setImage(bitmap)
         tess.getUTF8Text() // runs recognition; results are then read through the iterator
         val iterator = tess.resultIterator ?: return emptyList()
@@ -75,5 +84,8 @@ class TesseractOcr(private val context: Context, private val language: String = 
     private companion object {
         /** Tesseract line confidence (0–100); below this, lines are mostly misread icons/images. */
         const val MIN_CONFIDENCE = 60f
+
+        /** Versioned: bump when the bundled traineddata changes, so the new file is extracted. */
+        const val DATA_DIR = "tesseract-v2"
     }
 }

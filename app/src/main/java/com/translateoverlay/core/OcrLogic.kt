@@ -33,6 +33,9 @@ object ScriptDetector {
         return total.filter { it.key != Script.LATIN && it.key != Script.OTHER && it.value >= minLetters }.keys
     }
 
+    /** Script of most letters of [text], or null when it has no letters. */
+    fun dominant(text: String): Script? = count(text).maxByOrNull { it.value }?.key
+
     /** Share of letters of [text] written in [script] (0 when there are no letters). */
     fun share(text: String, script: Script): Double {
         val counts = count(text)
@@ -77,6 +80,43 @@ object OcrSelection {
     private const val MIN_REREAD_CHARS = 4
 
     /**
+     * When the screen shows another script (e.g. Hebrew on ynet), mixed or small lines that the
+     * Latin model reads with middling confidence are usually that script: measured 0.39–0.57 for
+     * "…בכפוף לתקנון | Colmobil" and "mercedes-benz.co.il:לפרטים…", vs 0.78–0.92 for real Latin.
+     */
+    const val DOUBTFUL_WITH_OTHER_SCRIPT = 0.7f
+
+    fun shouldReread(line: TextLine, otherScriptOnScreen: Boolean): Boolean = isSuspiciousWith(line, otherScriptOnScreen)
+
+    fun isSuspiciousWith(line: TextLine, otherScriptOnScreen: Boolean): Boolean =
+        line.confidence < (if (otherScriptOnScreen) DOUBTFUL_WITH_OTHER_SCRIPT else SUSPICIOUS_BELOW)
+
+    /** Minimum confidence of a reading by a model specialised in another script. */
+    const val MIN_ALTERNATIVE_CONFIDENCE = 0.6f
+
+    /**
+     * Whether the reading [alternative] of a region by the [script] model should replace the Latin
+     * reading [latin]: it must be text in that script and at least about as confident.
+     */
+    fun preferAlternative(latin: TextLine, alternative: TextLine, script: Script): Boolean =
+        isPlausibleLine(alternative.text, script) &&
+            alternative.confidence >= MIN_ALTERNATIVE_CONFIDENCE &&
+            alternative.confidence + 0.1f >= latin.confidence
+
+    /**
+     * Tesseract reads dark text on a light background best, with glyphs ≳ 30 px: crops of light
+     * text on dark banners are inverted and small lines upscaled.
+     */
+    fun tesseractScale(lineHeightPx: Int): Int = when {
+        lineHeightPx <= 0 -> 1
+        lineHeightPx < 24 -> 3
+        lineHeightPx < 48 -> 2
+        else -> 1
+    }
+
+    fun shouldInvert(backgroundLuminance: Double): Boolean = backgroundLuminance < 0.45
+
+    /**
      * A line read by a model specialised in [script] is text in that script, not symbols/numbers
      * the model forced into it (Chrome's toolbar read by Tesseract as "+ | /0508765ח|0094! 600 = מ",
      * confidence 0.73): at least 3 letters of the script, and letters make up most of the line.
@@ -94,6 +134,37 @@ object OcrSelection {
             .map { (i, alt) -> i to score(alt.second, alt.first) }
             .filter { it.second >= MIN_ALTERNATIVE_SCORE }
             .maxByOrNull { it.second }?.first
+}
+
+/** Final clean-up of OCR lines coming from several models/passes. */
+object OcrLines {
+    /** True when the centre of [box] lies in one of [zones] (input fields, system bars). */
+    fun inZones(box: Box, zones: List<Box>): Boolean = zones.any { it.containsPoint(box.centerX, box.centerY) }
+
+    /**
+     * Overlapping readings of the same region by different models or passes: the best reading wins.
+     * Score = confidence plus a small bonus for completeness, so a whole line ("יש הצעות שחייבים
+     * לקחת", 0.89) beats a confident fragment of it ("יש הצ", 0.93), while a banner garbled into one
+     * line (0.65) still loses against its real line (0.92).
+     */
+    fun score(line: TextLine): Double =
+        line.confidence + minOf(MAX_LENGTH_BONUS, LETTER_BONUS * line.text.count { it.isLetter() })
+
+    fun dedupe(lines: List<TextLine>): List<TextLine> {
+        val kept = ArrayList<TextLine>()
+        for (line in lines.sortedByDescending(::score)) {
+            if (kept.none { overlaps(it.box, line.box) }) kept += line
+        }
+        return kept
+    }
+
+    fun overlaps(a: Box, b: Box): Boolean {
+        val inter = a.intersectionArea(b)
+        return inter > 0 && inter * 2 > minOf(a.area, b.area)
+    }
+
+    private const val LETTER_BONUS = 0.005
+    private const val MAX_LENGTH_BONUS = 0.15
 }
 
 /** Fuzzy comparison of an OCR reading with accessibility text (OCR makes small mistakes). */
