@@ -3,6 +3,29 @@
 Toutes les évolutions notables de ce projet sont documentées ici.
 Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), versionnage [SemVer](https://semver.org/lang/fr/).
 
+## [1.1.0] - 2026-09-25
+
+Support complet de l'hébreu (validé sur Doogee V30T, Android 12).
+
+### Ajouté
+- Hébreu comme langue cible : rendu droite-à-gauche forcé dans l'overlay (une phrase hébraïque
+  commençant par un mot latin ou un nombre reste RTL), bidi natif pour les mots latins et chiffres
+  intégrés, police système Noto Sans Hebrew (normal et gras). Valable pour toutes les langues RTL
+  prises en charge (arabe, persan, ourdou…).
+- Alignement miroir : un paragraphe aligné à gauche en anglais devient aligné à droite en hébreu
+  (et inversement pour une source hébraïque traduite vers une langue LTR) ; le centré reste centré.
+- OCR hébreu embarqué via Tesseract (LSTM, `tessdata_fast` « heb », 0,96 Mo, ~450 ms par écran) :
+  nouvelle écriture OCR « Hébreu (Tesseract, embarqué) ». ML Kit ne reconnaît pas l'hébreu.
+- Blocs OCR ignorés quand l'écriture dominante de l'écran n'est pas lisible par le modèle OCR
+  choisi (ex. page hébraïque avec OCR latin) ; lignes OCR à faible confiance ML Kit écartées.
+
+### Corrigé
+- Liste des langues triée sans tenir compte des accents (« Hébreu » après « Hongrois ») : tri
+  `Collator` selon la langue de l'appareil.
+- Texte court déjà dans la langue cible (ex. barre « Traduire la page ? » de Chrome) « retraduit »
+  depuis la langue dominante de l'écran.
+- Adresses `hôte:port` (ex. `localhost:8765/…`) traduites.
+
 ## [1.0.1] - 2026-09-25
 
 Corrections issues de la validation sur appareil réel (Doogee V30T, Android 12).

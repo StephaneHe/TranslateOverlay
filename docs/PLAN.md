@@ -68,6 +68,21 @@ japonaise, coréenne, devanagari via les modules Google Play services (télécha
 GMS, APK plus léger) — choix de l'écriture OCR dans les Paramètres. Le texte non latin reste de toute
 façon capté via l'arbre d'accessibilité dans les apps natives.
 
+### 2.5 bis OCR de l'hébreu (ajout 1.1.0)
+
+ML Kit Text Recognition v2 ne couvre pas l'alphabet hébreu (latin, chinois, japonais, coréen,
+devanagari uniquement). Options évaluées :
+
+| Option | Verdict |
+|---|---|
+| Documenter la limite (texte de l'arbre seulement) | insuffisant pour les images, menus photographiés, vidéos |
+| API cloud (Google Vision, Azure) | clé API + envoi de l'écran à un tiers : contraire aux principes du projet |
+| **Tesseract 5 LSTM on-device** (Tesseract4Android 4.7.0, `tessdata_fast` heb) ✅ | hors-ligne, 0,96 Mo de données embarquées, +6,6 Mo de bibliothèque arm64, **~450 ms** par écran mesurés sur Dimensity 1080 |
+
+Tesseract est exposé comme écriture OCR « Hébreu ». Garde-fou : quand l'écriture dominante de
+l'écran n'est pas lisible par le modèle OCR choisi, les blocs issus de l'OCR sont ignorés et
+l'alignement mesuré sur ses lignes n'est pas utilisé.
+
 ### 2.6 Reproduction du style
 
 Sources d'information :
@@ -78,6 +93,9 @@ Sources d'information :
 - **Gras** : ratio de pixels « encre » dans les lignes (seuil empirique) (`ColorEstimator`).
 - **Alignement** : dispersion des bords gauches / droits / centres des lignes OCR (`AlignmentEstimator`,
   testé) ; gravité du nœud n'est pas exposée par l'accessibilité → gauche par défaut.
+- **Sens d'écriture** : direction de paragraphe forcée selon la langue cible (RTL pour hébreu,
+  arabe…), alignement converti en logique puis appliqué dans le sens cible → miroir automatique
+  (`Bidi`, testé). Le bidi Unicode d'Android ordonne les mots latins et chiffres intégrés.
 - **Ajustement** : la traduction est souvent plus longue (FR ≈ +15–30 % vs EN) → réduction progressive de
   la taille jusqu'à tenir dans le cadre, puis extension verticale limitée si nécessaire (`TextFitter`,
   logique de recherche testée avec une fonction de mesure injectée).

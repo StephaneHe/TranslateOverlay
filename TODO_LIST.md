@@ -19,3 +19,5 @@
 - [ ] 2026-09-25 18:06 — Post-MVP : ignorer les logos/marques (ex. mot-symbole Wikipedia traduit en « E wikipedia »)
 - [ ] 2026-09-25 18:06 — Post-MVP : prévoir un mode de test compatible uiautomator (UiAutomation suspend les services d'accessibilité)
 - [x] 2026-09-25 18:08 — Signalement « a cessé de fonctionner » : unique crash (dropbox 17:52:45, BadTokenException dans onDestroy→dismissOverlay→updateBubble) = build intermédiaire, déjà corrigé par 845766c ; scénario rejoué (overlay + uiautomator dump) sans crash, service reconnecté et traduction OK (captures 22–24) (fait 2026-09-25 18:08)
+- [x] 2026-09-25 18:25 — Hébreu : cible RTL (direction forcée, bidi, alignement miroir, police Noto Hebrew), source (arbre + OCR Tesseract heb embarqué ~450 ms), garde-fou OCR hors écriture, tri Collator ; 1.1.0 validée sur V30T (captures 25–37) (fait 2026-09-25 18:25)
+- [ ] 2026-09-25 18:25 — Post-MVP : OCR multi-écriture simultané (latin + hébreu) pour les écrans mixtes

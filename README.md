@@ -6,7 +6,7 @@ gras). Langue source détectée automatiquement, langue cible configurable (fran
 Traduction, détection de langue et OCR **sur l'appareil** (Google ML Kit) : pas de clé API, hors-ligne
 une fois les modèles téléchargés.
 
-Version 1.0.0 — Android 8+ (OCR et imitation des couleurs : Android 11+). Étude technique : [docs/PLAN.md](docs/PLAN.md).
+Version 1.1.0 — Android 8+ (OCR et imitation des couleurs : Android 11+). Étude technique : [docs/PLAN.md](docs/PLAN.md).
 
 ## Permissions
 
@@ -29,6 +29,18 @@ Aucune autre permission (ni `SYSTEM_ALERT_WINDOW`, ni MediaProjection, ni accès
 
 Paramètres : langue cible, applications exclues (bulle masquée), OCR et écriture OCR, modèles
 téléchargés, Wi-Fi uniquement, taille/opacité de la bulle, version.
+
+## Hébreu (et langues RTL)
+
+- **Cible** : choisir « Hébreu » dans Langue cible (modèle ~30 Mo téléchargé une fois). L'overlay
+  s'affiche de droite à gauche, aligné en miroir de la source, mots latins/chiffres intégrés
+  correctement ordonnés, police système Noto Sans Hebrew.
+- **Source** : le texte exposé par les applications (pages web, apps natives) est lu directement, quel
+  que soit l'OCR. Pour le texte **dans les images**, choisir l'écriture OCR « Hébreu (Tesseract,
+  embarqué) » : ML Kit ne lit pas l'hébreu. Un seul modèle OCR à la fois : l'OCR hébreu ne lit pas
+  le latin, et l'OCR latin ne lit pas l'hébreu (ses résultats sont alors ignorés si la page est
+  majoritairement en hébreu, mais une image hébraïque isolée sur une page latine peut produire du
+  texte incohérent).
 
 ## Build
 
