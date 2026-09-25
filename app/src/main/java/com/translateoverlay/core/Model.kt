@@ -44,12 +44,14 @@ data class TextBlock(
     val lines: List<TextLine> = emptyList(),
 )
 
+/** @property align physical alignment measured on screen; meaningful only when [alignMeasured]. */
 data class BlockStyle(
     val textSizePx: Float,
     val textColor: Int,
     val backgroundColor: Int,
     val align: TextAlign,
     val bold: Boolean,
+    val alignMeasured: Boolean = false,
 )
 
 data class TranslatedBlock(

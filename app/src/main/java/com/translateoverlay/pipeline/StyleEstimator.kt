@@ -20,13 +20,14 @@ class StyleEstimator(private val scaledDensity: Float) {
             ?: TextSizeEstimator.fromBlock(block.box, block.text, 11f * scaledDensity, maxPx))
             .coerceIn(minPx, maxPx * 2)
         val align = AlignmentEstimator.estimate(lineBoxes, block.box)
+        val measured = lineBoxes.size >= 2
 
         val colors = screenshot?.let { sample(it, block, size) }
         return if (colors != null) {
-            BlockStyle(size, colors.text, colors.background, align, ColorEstimator.isBold(colors.strokeRatio))
+            BlockStyle(size, colors.text, colors.background, align, ColorEstimator.isBold(colors.strokeRatio), measured)
         } else {
             // No screenshot (Android < 11, secure window, OCR disabled): neutral dark card.
-            BlockStyle(size, Argb.rgb(0xFA, 0xFA, 0xFA), Argb.rgb(0x20, 0x21, 0x24), align, bold = false)
+            BlockStyle(size, Argb.rgb(0xFA, 0xFA, 0xFA), Argb.rgb(0x20, 0x21, 0x24), align, bold = false, alignMeasured = measured)
         }
     }
 

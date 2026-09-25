@@ -10,9 +10,11 @@ import android.graphics.RectF
 import android.graphics.Typeface
 import android.text.Layout
 import android.text.StaticLayout
+import android.text.TextDirectionHeuristics
 import android.text.TextPaint
 import android.view.MotionEvent
 import android.view.View
+import com.translateoverlay.core.Bidi
 import com.translateoverlay.core.TextAlign
 import com.translateoverlay.core.TextFitter
 import com.translateoverlay.core.TranslatedBlock
@@ -25,6 +27,7 @@ import com.translateoverlay.core.TranslatedBlock
 class TranslationOverlayView(
     context: Context,
     blocks: List<TranslatedBlock>,
+    targetLanguage: String,
     private val caption: String,
     private val screenHeight: Int,
     private val onDismiss: () -> Unit,
@@ -39,6 +42,9 @@ class TranslationOverlayView(
     )
 
     private val density = resources.displayMetrics.density
+    // Forced (not first-strong) so a Hebrew sentence starting with a Latin word or a number stays RTL.
+    private val targetDirection =
+        if (Bidi.isRtlLanguage(targetLanguage)) TextDirectionHeuristics.RTL else TextDirectionHeuristics.LTR
     private val items = blocks.map(::prepare)
     private val location = IntArray(2)
 
@@ -64,7 +70,9 @@ class TranslationOverlayView(
             color = style.textColor
             typeface = if (style.bold) Typeface.DEFAULT_BOLD else Typeface.DEFAULT
         }
-        val alignment = when (style.align) {
+        val sourceRtl = Bidi.isRtlLanguage(block.sourceLanguage) || Bidi.isRtlText(block.block.text)
+        // Logical alignment + target direction: mirrors the source when the reading direction flips.
+        val alignment = when (Bidi.logicalAlign(style.align, style.alignMeasured, sourceRtl)) {
             TextAlign.START -> Layout.Alignment.ALIGN_NORMAL
             TextAlign.CENTER -> Layout.Alignment.ALIGN_CENTER
             TextAlign.END -> Layout.Alignment.ALIGN_OPPOSITE
@@ -73,6 +81,7 @@ class TranslationOverlayView(
             paint.textSize = sizePx
             return StaticLayout.Builder.obtain(block.translation, 0, block.translation.length, paint, width)
                 .setAlignment(alignment)
+                .setTextDirection(targetDirection)
                 .setIncludePad(false)
                 .build()
         }

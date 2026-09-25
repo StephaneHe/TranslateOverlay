@@ -56,7 +56,7 @@ class OverlayAccessibilityService : AccessibilityService() {
     private lateinit var engine: TranslationEngine
     private lateinit var bubble: BubbleController
     private lateinit var pipeline: TranslationPipeline
-    private val ocr = OcrRecognizer()
+    private val ocr by lazy { OcrRecognizer(this) }
 
     private var overlay: TranslationOverlayView? = null
     private var job: Job? = null
@@ -180,7 +180,7 @@ class OverlayAccessibilityService : AccessibilityService() {
         when (outcome) {
             is PipelineOutcome.Success -> {
                 val langs = outcome.sourceLanguages.joinToString(", ") { it.uppercase() }
-                showOverlay(outcome, "$langs → ${s.targetLanguage.uppercase()} · touchez hors du texte pour fermer")
+                showOverlay(outcome, s.targetLanguage, "$langs → ${s.targetLanguage.uppercase()} · touchez hors du texte pour fermer")
             }
             is PipelineOutcome.NoResult -> toast(outcome.message)
             is PipelineOutcome.Failure -> toast(outcome.message)
@@ -209,10 +209,10 @@ class OverlayAccessibilityService : AccessibilityService() {
         }
     }
 
-    private fun showOverlay(outcome: PipelineOutcome.Success, caption: String) {
+    private fun showOverlay(outcome: PipelineOutcome.Success, targetLanguage: String, caption: String) {
         dismissOverlay()
         val screen = ScreenMetrics.bounds(this)
-        val view = TranslationOverlayView(this, outcome.blocks, caption, screen.height, ::dismissOverlay)
+        val view = TranslationOverlayView(this, outcome.blocks, targetLanguage, caption, screen.height, ::dismissOverlay)
         val params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT,
