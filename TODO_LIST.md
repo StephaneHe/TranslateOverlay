@@ -18,3 +18,4 @@
 - [ ] 2026-09-25 18:06 — Post-MVP : ne pas fusionner titre et sous-titre web d'un même élément (ex. « Hauskatze » + « domestizierte Katze »)
 - [ ] 2026-09-25 18:06 — Post-MVP : ignorer les logos/marques (ex. mot-symbole Wikipedia traduit en « E wikipedia »)
 - [ ] 2026-09-25 18:06 — Post-MVP : prévoir un mode de test compatible uiautomator (UiAutomation suspend les services d'accessibilité)
+- [x] 2026-09-25 18:08 — Signalement « a cessé de fonctionner » : unique crash (dropbox 17:52:45, BadTokenException dans onDestroy→dismissOverlay→updateBubble) = build intermédiaire, déjà corrigé par 845766c ; scénario rejoué (overlay + uiautomator dump) sans crash, service reconnecté et traduction OK (captures 22–24) (fait 2026-09-25 18:08)
