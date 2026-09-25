@@ -37,8 +37,15 @@ object LanguageVoter {
      * Identification is unreliable on short strings ("Cat" → Welsh, "Talk" → Romanian), which would
      * also trigger useless model downloads: short blocks follow the dominant language of the screen.
      */
-    fun resolve(detected: String, dominant: String?, textLength: Int = Int.MAX_VALUE): String = when {
+    fun resolve(
+        detected: String,
+        dominant: String?,
+        textLength: Int = Int.MAX_VALUE,
+        target: String? = null,
+    ): String = when {
         detected == UNDETERMINED -> dominant ?: UNDETERMINED
+        // Already in the target language (e.g. browser UI in the user's language): never re-translate it.
+        target != null && LanguageTags.sameLanguage(detected, target) -> detected
         textLength < MIN_RELIABLE_LENGTH && dominant != null -> dominant
         else -> detected
     }
@@ -53,7 +60,7 @@ object LanguageVoter {
 /** Decides whether a text block is worth sending to the translator. */
 object TranslatableFilter {
     private val urlOrEmail = Regex(
-        """^(https?://|www\.)\S+$|^\S+@\S+\.\S+$|^[\w-]+(\.[\w-]+)*\.[a-z]{2,}(/\S*)?$""",
+        """^(https?://|www\.)\S+$|^\S+@\S+\.\S+$|^[\w-]+(\.[\w-]+)*\.[a-z]{2,}(/\S*)?$|^[\w.-]+:\d+(/\S*)?$""",
         RegexOption.IGNORE_CASE,
     )
     private val WHITESPACE = Regex("\\s+")

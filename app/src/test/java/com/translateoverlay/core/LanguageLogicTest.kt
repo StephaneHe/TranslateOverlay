@@ -48,6 +48,13 @@ class LanguageLogicTest {
     }
 
     @Test
+    fun `short block already in the target language is not pulled to the dominant language`() {
+        // Chrome's French "Traduire la page ?" bar over a Hebrew page, target French.
+        assertEquals("fr", LanguageVoter.resolve("fr", "he", textLength = 18, target = "fr"))
+        assertEquals("he", LanguageVoter.resolve("de", "he", textLength = 5, target = "fr"))
+    }
+
+    @Test
     fun `dominant of blocks ignores short blocks unless all are short`() {
         val votes = listOf("ro" to 4, "ro" to 5, "ro" to 6, "ro" to 7, "en" to 120)
         assertEquals("en", LanguageVoter.dominantOfBlocks(votes))
@@ -66,6 +73,7 @@ class LanguageLogicTest {
         assertFalse(TranslatableFilter.isTranslatable("john@doe.com"))
         assertFalse(TranslatableFilter.isTranslatable("en.wikipedia.org/wiki/Cat"))
         assertFalse(TranslatableFilter.isTranslatable("example.com"))
+        assertFalse(TranslatableFilter.isTranslatable("localhost:8765/index.html"))
         assertFalse(TranslatableFilter.isTranslatable("9 de.wikipedia.org/'"))
         assertTrue(TranslatableFilter.isTranslatable("Visit example.com today"))
         assertTrue(TranslatableFilter.isTranslatable("Hello. World"))

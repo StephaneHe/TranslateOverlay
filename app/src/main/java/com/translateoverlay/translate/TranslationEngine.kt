@@ -17,6 +17,7 @@ import com.translateoverlay.core.TranslationCache
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.tasks.await
+import java.text.Collator
 import java.util.Locale
 
 /**
@@ -33,7 +34,9 @@ class TranslationEngine(context: Context) {
     private val cache = TranslationCache()
     private val mutex = Mutex()
 
-    val supportedLanguages: List<String> = TranslateLanguage.getAllLanguages().sortedBy { displayName(it) }
+    // Collator: accent-aware order ("Hébreu" between "Grec" and "Hindi", not after "Hongrois").
+    val supportedLanguages: List<String> = TranslateLanguage.getAllLanguages()
+        .sortedWith(compareBy(Collator.getInstance(Locale.getDefault())) { displayName(it) })
 
     fun isSupported(code: String): Boolean = TranslateLanguage.fromLanguageTag(code) != null
 
