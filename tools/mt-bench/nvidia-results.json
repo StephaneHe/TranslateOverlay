@@ -1,0 +1,648 @@
+{
+ "google/gemma-4-31b-it|he-fr": {
+  "ids": [
+   "he1",
+   "he2",
+   "he3",
+   "he4",
+   "he5",
+   "he6",
+   "he7",
+   "he8",
+   "he9",
+   "he10",
+   "he11",
+   "he12",
+   "he13",
+   "he14",
+   "he15",
+   "he16"
+  ],
+  "out": [
+   "Le candidat favori des électeurs libéraux - et l'effondrement de la coalition",
+   "Tué dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave",
+   "Le décès du jeune homme abattu en Galilée occidentale a été prononcé",
+   "Crainte de noyade d'une personne sur une plage d'Ashkelon, 2 jeunes qui étaient avec lui ont été sauvés, l'un dans un état grave",
+   "Haut responsable iranien : \"Nous ne ferons aucune concession sur le programme nucléaire\"",
+   "Tous les flashs",
+   "Changez d'affichage et profitez de prix spéciaux",
+   "Célébration du Trade-in",
+   "Il y a des offres qu'il faut saisir",
+   "Test routier : la petite électrique avec une âme sportive",
+   "Seulement 2 390 ₪ par mois : Kia Sportage essence avec un plan de leasing attractif",
+   "La vente est interdite aux moins de 18 ans",
+   "Deux tombés dans la petite localité, maison face à maison",
+   "Passez le test",
+   "Avec le premier mois offert !",
+   "Pour plus de détails"
+  ],
+  "ms": 59587,
+  "error": ""
+ },
+ "google/gemma-4-31b-it|en-he": {
+  "ids": [
+   "eh1",
+   "eh2",
+   "eh3",
+   "eh4"
+  ],
+  "out": [
+   "זהו בן משפחת החתוליים, משפחת יונקים מסדרת טורפים, המכונה בשפה היומיומית חתולים.",
+   "טורף מחייב, הזקוק לתזונה המבוססת בעיקר על בשר, בעל טפרים נשלפים המותאמים להריגת מיני טרף קטנים כגון עכברים וחולדות.",
+   "החתול (Felis catus), הנקרא גם חתול בית, הוא יונק טורף קטן ומבוית.",
+   "שיחה"
+  ],
+  "ms": 69487,
+  "error": ""
+ },
+ "nvidia/riva-translate-4b-instruct-v2|he-fr": {
+  "ids": [
+   "he1",
+   "he2",
+   "he3",
+   "he4",
+   "he5",
+   "he6",
+   "he7",
+   "he8",
+   "he9",
+   "he10",
+   "he11",
+   "he12",
+   "he13",
+   "he14",
+   "he15",
+   "he16"
+  ],
+  "out": null,
+  "ms": 3545,
+  "error": "HÉBREU NON SUPPORTÉ (sortie inventée) — réponse non conforme: The driver of the Libyan rebels - and the kidnapped coalition soldiers - The king of Taana in Beqaa, 3 people in serious conditi",
+  "raw": "The driver of the Libyan rebels - and the kidnapped coalition soldiers - The king of Taana in Beqaa, 3 people in serious condition The death of a civilian in the central front The fear of bringing a person to the beach in Ashkelon, 2 civilians who were with him, one in serious condition In Kiri Irani: \"He was not exposed to the torture plan\" For all the victims A tribute to the victim and you enjoy special honors The celebration of the third day is not enough There are mistakes that must be taken into account Comparison by the way: The low cost with the sports memory Only 2,390 ₪ per month: Kia Sportage in Nazareth in a luxurious athletic appearance The car is forbidden to anyone who has not reached the age of 18 Two patients in the small hospital, house to house They carried out the comparison With the first month of gift! For more details"
+ },
+ "nvidia/riva-translate-4b-instruct-v1.1|he-fr": {
+  "ids": [
+   "he1",
+   "he2",
+   "he3",
+   "he4",
+   "he5",
+   "he6",
+   "he7",
+   "he8",
+   "he9",
+   "he10",
+   "he11",
+   "he12",
+   "he13",
+   "he14",
+   "he15",
+   "he16"
+  ],
+  "out": null,
+  "ms": 663,
+  "error": "HÉBREU NON SUPPORTÉ (sortie inventée) — réponse non conforme: Restez exactement une ligne par ligne d'entrée.",
+  "raw": "Restez exactement une ligne par ligne d'entrée."
+ },
+ "google/gemma-3-4b-it|he-fr": {
+  "ids": [
+   "he1",
+   "he2",
+   "he3",
+   "he4",
+   "he5",
+   "he6",
+   "he7",
+   "he8",
+   "he9",
+   "he10",
+   "he11",
+   "he12",
+   "he13",
+   "he14",
+   "he15",
+   "he16"
+  ],
+  "out": null,
+  "ms": 439,
+  "error": "NON DÉPLOYÉ pour ce compte (HTTP 404)",
+  "raw": ""
+ },
+ "google/gemma-3-4b-it|en-fr": {
+  "ids": [
+   "en1",
+   "en2",
+   "en3",
+   "en4",
+   "en5",
+   "en6",
+   "en7",
+   "en8"
+  ],
+  "out": null,
+  "ms": 354,
+  "error": "NON DÉPLOYÉ pour ce compte (HTTP 404)",
+  "raw": ""
+ },
+ "google/gemma-3-4b-it|en-he": {
+  "ids": [
+   "eh1",
+   "eh2",
+   "eh3",
+   "eh4"
+  ],
+  "out": null,
+  "ms": 351,
+  "error": "NON DÉPLOYÉ pour ce compte (HTTP 404)",
+  "raw": ""
+ },
+ "google/gemma-3-12b-it|he-fr": {
+  "ids": [
+   "he1",
+   "he2",
+   "he3",
+   "he4",
+   "he5",
+   "he6",
+   "he7",
+   "he8",
+   "he9",
+   "he10",
+   "he11",
+   "he12",
+   "he13",
+   "he14",
+   "he15",
+   "he16"
+  ],
+  "out": null,
+  "ms": 356,
+  "error": "NON DÉPLOYÉ pour ce compte (HTTP 404)",
+  "raw": ""
+ },
+ "google/gemma-3-12b-it|en-fr": {
+  "ids": [
+   "en1",
+   "en2",
+   "en3",
+   "en4",
+   "en5",
+   "en6",
+   "en7",
+   "en8"
+  ],
+  "out": null,
+  "ms": 340,
+  "error": "NON DÉPLOYÉ pour ce compte (HTTP 404)",
+  "raw": ""
+ },
+ "google/gemma-3-12b-it|en-he": {
+  "ids": [
+   "eh1",
+   "eh2",
+   "eh3",
+   "eh4"
+  ],
+  "out": null,
+  "ms": 299,
+  "error": "NON DÉPLOYÉ pour ce compte (HTTP 404)",
+  "raw": ""
+ },
+ "nvidia/riva-translate-4b-instruct-v2|en-fr": {
+  "ids": [
+   "en1",
+   "en2",
+   "en3",
+   "en4",
+   "en5",
+   "en6",
+   "en7",
+   "en8"
+  ],
+  "out": null,
+  "ms": 1132,
+  "error": "réponse non conforme: Το γάτος (Felis catus), επίσης γνωστό ως οικιακός γάτος ή σπιτικός γάτος, είναι ένα μικρό οικιακό και κυνηγετικό αρσενικό ζώο.",
+  "raw": "Το γάτος (Felis catus), επίσης γνωστό ως οικιακός γάτος ή σπιτικός γάτος, είναι ένα μικρό οικιακό και κυνηγετικό αρσενικό ζώο."
+ },
+ "nvidia/riva-translate-4b-instruct-v1.1|en-fr": {
+  "ids": [
+   "en1",
+   "en2",
+   "en3",
+   "en4",
+   "en5",
+   "en6",
+   "en7",
+   "en8"
+  ],
+  "out": null,
+  "ms": 1761,
+  "error": "réponse non conforme: An obligate carnivore, requiring a predominantly meat-based diet, it has retractable claws adapted to killing small prey species such as mice and rats. It is a social species, but a solitary hunter an",
+  "raw": "An obligate carnivore, requiring a predominantly meat-based diet, it has retractable claws adapted to killing small prey species such as mice and rats. It is a social species, but a solitary hunter and a crepuscular predator. The cat (Felis catus), also called domestic cat and house cat, is a small domesticated carnivorous mammal. Today only, while stocks last Summer sale Everything 50% off"
+ },
+ "deepseek-ai/deepseek-v4.1-flash|he-fr": {
+  "ids": [
+   "he1",
+   "he2",
+   "he3",
+   "he4",
+   "he5",
+   "he6",
+   "he7",
+   "he8",
+   "he9",
+   "he10",
+   "he11",
+   "he12",
+   "he13",
+   "he14",
+   "he15",
+   "he16"
+  ],
+  "out": null,
+  "ms": 240213,
+  "error": "TROP LENT pour un overlay (> 240 s)",
+  "raw": ""
+ },
+ "deepseek-ai/deepseek-v4.1-flash|en-fr": {
+  "ids": [
+   "en1",
+   "en2",
+   "en3",
+   "en4",
+   "en5",
+   "en6",
+   "en7",
+   "en8"
+  ],
+  "out": [
+   "Carnivore strict, nécessitant un régime principalement à base de viande, il possède des griffes rétractiles adaptées à tuer de petites espèces proies telles que les souris et les rats.",
+   "C'est une espèce sociale, mais un chasseur solitaire et un prédateur crépusculaire.",
+   "Le chat (Felis catus), aussi appelé chat domestique et chat de maison, est un petit mammifère carnivore domestiqué.",
+   "Aujourd'hui seulement, jusqu'à épuisement des stocks",
+   "Tout à -50 %",
+   "Soldes d'été",
+   "Discussion",
+   "Pour d'autres utilisations, voir Chat (homonymie)."
+  ],
+  "ms": 165377,
+  "error": "",
+  "raw": "[\"Carnivore strict, nécessitant un régime principalement à base de viande, il possède des griffes rétractiles adaptées à tuer de petites espèces proies telles que les souris et les rats.\", \"C'est une espèce sociale, mais un chasseur solitaire et un prédateur crépusculaire.\", \"Le chat (Felis catus), aussi appelé chat domestique et chat de maison, est un petit mammifère carnivore domestiqué.\", \"Aujourd'hui seulement, jusqu'à épuisement des stocks\", \"Tout à -50 %\", \"Soldes d'été\", \"Discussion\", \"Pour d'autres utilisations, voir Chat (homonymie).\"]"
+ },
+ "deepseek-ai/deepseek-v4.1-flash|en-he": {
+  "ids": [
+   "eh1",
+   "eh2",
+   "eh3",
+   "eh4"
+  ],
+  "out": [
+   "הוא חבר במשפחת החתוליים (Felidae), משפחת יונקים בסדרת הטורפים (Carnivora), הידועה גם בשם העממי חתולים.",
+   "כטורף אובליגטורי, הזקוק לתזונה מבוססת בעיקר על בשר, יש לו טפרים נשלפים המותאמים להריגת מיני טרף קטנים כגון עכברים וחולדות.",
+   "החתול (Felis catus), המכונה גם חתול מבוית וחתול בית, הוא יונק טורף מבוית קטן.",
+   "שיחה"
+  ],
+  "ms": 147567,
+  "error": "",
+  "raw": "[\"הוא חבר במשפחת החתוליים (Felidae), משפחת יונקים בסדרת הטורפים (Carnivora), הידועה גם בשם העממי חתולים.\",\"כטורף אובליגטורי, הזקוק לתזונה מבוססת בעיקר על בשר, יש לו טפרים נשלפים המותאמים להריגת מיני טרף קטנים כגון עכברים וחולדות.\",\"החתול (Felis catus), המכונה גם חתול מבוית וחתול בית, הוא יונק טורף מבוית קטן.\",\"שיחה\"]"
+ },
+ "z-ai/glm-5.3-flash|he-fr": {
+  "ids": [
+   "he1",
+   "he2",
+   "he3",
+   "he4",
+   "he5",
+   "he6",
+   "he7",
+   "he8",
+   "he9",
+   "he10",
+   "he11",
+   "he12",
+   "he13",
+   "he14",
+   "he15",
+   "he16"
+  ],
+  "out": null,
+  "ms": 240232,
+  "error": "TROP LENT pour un overlay (> 240 s)",
+  "raw": ""
+ },
+ "z-ai/glm-5.3-flash|en-fr": {
+  "ids": [
+   "en1",
+   "en2",
+   "en3",
+   "en4",
+   "en5",
+   "en6",
+   "en7",
+   "en8"
+  ],
+  "out": [
+   "Carnivore strict, nécessitant un régime alimentaire principalement à base de viande, il possède des griffes rétractiles adaptées à la mise à mort de petites espèces de proies telles que les souris et les rats.",
+   "C'est une espèce sociale, mais un chasseur solitaire et un prédateur crépusculaire.",
+   "Le chat (Felis catus), également appelé chat domestique et chat de maison, est un petit mammifère carnivore domestiqué.",
+   "Aujourd'hui seulement, dans la limite des stocks disponibles",
+   "Tout à -50 %",
+   "Soldes d'été",
+   "Discussion",
+   "Pour les autres significations, voir Chat (homonymie)."
+  ],
+  "ms": 114550,
+  "error": "",
+  "raw": "[\"Carnivore strict, nécessitant un régime alimentaire principalement à base de viande, il possède des griffes rétractiles adaptées à la mise à mort de petites espèces de proies telles que les souris et les rats.\", \"C'est une espèce sociale, mais un chasseur solitaire et un prédateur crépusculaire.\", \"Le chat (Felis catus), également appelé chat domestique et chat de maison, est un petit mammifère carnivore domestiqué.\", \"Aujourd'hui seulement, dans la limite des stocks disponibles\", \"Tout à -50 %\", \"Soldes d'été\", \"Discussion\", \"Pour les autres significations, voir Chat (homonymie).\"]"
+ },
+ "z-ai/glm-5.3-flash|en-he": {
+  "ids": [
+   "eh1",
+   "eh2",
+   "eh3",
+   "eh4"
+  ],
+  "out": [
+   "הוא חבר במשפחת החתוליים, משפחה של יונקים בסדרת הטורפים, המכונה באופן לא רשמי גם חתולים.",
+   "כטורף מוחלט, הדורש תזונה המבוססת בעיקר על בשר, יש לו טפרים נשלפים המותאמים להריגת מיני טרף קטנים כגון עכברים וחולדות.",
+   "החתול (Felis catus), המכונה גם חתול מבוית וחתול בית, הוא יונק טורף מבוית קטן.",
+   "שיחה"
+  ],
+  "ms": 158537,
+  "error": "",
+  "raw": "[\"הוא חבר במשפחת החתוליים, משפחה של יונקים בסדרת הטורפים, המכונה באופן לא רשמי גם חתולים.\", \"כטורף מוחלט, הדורש תזונה המבוססת בעיקר על בשר, יש לו טפרים נשלפים המותאמים להריגת מיני טרף קטנים כגון עכברים וחולדות.\", \"החתול (Felis catus), המכונה גם חתול מבוית וחתול בית, הוא יונק טורף מבוית קטן.\", \"שיחה\"]"
+ },
+ "nvidia/nemotron-3.5-lightning-30b-a3b|he-fr": {
+  "ids": [
+   "he1",
+   "he2",
+   "he3",
+   "he4",
+   "he5",
+   "he6",
+   "he7",
+   "he8",
+   "he9",
+   "he10",
+   "he11",
+   "he12",
+   "he13",
+   "he14",
+   "he15",
+   "he16"
+  ],
+  "out": null,
+  "ms": 202299,
+  "error": "réponse non conforme: Here's a thinking process:\n\n1.  **Analyze the Request:**\n   - Input: A JSON array of Hebrew strings (13 items)\n   - Task: Translate each string from Hebrew to French\n   - Constraints: \n     - Faithful",
+  "raw": "Here's a thinking process:\n\n1.  **Analyze the Request:**\n   - Input: A JSON array of Hebrew strings (13 items)\n   - Task: Translate each string from Hebrew to French\n   - Constraints: \n     - Faithful and concise\n     - Keep proper nouns, numbers, and punctuation style\n     - Add nothing, no notes\n     - Return ONLY a JSON array of translated strings, same length and same order\n\n2.  **Identify the Strings:**\n   Let me list them out with indices for clarity:\n   1. \"המועמד המוביל של המצביעים הליברלים - והתרסקות הקואליציה\"\n   2. \"הרוג בתאונה בבקעת הירדן, 3 פצועים במצ状 קשה\" (wait, original says \"3 פצועים במצב קשה\")\n   3. \"נקבע מותו של הצעיר שנורה בגליל המערבי\"\n   4. \"חשש לטביעת אדם בחוף באשקלון, 2 צעירים שהיו איתו חולצו, אחד במצב קשה\"\n   5. \"בכיר איראני: \\\"לא נתגמש על תוכנית הגרעין\\\"\"\n   6. \"לכל המבזקים\"\n   7. \"מחליפה את התצוגה ואתם נהנים ממחירים מיוחדים\"\n   8. \"חגיגת טרייד אין\"\n   9. \"יש הצעות שחייבים לקחת\"\n   10. \"מבחן דרך: החשמלית הקטנה עם הנשמה הספורטיבית\"\n   11. \"רק 2,390 ₪ לחודש: קיה ספורטאז' בנזין במסלול ליסינג אטרקטיבי\"\n   12. \"המכירה אסורה למי שטרם מלאו לו 18 שנים\"\n   13. \"שני נופלים ביישוב הקטן, בית מול בית\"\n   14. \"בצע את המבחן\" (wait, index 13 in original is \"בצע את המבחן\", but let me recount: the array has 13 items? Let me count the original: \n   [\"המועמד המוביל של המצביעים הליברלים - והתרסקות הקואליציה\", \"הרוג בתאונה בבקעת הירדן, 3 פצועים במצב קשה\", \"נקבע מותו של הצעיר שנורה בגליל המערבי\", \"חשש לטביעת אדם בחוף באשקלון, 2 צעירים שהיו איתו חולצו, אחד במצב קשה\", \"בכיר איראני: \\\"לא נתגמש על תוכנית הגרעין\\\"\", \"לכל המבזקים\", \"מחליפה את התצוגה ואתם נהנים ממחירים מיוחדים\", \"חגיגת טרייד אין\", \"יש הצעות שחייבים לקחת\", \"מבחן דרך: החשמלית הקטנה עם הנשמה הספורטיבית\", \"רק 2,390 ₪ לחודש: קיה ספורטאז' בנזין במסלול ליסינג אטרקטיבי\", \"המכירה אסורה למי שטרם מלאו לו 18 שנים\", \"שני נופלים ביישוב הקטן, בית מול בית\", \"בצע את המבחן\", \"עם חודש ראשון מתנה!\", \"לפרטים נוספים\"]\n   Let me count properly: \n   1. המועמד המוביל...\n   2. הרוג בתאונה...\n   3. נקבע מותו...\n   4. חשש לטביעת אדם...\n   5. בכיר איראני...\n   6. לכל המבזקים\n   7. מחליפה את התצוגה...\n   8. חגיגת טרייד אין\n   9. יש הצעות...\n   10. מבחן דרך...\n   11. רק 2,390 ₪...\n   12. המכירה אסורה...\n   13. שני נופלים...\n   14. בצע את המבחן\n   15. עם חודש ראשון מתנה!\n   16. לפרטים נוספים\n   Wait, the user said \"JSON array\" and pasted: [\"המועמד המוביל של המצביעים הליברלים - והתרסקות הקואליציה\", \"הרוג בתאונה בבקעת הירדן, 3 פצועים במצב קשה\", \"נקבע מותו של הצעיר שנורה בגליל המערבי\", \"חשש לטביעת אדם בחוף באשקלון, 2 צעירים שהיו איתו חולצו, אחד במצב קשה\", \"בכיר איראני: \\\"לא נתגמש על תוכנית הגרעין\\\"\", \"לכל המבזקים\", \"מחליפה את התצוגה ואתם נהנים ממחירים מיוחדים\", \"חגיגת טרייד אין\", \"יש הצעות שחייבים לקחת\", \"מבחן דרך: החשמלית הקטנה עם הנשמה הספורטיבית\", \"רק 2,390 ₪ לחודש: קיה ספורטאז' בנזין במסלול ליסינג אטרקטיבי\", \"המכירה אסורה למי שטרם מלאו לו 18 שנים\", \"שני נופלים ביישוב הקטן, בית מול בית\", \"בצע את המבחן\", \"עם חודש ראשון מתנה!\", \"לפרטים נוספים\"]\n   Let me count: \n   1. המועמד...\n   2. הרוג...\n   3. נקבע...\n   4. חשש...\n   5. בכיר...\n   6. לכל המבזקים\n   7. מחליפה...\n   8. חגיגת...\n   9. יש הצעות...\n   10. מבחן דרך...\n   11. רק 2,390...\n   12. המכירה...\n   13. שני נופלים...\n   14. בצע את המבחן\n   15. עם חודש ראשון מתנה!\n   16. לפרטים נוספים\n   So 16 items. I'll translate all 16.\n\n   Now, translate each to French, keeping proper nouns, numbers, punctuation. Be concise, faithful.\n\n   Let's translate one by one:\n\n   1. \"המועמד המוביל של המצביעים הליברלים - והתרסקות הקואליציה\"\n      - French: \"Le favori des électeurs libéraux - et l'effondrement de la coalition\"\n      - Keep: \"ליברלים\" -> \"libéraux\" (proper noun/adjective, keep as is transliterated or translated? Usually \"libéraux\" is the French word for liberals, it's fine. \"המועמד המוביל\" -> \"Le favori\". \"ותרסקות הקואליציה\" -> \"et l'effondrement de la coalition\". Punctuation: keep the dash/spaces as is. Hebrew dash is similar to French dash. I'll use standard French dash or hyphen. The original has \" - \" with spaces. I'll keep \" - \" or adapt to French style. I'll keep as \" - \" or use \" – \". I'll stick to \" - \" to be safe, or just \" – \". The prompt says \"keep punctuation style\". I'll keep the dash with spaces as in original, or adapt naturally. I'll output: \"Le favori des électeurs libéraux - et l'effondrement de la coalition\"\n\n   2. \"הרוג בתאונה בבקעת הירדן, 3 פצועים במצב קשה\"\n      - French: \"Une mort dans un accident dans la vallée du Jourdain, 3 blessés en état grave\"\n      - \"הרוג\" -> \"mort\" or \"une mort\". Usually \"Un mort\" or \"Une mort\". Since it's \"הרוג\" (male or general), \"Un mort\" fits. \"בתאונה\" -> \"dans un accident\". \"בבקעת הירדן\" -> \"vallée du Jourdain\" (proper noun, keep as is transliterated or translated. \"Bekaa al-Yarden\" -> \"vallée du Jourdain\" is standard French). \"3 פצועים\" -> \"3 blessés\". \"במצב קשה\" -> \"en état grave\" or \"en état critique\". I'll use \"en état grave\". So: \"Un mort dans un accident dans la vallée du Jourdain, 3 blessés en état grave\"\n      - Check punctuation: original has comma after \"ירדן,\". I'll keep comma.\n\n   3. \"נקבע מותו של הצעיר שנורה בגליל המערבי\"\n      - French: \"La mort du jeune homme abattu dans le Galilée occidentale\" or \"on a confirmé la mort du jeune homme tiré dans le Galilée occidental\". More naturally: \"La mort du jeune homme abattu dans l'ouest du Galilée\" or \"Galilée occidentale\". \"גליל המערבי\" is \"Galilée occidentale\" or just \"Galilée\". I'll use \"Galilée occidentale\". \"�עיר\" -> \"jeune homme\" or \"jeune personne\". \"שנורה\" -> \"abattu\" (shot) or \"tiré\". I'll use \"abattu\". So: \"La mort du jeune homme abattu dans la Galilée occidentale\". Or \"on a déclaré le mort du jeune homme abattu...\" but \"נקבע מותו\" -> \"His death has been confirmed\" -> \"La mort du jeune homme a été confirmée abattu...\" No, better: \"La mort du jeune homme abattu dans la Galilée occidentale a été confirmée\". But concise: \"La mort du jeune homme abattu dans la Galilée occidentale\". I'll keep it simple: \"La mort du jeune homme abattu dans la Galilée occidentale\". Actually, \"נקבע מותו\" is \"His death was declared\" -> \"La mort du jeune homme a été déclarée\". But \"abattu\" implies shot. I'll do: \"La mort du jeune homme abattu dans la Galilée occidentale confirmée\". Hmm. Let's do: \"La mort du jeune homme abattu dans la Galilée occidentale a été confirmée\". I'll keep it concise but faithful. Maybe: \"La mort du jeune homme abattu dans la Galilée occidentale confirmée\". I'll just use: \"La mort du jeune homme abattu dans la Galilée occidentale\". Actually, standard news style: \"La mort du jeune homme abattu dans la Galilée occidentale a été confirmée\". I'll go with that.\n      - Let's re-evaluate: \"נקבע מותו של הצעיר שנורה בגליל המערבי\" -> \"La mort du jeune homme abattu dans la Galilée occidentale a été confirmée\". I'll keep it as: \"La mort du jeune homme abattu dans la Galilée occidentale confirmée\". No, I'll do: \"La mort du jeune homme abattu dans la Galilée occidentale a été confirmée\". That's fine.\n\n   4. \"חשש לטביעת אדם בחוף באשקלון, 2 צעירים שהיו איתו חולצו, אחד במצב קשה\"\n      - French: \"Risque de noyade sur la plage d'Ashkelon, 2 jeunes avec lui ont été secourus, l'un en état grave\"\n      - \"חשש לטביעת אדם\" -> \"Risque de noyade\" or \"Inquiétude concernant une noyade\". I'll use \"Risque de noyade\". \"בחוף באשקלון\" -> \"sur la plage d'Ashkelon\" (Ashkelon is a proper noun, keep as \"Ashkelon\" or transliterate to \"Ashkelon\". French often uses \"Ashkelon\".) \"2 צעירים שהיו איתו חולצו\" -> \"2 jeunes avec lui ont été secourus\". \"אחד במצב קשה\" -> \"l'un en état grave\". Punctuation: original has comma after \"אשקלון,\". I'll keep comma. So: \"Risque de noyade sur la plage d'Ashkelon, 2 jeunes avec lui ont été secourus, l'un en état grave\"\n\n   5. \"בכיר איראני: \\\"לא נתגמש על תוכנית הגרעין\\\"\"\n      - French: \"Un haut fonctionnaire iranien : \\\"Non, nous ne transigerons pas sur le programme nucléaire\\\"\"\n      - \"בכיר איראני\" -> \"Un haut fonctionnaire iranien\" or \"Un responsable iranien\". I'll use \"Un haut responsable iranien\". \"לא נתגמש\" -> \"Non, nous ne transigerons pas\" or \"Nous ne transigerons pas\". The Hebrew says \"לא נתגמש\", which is \"we will not compromise\". I'll translate as: \"Un haut responsable iranien : \\\"Non, nous ne transigerons pas sur le programme nucléaire\\\"\". Keep the quotes style. Original has double quotes inside. I'll use French guillemets or standard quotes. The prompt says keep punctuation style. I'll use double quotes as in original: \""
+ },
+ "nvidia/nemotron-3.5-lightning-30b-a3b|en-fr": {
+  "ids": [
+   "en1",
+   "en2",
+   "en3",
+   "en4",
+   "en5",
+   "en6",
+   "en7",
+   "en8"
+  ],
+  "out": null,
+  "ms": 240221,
+  "error": "TROP LENT pour un overlay (> 240 s)",
+  "raw": ""
+ },
+ "nvidia/nemotron-3.5-lightning-30b-a3b|en-he": {
+  "ids": [
+   "eh1",
+   "eh2",
+   "eh3",
+   "eh4"
+  ],
+  "out": null,
+  "ms": 240407,
+  "error": "TROP LENT pour un overlay (> 240 s)",
+  "raw": ""
+ },
+ "mistralai/mistral-large-2-instruct|he-fr": {
+  "ids": [
+   "he1",
+   "he2",
+   "he3",
+   "he4",
+   "he5",
+   "he6",
+   "he7",
+   "he8",
+   "he9",
+   "he10",
+   "he11",
+   "he12",
+   "he13",
+   "he14",
+   "he15",
+   "he16"
+  ],
+  "out": null,
+  "ms": 439,
+  "error": "NON DÉPLOYÉ pour ce compte (HTTP 404)",
+  "raw": ""
+ },
+ "mistralai/mistral-large-2-instruct|en-fr": {
+  "ids": [
+   "en1",
+   "en2",
+   "en3",
+   "en4",
+   "en5",
+   "en6",
+   "en7",
+   "en8"
+  ],
+  "out": null,
+  "ms": 320,
+  "error": "NON DÉPLOYÉ pour ce compte (HTTP 404)",
+  "raw": ""
+ },
+ "mistralai/mistral-large-2-instruct|en-he": {
+  "ids": [
+   "eh1",
+   "eh2",
+   "eh3",
+   "eh4"
+  ],
+  "out": null,
+  "ms": 337,
+  "error": "NON DÉPLOYÉ pour ce compte (HTTP 404)",
+  "raw": ""
+ },
+ "nvidia/nemotron-3-super-120b-a12b|he-fr": {
+  "ids": [
+   "he1",
+   "he2",
+   "he3",
+   "he4",
+   "he5",
+   "he6",
+   "he7",
+   "he8",
+   "he9",
+   "he10",
+   "he11",
+   "he12",
+   "he13",
+   "he14",
+   "he15",
+   "he16"
+  ],
+  "out": [
+   "Le candidat principal des électeurs libéraux - et l'effondrement de la coalition",
+   "Un mort dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave",
+   "La mort du jeune homme tiré en Galilée occidentale a été constatée",
+   "Crainte de noyade d'une personne sur la plage d'Ashkelon, 2 jeunes qui étaient avec lui ont été secourus, l'un dans un état grave",
+   "Un haut responsable iranien : \\\"Nous ne céderons pas sur le programme nucléaire\\\"",
+   "À tous les flashs",
+   "Elle remplace l'affichage et vous bénéficiez de prix spéciaux",
+   "Célébration du trade-in",
+   "Il y a des offres qu'il faut prendre",
+   "Essai routier : la petite électrique avec l'âme sportive",
+   "Seulement 2,390 ₪ par mois : Kia Sportage essence dans un leasing attractif",
+   "La vente est interdite à ceux qui n'ont pas encore 18 ans",
+   "Deux morts dans le petit hameau, maison face à maison",
+   "Effectuez le test",
+   "Avec le premier mois offert!",
+   "Pour plus de détails"
+  ],
+  "ms": 96543,
+  "error": "",
+  "raw": "[\"Le candidat principal des électeurs libéraux - et l'effondrement de la coalition\",\"Un mort dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave\",\"La mort du jeune homme tiré en Galilée occidentale a été constatée\",\"Crainte de noyade d'une personne sur la plage d'Ashkelon, 2 jeunes qui étaient avec lui ont été secourus, l'un dans un état grave\",\"Un haut responsable iranien : \\\\\\\"Nous ne céderons pas sur le programme nucléaire\\\\\\\"\",\"À tous les flashs\",\"Elle remplace l'affichage et vous bénéficiez de prix spéciaux\",\"Célébration du trade-in\",\"Il y a des offres qu'il faut prendre\",\"Essai routier : la petite électrique avec l'âme sportive\",\"Seulement 2,390 ₪ par mois : Kia Sportage essence dans un leasing attractif\",\"La vente est interdite à ceux qui n'ont pas encore 18 ans\",\"Deux morts dans le petit hameau, maison face à maison\",\"Effectuez le test\",\"Avec le premier mois offert!\",\"Pour plus de détails\"]"
+ },
+ "nvidia/nemotron-3-super-120b-a12b|en-fr": {
+  "ids": [
+   "en1",
+   "en2",
+   "en3",
+   "en4",
+   "en5",
+   "en6",
+   "en7",
+   "en8"
+  ],
+  "out": [
+   "Un carnivore obligatoire, nécessitant un régime principalement à base de viande, il possède des griffes rétractiles adaptées à la chasse de petites espèces proies telles que les souris et les rats.",
+   "C'est une espèce sociale, mais un chasseur solitaire et un prédateur crépusculaire.",
+   "Le chat (Felis catus), également appelé chat domestique et chat de maison, est un petit mammifère carnivore domestiqué.",
+   "Aujourd'hui seulement, tant que les stocks durent",
+   "Tout 50 % de réduction",
+   "Soldes d'été",
+   "Parler",
+   "Pour d'autres usages, voir Chat (homonymie)."
+  ],
+  "ms": 56011,
+  "error": "",
+  "raw": "[\"Un carnivore obligatoire, nécessitant un régime principalement à base de viande, il possède des griffes rétractiles adaptées à la chasse de petites espèces proies telles que les souris et les rats.\", \"C'est une espèce sociale, mais un chasseur solitaire et un prédateur crépusculaire.\", \"Le chat (Felis catus), également appelé chat domestique et chat de maison, est un petit mammifère carnivore domestiqué.\", \"Aujourd'hui seulement, tant que les stocks durent\", \"Tout 50 % de réduction\", \"Soldes d'été\", \"Parler\", \"Pour d'autres usages, voir Chat (homonymie).\"]"
+ },
+ "nvidia/nemotron-3-super-120b-a12b|en-he": {
+  "ids": [
+   "eh1",
+   "eh2",
+   "eh3",
+   "eh4"
+  ],
+  "out": [
+   "זהו חבר של Felidae, משפחת יונקים בסדר Carnivora, המכונה גם בדיבור יומיומי חתולים.",
+   "טורף חובה, הדורש תזונה מבוססת בעיקר על בשר, יש לו ציפורניים ניתנות להחזרה המותאמות להרג של מיני טרף קטנים כגון עכברים וחולדות.",
+   "החתול (Felis catus), הנקרא גם חתול בית וחתול ביתי, הוא יונק טורף מבוית קטן.",
+   "דבר"
+  ],
+  "ms": 35763,
+  "error": "",
+  "raw": "[\"זהו חבר של Felidae, משפחת יונקים בסדר Carnivora, המכונה גם בדיבור יומיומי חתולים.\", \"טורף חובה, הדורש תזונה מבוססת בעיקר על בשר, יש לו ציפורניים ניתנות להחזרה המותאמות להרג של מיני טרף קטנים כגון עכברים וחולדות.\", \"החתול (Felis catus), הנקרא גם חתול בית וחתול ביתי, הוא יונק טורף מבוית קטן.\", \"דבר\"]"
+ },
+ "moonshotai/kimi-k3|he-fr": {
+  "ids": [
+   "he1",
+   "he2",
+   "he3",
+   "he4",
+   "he5",
+   "he6",
+   "he7",
+   "he8",
+   "he9",
+   "he10",
+   "he11",
+   "he12",
+   "he13",
+   "he14",
+   "he15",
+   "he16"
+  ],
+  "out": null,
+  "ms": 240266,
+  "error": "TROP LENT pour un overlay (> 240 s)",
+  "raw": ""
+ },
+ "moonshotai/kimi-k3|en-fr": {
+  "ids": [
+   "en1",
+   "en2",
+   "en3",
+   "en4",
+   "en5",
+   "en6",
+   "en7",
+   "en8"
+  ],
+  "out": null,
+  "ms": 240169,
+  "error": "TROP LENT pour un overlay (> 240 s)",
+  "raw": ""
+ },
+ "moonshotai/kimi-k3|en-he": {
+  "ids": [],
+  "out": null,
+  "ms": 0,
+  "error": "TROP LENT pour un overlay (non testé : > 240 s sur les 2 autres paires)",
+  "raw": ""
+ },
+ "google/gemma-4-31b-it|en-fr": {
+  "ids": [
+   "en1",
+   "en2",
+   "en3",
+   "en4",
+   "en5",
+   "en6",
+   "en7",
+   "en8"
+  ],
+  "out": [
+   "Carnivore strict, nécessitant un régime principalement à base de viande, il possède des griffes rétractiles adaptées pour tuer de petites proies comme les souris et les rats.",
+   "C'est une espèce sociale, mais un chasseur solitaire et un prédateur crépusculaire.",
+   "Le chat (Felis catus), également appelé chat domestique, est un petit mammifère carnivore domestiqué.",
+   "Aujourd'hui seulement, jusqu'à épuisement des stocks",
+   "Tout à -50 %",
+   "Soldes d'été",
+   "Discussion",
+   "Pour d'autres usages, voir Chat (homonymie)."
+  ],
+  "ms": 97500,
+  "error": "",
+  "raw": "[\"Carnivore strict, nécessitant un régime principalement à base de viande, il possède des griffes rétractiles adaptées pour tuer de petites proies comme les souris et les rats.\", \"C'est une espèce sociale, mais un chasseur solitaire et un prédateur crépusculaire.\", \"Le chat (Felis catus), également appelé chat domestique, est un petit mammifère carnivore domestiqué.\", \"Aujourd'hui seulement, jusqu'à épuisement des stocks\", \"Tout à -50 %\", \"Soldes d'été\", \"Discussion\", \"Pour d'autres usages, voir Chat (homonymie).\"]"
+ },
+ "nvidia/nemotron-3-super-120b-a12b|latency": {
+  "ms": [
+   69569,
+   49301
+  ]
+ },
+ "google/gemma-4-31b-it|latency": {
+  "ms": [
+   80804,
+   134977,
+   184631,
+   214843,
+   37861
+  ]
+ }
+}
