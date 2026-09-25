@@ -1,8 +1,12 @@
 package com.translateoverlay.pipeline
 
 import android.graphics.Bitmap
+import android.os.SystemClock
+import android.util.Log
 import com.translateoverlay.capture.OcrRecognizer
 import com.translateoverlay.core.BlockMerger
+import com.translateoverlay.core.BlockSource
+import com.translateoverlay.core.LanguageScripts
 import com.translateoverlay.core.LanguageTags
 import com.translateoverlay.core.LanguageVoter
 import com.translateoverlay.core.TextBlock
@@ -33,8 +37,13 @@ class TranslationPipeline(
         onProgress: (String) -> Unit,
     ): PipelineOutcome {
         val target = settings.targetLanguage
+        val ocrStart = SystemClock.uptimeMillis()
         val ocrBlocks = if (screenshot != null) runCatching { ocr.recognize(screenshot, settings.ocrScript) }
+            .onFailure { Log.w(TAG, "OCR ${settings.ocrScript} failed", it) }
             .getOrElse { emptyList() } else emptyList()
+        if (screenshot != null) {
+            Log.i(TAG, "OCR ${settings.ocrScript}: ${ocrBlocks.size} blocks in ${SystemClock.uptimeMillis() - ocrStart} ms")
+        }
 
         // Only the Latin OCR model can vouch for Latin text being actually drawn on screen.
         val confirmWithOcr = ocrBlocks.isNotEmpty() && settings.ocrScript == OcrScript.LATIN
@@ -45,11 +54,14 @@ class TranslationPipeline(
         val detected = blocks.map { runCatching { engine.identify(it.text) }.getOrDefault(UNDETERMINED) }
         val lengths = blocks.map { it.text.length }
         val dominant = LanguageVoter.dominantOfBlocks(detected.zip(lengths))
-        val languages = detected.mapIndexed { i, lang -> LanguageVoter.resolve(lang, dominant, lengths[i]) }
+        val languages = detected.mapIndexed { i, lang -> LanguageVoter.resolve(lang, dominant, lengths[i], target) }
 
+        // OCR of a script the model cannot read (e.g. Hebrew page, Latin OCR) is garbage: keep tree text only.
+        val trustOcr = dominant == null || LanguageScripts.isReadableBy(dominant, settings.ocrScript.covers)
         val work = blocks.indices.filter { i ->
             val lang = languages[i]
-            lang != UNDETERMINED && !LanguageTags.sameLanguage(lang, target) && engine.isSupported(lang)
+            (trustOcr || blocks[i].source != BlockSource.OCR) &&
+                lang != UNDETERMINED && !LanguageTags.sameLanguage(lang, target) && engine.isSupported(lang)
         }
         if (work.isEmpty()) {
             return PipelineOutcome.NoResult(
@@ -84,13 +96,16 @@ class TranslationPipeline(
             val translation = runCatching { engine.translate(lang, target, block.text) }.getOrNull()
                 ?: return@mapNotNull null
             if (translation.isBlank() || translation.trim() == block.text.trim()) return@mapNotNull null
-            TranslatedBlock(block, styles.estimate(block, screenshot), lang, translation)
+            val style = styles.estimate(block, screenshot)
+            // Garbage OCR lines still give line heights, but not a trustworthy alignment.
+            TranslatedBlock(block, if (trustOcr) style else style.copy(alignMeasured = false), lang, translation)
         }
         if (result.isEmpty()) return PipelineOutcome.Failure("La traduction a échoué")
         return PipelineOutcome.Success(result, result.map { it.sourceLanguage }.toSet())
     }
 
     private companion object {
+        const val TAG = "TranslateOverlay"
         const val DOWNLOAD_TIMEOUT_MS = 180_000L
     }
 }

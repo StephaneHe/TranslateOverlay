@@ -67,5 +67,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-mlkit-text-recognition-korean:16.0.1")
     implementation("com.google.android.gms:play-services-mlkit-text-recognition-devanagari:16.0.1")
 
+    // Hebrew OCR: ML Kit has no Hebrew recognizer; Tesseract (LSTM, tessdata_fast "heb") runs on-device.
+    implementation("com.github.adaptech-cz.Tesseract4Android:tesseract4android:4.7.0")
+
     testImplementation("junit:junit:4.13.2")
 }

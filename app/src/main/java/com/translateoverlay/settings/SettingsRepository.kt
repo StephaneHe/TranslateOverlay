@@ -2,16 +2,19 @@ package com.translateoverlay.settings
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.translateoverlay.core.Script
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-enum class OcrScript(val label: String) {
-    LATIN("Latin (embarqué)"),
-    CHINESE("Chinois"),
-    JAPANESE("Japonais"),
-    KOREAN("Coréen"),
-    DEVANAGARI("Devanagari"),
+/** @property covers writing systems the OCR model reads; text in other scripts comes out as garbage. */
+enum class OcrScript(val label: String, val covers: Set<Script>) {
+    LATIN("Latin (embarqué)", setOf(Script.LATIN)),
+    CHINESE("Chinois", setOf(Script.HAN, Script.LATIN)),
+    JAPANESE("Japonais", setOf(Script.JAPANESE, Script.HAN, Script.LATIN)),
+    KOREAN("Coréen", setOf(Script.KOREAN, Script.LATIN)),
+    DEVANAGARI("Devanagari", setOf(Script.DEVANAGARI, Script.LATIN)),
+    HEBREW("Hébreu (Tesseract, embarqué)", setOf(Script.HEBREW)),
 }
 
 data class Settings(
