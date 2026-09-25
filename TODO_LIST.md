@@ -13,3 +13,5 @@
 - [ ] 2026-09-25 16:57 — Post-MVP : mode « live » (retraduction auto au défilement)
 - [ ] 2026-09-25 16:57 — Post-MVP : moteur de traduction alternatif (DeepL en ligne / LLM local) pour la qualité
 - [ ] 2026-09-25 16:57 — Post-MVP : tests instrumentés + préparation Play (déclaration Accessibility API, vidéo)
+- [x] 2026-09-25 17:39 — Installation adb sur V30T (Android 12) + vérifications UI sans service : aucun crash ; accueil, version 1.0.0 (1), apps exclues, sélecteur de langue, téléchargement modèle FR, divulgation, page du service OK (captures docs/screenshots/) (fait 2026-09-25 17:39)
+- [ ] 2026-09-25 17:39 — Valider sur V30T le flux bulle → traduction → overlay une fois le service activé manuellement par l'utilisateur
