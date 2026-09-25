@@ -24,7 +24,10 @@ class StyleEstimator(private val scaledDensity: Float) {
 
         val colors = screenshot?.let { sample(it, block, size) }
         return if (colors != null) {
-            BlockStyle(size, colors.text, colors.background, align, ColorEstimator.isBold(colors.strokeRatio), measured)
+            BlockStyle(
+                size, colors.text, colors.background, align, ColorEstimator.isBold(colors.strokeRatio),
+                alignMeasured = measured, outlineColor = colors.outline,
+            )
         } else {
             // No screenshot (Android < 11, secure window, OCR disabled): neutral dark card.
             BlockStyle(size, Argb.rgb(0xFA, 0xFA, 0xFA), Argb.rgb(0x20, 0x21, 0x24), align, bold = false, alignMeasured = measured)
@@ -32,9 +35,10 @@ class StyleEstimator(private val scaledDensity: Float) {
     }
 
     private fun sample(bitmap: Bitmap, block: TextBlock, sizePx: Float) = run {
+        val screen = Box(0, 0, bitmap.width, bitmap.height)
         // Sample where the glyphs are when OCR lines are known, otherwise the whole block.
-        val region = (block.lines.map { it.box }.reduceOrNull(Box::union) ?: block.box)
-            .intersect(Box(0, 0, bitmap.width, bitmap.height))
+        val lineUnion = block.lines.map { it.box }.reduceOrNull(Box::union)
+        val region = (lineUnion ?: block.box).intersect(screen)
         if (region.isEmpty) return@run null
         val step = (region.height / 60).coerceAtLeast(1)
         val rows = (region.height + step - 1) / step
@@ -42,6 +46,30 @@ class StyleEstimator(private val scaledDensity: Float) {
         for (r in 0 until rows) {
             bitmap.getPixels(pixels, r * region.width, region.width, region.left, region.top + r * step, region.width, 1)
         }
-        ColorEstimator.estimate(pixels, region.width, rows, sizePx)
+        // OCR line boxes are tight: the ring just around them is the background, even on a photo.
+        // (Not for bare node boxes: outside a button lies the page, not the button colour.)
+        val hint = lineUnion?.let { ColorEstimator.medianColor(ringPixels(bitmap, region, screen, sizePx)) }
+        ColorEstimator.estimate(pixels, region.width, rows, sizePx, hint)
+    }
+
+    /** Pixels of a thin band around [region] (clipped to the screen), subsampled. */
+    private fun ringPixels(bitmap: Bitmap, region: Box, screen: Box, sizePx: Float): IntArray {
+        val pad = (sizePx / 5).toInt().coerceIn(3, 24)
+        val outer = Box(region.left - pad, region.top - pad, region.right + pad, region.bottom + pad).intersect(screen)
+        val out = ArrayList<Int>()
+        val row = IntArray(outer.width.coerceAtLeast(1))
+        var y = outer.top
+        while (y < outer.bottom) {
+            bitmap.getPixels(row, 0, outer.width, outer.left, y, outer.width, 1)
+            val inBand = y < region.top || y >= region.bottom
+            var x = 0
+            while (x < outer.width) {
+                val px = outer.left + x
+                if (inBand || px < region.left || px >= region.right) out += row[x]
+                x += 2
+            }
+            y += 2
+        }
+        return out.toIntArray()
     }
 }

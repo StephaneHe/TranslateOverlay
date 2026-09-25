@@ -57,7 +57,7 @@ class TesseractOcr(private val context: Context, private val language: String = 
                 val confidence = iterator.confidence(TessBaseAPI.PageIteratorLevel.RIL_TEXTLINE)
                 val rect = iterator.getBoundingRect(TessBaseAPI.PageIteratorLevel.RIL_TEXTLINE)
                 if (!text.isNullOrEmpty() && confidence >= MIN_CONFIDENCE && rect != null) {
-                    lines += TextLine(text, rect.toBox())
+                    lines += TextLine(text, rect.toBox(), confidence / 100f)
                 }
             } while (iterator.next(TessBaseAPI.PageIteratorLevel.RIL_TEXTLINE))
             flush()

@@ -29,6 +29,10 @@ class TranslationEngine(context: Context) {
     private val languageId = LanguageIdentification.getClient(
         LanguageIdentificationOptions.Builder().setConfidenceThreshold(0.5f).build(),
     )
+    // Low threshold: used to ask "could this short label be in language X at all?".
+    private val languageCandidates = LanguageIdentification.getClient(
+        LanguageIdentificationOptions.Builder().setConfidenceThreshold(CANDIDATE_THRESHOLD).build(),
+    )
     private val modelManager = RemoteModelManager.getInstance()
     private val translators = HashMap<Pair<String, String>, Translator>()
     private val cache = TranslationCache()
@@ -43,6 +47,11 @@ class TranslationEngine(context: Context) {
     /** Returns a normalised language code, or "und" when unknown. */
     suspend fun identify(text: String): String =
         LanguageTags.normalize(languageId.identifyLanguage(text).await())
+
+    /** Normalised codes of every language the text may plausibly be written in. */
+    suspend fun plausibleLanguages(text: String): Set<String> =
+        languageCandidates.identifyPossibleLanguages(text).await()
+            .map { LanguageTags.normalize(it.languageTag) }.toSet()
 
     suspend fun downloadedModels(): Set<String> =
         modelManager.getDownloadedModels(TranslateRemoteModel::class.java).await()
@@ -84,6 +93,12 @@ class TranslationEngine(context: Context) {
     }
 
     companion object {
+        /**
+         * Measured on device for target French: "Sauvegarder" fr=0.39, "Modifier" fr=0.15 (UI labels
+         * to keep) vs "Cat" fr=0.06 (English title to translate).
+         */
+        private const val CANDIDATE_THRESHOLD = 0.12f
+
         fun displayName(code: String): String {
             val name = Locale.forLanguageTag(code).getDisplayName(Locale.getDefault())
             return name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }

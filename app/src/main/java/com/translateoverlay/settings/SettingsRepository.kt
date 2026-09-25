@@ -9,7 +9,9 @@ import kotlinx.coroutines.flow.asStateFlow
 
 /** @property covers writing systems the OCR model reads; text in other scripts comes out as garbage. */
 enum class OcrScript(val label: String, val covers: Set<Script>) {
-    LATIN("Latin (embarqué)", setOf(Script.LATIN)),
+    /** Latin by default, plus the models matching the scripts found on screen (see OcrRecognizer). */
+    AUTO("Automatique (recommandé)", setOf(Script.LATIN)),
+    LATIN("Latin uniquement", setOf(Script.LATIN)),
     CHINESE("Chinois", setOf(Script.HAN, Script.LATIN)),
     JAPANESE("Japonais", setOf(Script.JAPANESE, Script.HAN, Script.LATIN)),
     KOREAN("Coréen", setOf(Script.KOREAN, Script.LATIN)),
@@ -22,7 +24,7 @@ data class Settings(
     val excludedPackages: Set<String> = emptySet(),
     val bubbleEnabled: Boolean = true,
     val ocrEnabled: Boolean = true,
-    val ocrScript: OcrScript = OcrScript.LATIN,
+    val ocrScript: OcrScript = OcrScript.AUTO,
     val wifiOnlyDownloads: Boolean = true,
     val bubbleSizeDp: Int = 52,
     val bubbleOpacity: Float = 0.85f,
@@ -40,6 +42,8 @@ class SettingsRepository(context: Context) {
     private val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, _ -> _settings.value = read() }
 
     init {
+        // 1.2.0: the manual OCR choice (Latin by default) was replaced by AUTO; drop the stale key.
+        if (prefs.contains(K_SCRIPT_V1)) prefs.edit().remove(K_SCRIPT_V1).apply()
         prefs.registerOnSharedPreferenceChangeListener(listener)
     }
 
@@ -84,7 +88,9 @@ class SettingsRepository(context: Context) {
         const val K_EXCLUDED = "excluded_packages"
         const val K_BUBBLE = "bubble_enabled"
         const val K_OCR = "ocr_enabled"
-        const val K_SCRIPT = "ocr_script"
+        // v2: AUTO became the default; earlier explicit choices (Latin was the only default) are reset.
+        const val K_SCRIPT = "ocr_script_v2"
+        const val K_SCRIPT_V1 = "ocr_script"
         const val K_WIFI = "wifi_only_downloads"
         const val K_BUBBLE_SIZE = "bubble_size_dp"
         const val K_BUBBLE_OPACITY = "bubble_opacity"

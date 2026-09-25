@@ -15,6 +15,7 @@ import android.text.TextPaint
 import android.view.MotionEvent
 import android.view.View
 import com.translateoverlay.core.Bidi
+import com.translateoverlay.core.BlockSource
 import com.translateoverlay.core.TextAlign
 import com.translateoverlay.core.TextFitter
 import com.translateoverlay.core.TranslatedBlock
@@ -35,9 +36,11 @@ class TranslationOverlayView(
 
     private class Item(
         val rect: RectF,
+        val textLeft: Float,
         val textTop: Float,
         val layout: StaticLayout,
         val background: Paint,
+        val outlineColor: Int?,
         var showTranslation: Boolean = true,
     )
 
@@ -100,7 +103,10 @@ class TranslationOverlayView(
             else -> box.top + ((bottom - box.top) - layout.height).coerceAtLeast(0) / 2f
         }
         val bg = Paint().apply { color = style.backgroundColor or (0xFF shl 24) }
-        return Item(RectF(box.left.toFloat(), box.top.toFloat(), box.right.toFloat(), bottom.toFloat()), textTop, layout, bg)
+        val rect = RectF(box.left.toFloat(), box.top.toFloat(), box.right.toFloat(), bottom.toFloat())
+        // OCR boxes hug the glyphs: widen the mask so outlines/anti-aliasing of the original don't show.
+        if (block.block.source == BlockSource.OCR) rect.inset(-OCR_MASK_PAD * fit.textSizePx, -OCR_MASK_PAD * fit.textSizePx)
+        return Item(rect, box.left.toFloat(), textTop, layout, bg, style.outlineColor)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -112,7 +118,8 @@ class TranslationOverlayView(
                 canvas.drawRect(item.rect, item.background)
                 canvas.save()
                 canvas.clipRect(item.rect)
-                canvas.translate(item.rect.left, item.textTop)
+                canvas.translate(item.textLeft, item.textTop)
+                item.outlineColor?.let { outline -> drawOutline(canvas, item.layout, outline) }
                 item.layout.draw(canvas)
                 canvas.restore()
             } else {
@@ -121,6 +128,19 @@ class TranslationOverlayView(
         }
         canvas.restore()
         drawCaption(canvas)
+    }
+
+    /** Meme/subtitle style: stroke the glyphs in the outline colour, then fill on top. */
+    private fun drawOutline(canvas: Canvas, layout: StaticLayout, outline: Int) {
+        val paint = layout.paint
+        val fill = paint.color
+        paint.style = Paint.Style.STROKE
+        paint.strokeJoin = Paint.Join.ROUND
+        paint.strokeWidth = paint.textSize * OUTLINE_WIDTH
+        paint.color = outline or (0xFF shl 24)
+        layout.draw(canvas)
+        paint.style = Paint.Style.FILL
+        paint.color = fill
     }
 
     private fun drawCaption(canvas: Canvas) {
@@ -156,5 +176,7 @@ class TranslationOverlayView(
 
     private companion object {
         const val MIN_TEXT_SP = 8f
+        const val OCR_MASK_PAD = 0.15f
+        const val OUTLINE_WIDTH = 0.12f
     }
 }
