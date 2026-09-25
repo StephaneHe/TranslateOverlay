@@ -26,3 +26,17 @@ Thumbs.db
 # Keystores
 *.jks
 *.keystore
+
+# Secrets / signing / service config
+*.p12
+*.pem
+.env
+*.env
+keystore.properties
+signing.properties
+google-services.json
+
+# Local debug artefacts
+*.bundle
+ui_dump.xml
+*.hprof
