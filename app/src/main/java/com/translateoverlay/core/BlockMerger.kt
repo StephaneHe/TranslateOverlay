@@ -9,17 +9,26 @@ package com.translateoverlay.core
  */
 object BlockMerger {
 
+    /**
+     * @param confirmLatinNodesWithOcr when a Latin OCR pass ran, drop Latin-script node texts with no
+     *   OCR text inside their bounds: they are not actually drawn (icon labels, visually hidden text).
+     */
     fun merge(
         nodes: List<TextBlock>,
         ocr: List<TextBlock>,
         overlapThreshold: Double = 0.5,
+        confirmLatinNodesWithOcr: Boolean = false,
     ): List<TextBlock> {
         val cleanNodes = dedupeNested(nodes)
         val ocrLines = ocr.flatMap { block -> block.lines.ifEmpty { listOf(TextLine(block.text, block.box)) } }
 
-        val enrichedNodes = cleanNodes.map { node ->
+        val enrichedNodes = cleanNodes.mapNotNull { node ->
             val inside = ocrLines.filter { node.box.containsPoint(it.box.centerX, it.box.centerY) }
-            if (inside.isEmpty()) node else node.copy(lines = inside.sortedBy { it.box.top })
+            when {
+                inside.isNotEmpty() -> node.copy(lines = inside.sortedBy { it.box.top })
+                confirmLatinNodesWithOcr && isMostlyLatin(node.text) -> null
+                else -> node
+            }
         }
 
         val keptOcr = ocr.filter { block ->
@@ -30,6 +39,17 @@ object BlockMerger {
         }
 
         return (enrichedNodes + keptOcr).sortedWith(compareBy({ it.box.top }, { it.box.left }))
+    }
+
+    fun isMostlyLatin(text: String): Boolean {
+        var letters = 0
+        var latin = 0
+        for (ch in text) {
+            if (!Character.isLetter(ch)) continue
+            letters++
+            if (Character.UnicodeScript.of(ch.code) == Character.UnicodeScript.LATIN) latin++
+        }
+        return letters > 0 && latin * 10 >= letters * 7
     }
 
     /**

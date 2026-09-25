@@ -41,6 +41,20 @@ class LanguageLogicTest {
     }
 
     @Test
+    fun `short blocks follow the dominant language`() {
+        assertEquals("en", LanguageVoter.resolve("cy", "en", textLength = 3))
+        assertEquals("de", LanguageVoter.resolve("de", "en", textLength = 80))
+        assertEquals("cy", LanguageVoter.resolve("cy", null, textLength = 3))
+    }
+
+    @Test
+    fun `dominant of blocks ignores short blocks unless all are short`() {
+        val votes = listOf("ro" to 4, "ro" to 5, "ro" to 6, "ro" to 7, "en" to 120)
+        assertEquals("en", LanguageVoter.dominantOfBlocks(votes))
+        assertEquals("ro", LanguageVoter.dominantOfBlocks(listOf("ro" to 4, "en" to 3)))
+    }
+
+    @Test
     fun `translatable filter`() {
         assertTrue(TranslatableFilter.isTranslatable("Hello"))
         assertTrue(TranslatableFilter.isTranslatable("中"))
@@ -50,6 +64,11 @@ class LanguageLogicTest {
         assertFalse(TranslatableFilter.isTranslatable("€ 3,50"))
         assertFalse(TranslatableFilter.isTranslatable("https://example.com/page"))
         assertFalse(TranslatableFilter.isTranslatable("john@doe.com"))
+        assertFalse(TranslatableFilter.isTranslatable("en.wikipedia.org/wiki/Cat"))
+        assertFalse(TranslatableFilter.isTranslatable("example.com"))
+        assertFalse(TranslatableFilter.isTranslatable("9 de.wikipedia.org/'"))
+        assertTrue(TranslatableFilter.isTranslatable("Visit example.com today"))
+        assertTrue(TranslatableFilter.isTranslatable("Hello. World"))
         assertFalse(TranslatableFilter.isTranslatable("x"))
     }
 

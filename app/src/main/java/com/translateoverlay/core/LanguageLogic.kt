@@ -33,17 +33,35 @@ object LanguageVoter {
             .maxByOrNull { it.value }
             ?.key
 
-    fun resolve(detected: String, dominant: String?): String =
-        if (detected == UNDETERMINED) dominant ?: UNDETERMINED else detected
+    /**
+     * Identification is unreliable on short strings ("Cat" → Welsh, "Talk" → Romanian), which would
+     * also trigger useless model downloads: short blocks follow the dominant language of the screen.
+     */
+    fun resolve(detected: String, dominant: String?, textLength: Int = Int.MAX_VALUE): String = when {
+        detected == UNDETERMINED -> dominant ?: UNDETERMINED
+        textLength < MIN_RELIABLE_LENGTH && dominant != null -> dominant
+        else -> detected
+    }
+
+    /** Votes of reliable (long enough) blocks only, unless there are none. */
+    fun dominantOfBlocks(votes: List<Pair<String, Int>>): String? =
+        dominant(votes.filter { it.second >= MIN_RELIABLE_LENGTH }) ?: dominant(votes)
+
+    const val MIN_RELIABLE_LENGTH = 20
 }
 
 /** Decides whether a text block is worth sending to the translator. */
 object TranslatableFilter {
-    private val urlOrEmail = Regex("""^(https?://|www\.)\S+$|^\S+@\S+\.\S+$""", RegexOption.IGNORE_CASE)
+    private val urlOrEmail = Regex(
+        """^(https?://|www\.)\S+$|^\S+@\S+\.\S+$|^[\w-]+(\.[\w-]+)*\.[a-z]{2,}(/\S*)?$""",
+        RegexOption.IGNORE_CASE,
+    )
+    private val WHITESPACE = Regex("\\s+")
 
     fun isTranslatable(text: String): Boolean {
-        val t = text.trim()
-        if (t.isEmpty() || urlOrEmail.matches(t)) return false
+        // URL-like tokens are removed first: OCR often glues icon glyphs to an address bar ("9 de.site.org/").
+        val t = text.trim().split(WHITESPACE).filterNot { urlOrEmail.matches(it) }.joinToString(" ")
+        if (t.isEmpty()) return false
         var letters = 0
         for (ch in t) {
             if (Character.isLetter(ch)) {

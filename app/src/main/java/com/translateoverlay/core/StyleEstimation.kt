@@ -73,10 +73,10 @@ object ColorEstimator {
     }
 
     /**
-     * Heuristic: mean horizontal ink run ≈ 9–13 % of the font size for regular weights (vertical
-     * stems plus some horizontal bars), ≥ 16 % for bold. To be tuned on real devices.
+     * Heuristic: mean horizontal ink run / font size. Measured on a real device (Chrome, Roboto):
+     * regular ≈ 0.14, bold ≈ 0.21.
      */
-    fun isBold(strokeRatio: Double): Boolean = strokeRatio >= 0.16
+    fun isBold(strokeRatio: Double): Boolean = strokeRatio >= 0.185
 
     private fun average(acc: IntArray): Int {
         val n = acc[0].coerceAtLeast(1)
@@ -102,11 +102,14 @@ object AlignmentEstimator {
 }
 
 object TextSizeEstimator {
-    /** OCR line boxes include ascenders/descenders: font size ≈ 0.8 × line height. */
+    /**
+     * OCR line boxes are tight on the ink (ascender top to descender bottom), which is about one em
+     * on a real device: font size ≈ line height.
+     */
     fun fromLines(lines: List<Box>): Float? {
         if (lines.isEmpty()) return null
         val heights = lines.map { it.height }.sorted()
-        return heights[heights.size / 2] * 0.8f
+        return heights[heights.size / 2].toFloat()
     }
 
     /** Fallback when only the node bounds are known (includes padding, hence the 1.5 factor). */

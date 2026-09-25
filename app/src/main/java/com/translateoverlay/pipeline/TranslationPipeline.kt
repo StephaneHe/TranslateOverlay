@@ -9,6 +9,7 @@ import com.translateoverlay.core.TextBlock
 import com.translateoverlay.core.TranslatableFilter
 import com.translateoverlay.core.TranslatedBlock
 import com.translateoverlay.core.UNDETERMINED
+import com.translateoverlay.settings.OcrScript
 import com.translateoverlay.settings.Settings
 import com.translateoverlay.translate.TranslationEngine
 import kotlinx.coroutines.withTimeout
@@ -35,12 +36,16 @@ class TranslationPipeline(
         val ocrBlocks = if (screenshot != null) runCatching { ocr.recognize(screenshot, settings.ocrScript) }
             .getOrElse { emptyList() } else emptyList()
 
-        val blocks = BlockMerger.merge(nodes, ocrBlocks).filter { TranslatableFilter.isTranslatable(it.text) }
+        // Only the Latin OCR model can vouch for Latin text being actually drawn on screen.
+        val confirmWithOcr = ocrBlocks.isNotEmpty() && settings.ocrScript == OcrScript.LATIN
+        val blocks = BlockMerger.merge(nodes, ocrBlocks, confirmLatinNodesWithOcr = confirmWithOcr)
+            .filter { TranslatableFilter.isTranslatable(it.text) }
         if (blocks.isEmpty()) return PipelineOutcome.NoResult("Aucun texte détecté à l'écran")
 
         val detected = blocks.map { runCatching { engine.identify(it.text) }.getOrDefault(UNDETERMINED) }
-        val dominant = LanguageVoter.dominant(detected.zip(blocks.map { it.text.length }))
-        val languages = detected.map { LanguageVoter.resolve(it, dominant) }
+        val lengths = blocks.map { it.text.length }
+        val dominant = LanguageVoter.dominantOfBlocks(detected.zip(lengths))
+        val languages = detected.mapIndexed { i, lang -> LanguageVoter.resolve(lang, dominant, lengths[i]) }
 
         val work = blocks.indices.filter { i ->
             val lang = languages[i]

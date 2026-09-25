@@ -42,6 +42,9 @@ class StyleEstimationTest {
     fun `thick strokes are bold, thin strokes are not`() {
         val thin = ColorEstimator.estimate(glyphs(white, black, 100, 5, 2), 100, 5, 20f)!!
         val thick = ColorEstimator.estimate(glyphs(white, black, 100, 5, 4), 100, 5, 20f)!!
+        // Ratios measured on a real screenshot: regular 0.14, bold 0.21.
+        assertFalse(ColorEstimator.isBold(0.14))
+        assertTrue(ColorEstimator.isBold(0.21))
         assertFalse(ColorEstimator.isBold(thin.strokeRatio))
         assertTrue(ColorEstimator.isBold(thick.strokeRatio))
     }
@@ -69,7 +72,7 @@ class StyleEstimationTest {
     @Test
     fun `text size from median line height`() {
         val lines = listOf(Box(0, 0, 10, 20), Box(0, 0, 10, 30), Box(0, 0, 10, 100))
-        assertEquals(24f, TextSizeEstimator.fromLines(lines)!!, 0.01f)
+        assertEquals(30f, TextSizeEstimator.fromLines(lines)!!, 0.01f)
         assertNull(TextSizeEstimator.fromLines(emptyList()))
         assertEquals(20f, TextSizeEstimator.fromBlock(Box(0, 0, 10, 60), "a\nb", 10f, 50f), 0.01f)
         assertEquals(10f, TextSizeEstimator.fromBlock(Box(0, 0, 10, 6), "a", 10f, 50f), 0.01f)

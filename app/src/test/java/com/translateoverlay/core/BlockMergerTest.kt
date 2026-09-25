@@ -64,6 +64,35 @@ class BlockMergerTest {
     }
 
     @Test
+    fun `latin node without ocr evidence is dropped when confirmation is on`() {
+        val nodes = listOf(node("Download PDF", 0, 0, 40, 40), node("Visible title", 0, 100, 300, 150))
+        val ocrBlocks = listOf(ocr("Visible title", 5, 110, 290, 140))
+
+        val confirmed = BlockMerger.merge(nodes, ocrBlocks, confirmLatinNodesWithOcr = true)
+        val unconfirmed = BlockMerger.merge(nodes, ocrBlocks, confirmLatinNodesWithOcr = false)
+
+        assertEquals(listOf("Visible title"), confirmed.map { it.text })
+        assertEquals(2, unconfirmed.size)
+    }
+
+    @Test
+    fun `non latin node is kept even without ocr evidence`() {
+        val merged = BlockMerger.merge(
+            listOf(node("日本語のテキスト", 0, 0, 200, 40)),
+            listOf(ocr("Other", 0, 500, 100, 540)),
+            confirmLatinNodesWithOcr = true,
+        )
+        assertEquals(2, merged.size)
+    }
+
+    @Test
+    fun `mostly latin detection`() {
+        assertTrue(BlockMerger.isMostlyLatin("Hello, world!"))
+        assertTrue(!BlockMerger.isMostlyLatin("Привет мир"))
+        assertTrue(!BlockMerger.isMostlyLatin("12:45"))
+    }
+
+    @Test
     fun `blank and empty nodes are ignored`() {
         val merged = BlockMerger.merge(listOf(node("  ", 0, 0, 10, 10), node("x", 5, 5, 5, 20)), emptyList())
         assertTrue(merged.isEmpty())
