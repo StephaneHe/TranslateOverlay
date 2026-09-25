@@ -108,6 +108,35 @@ class BlockMergerTest {
     }
 
     @Test
+    fun `stacked nodes keep the one the ocr sees`() {
+        // ynet news flash: visible headline + collapsed body at the same place.
+        val headline = node("הרוג בתאונה בבקעת הירדן, 3 פצועים", 40, 380, 900, 460)
+        val body = node("תאונת דרכים בהשתתפות ארבעה כלי רכב התרחשה בכביש 90 ליד מחולה", 40, 380, 1000, 520)
+        val seen = TextLine("הרוג בתאונה בבקעת הירדן, 3 פצועים", Box(60, 390, 880, 440), 0.9f)
+
+        val kept = BlockMerger.resolveStacked(listOf(headline, body), listOf(seen))
+
+        assertEquals(listOf(headline), kept)
+        // No OCR at all: nothing is dropped.
+        assertEquals(2, BlockMerger.resolveStacked(listOf(headline, body), emptyList()).size)
+    }
+
+    @Test
+    fun `ocr in another alphabet over app text is a misreading`() {
+        val nodes = listOf(node("hébreu vers français", 180, 350, 633, 399))
+        val garbage = ocr("הבזה ורס פרנסז", 180, 355, 600, 395)
+        assertTrue(BlockMerger.merge(nodes, listOf(garbage)).none { it.source == BlockSource.OCR })
+    }
+
+    @Test
+    fun `text inside an image node named in latin is kept`() {
+        // Chrome exposes an <img> without alt as its file name, covering the whole banner.
+        val image = node("banner0.png", 0, 215, 1080, 1290)
+        val line = ocr("יש הצעות שחייבים לקחת", 192, 798, 890, 858)
+        assertTrue(BlockMerger.merge(listOf(image), listOf(line)).any { it.source == BlockSource.OCR })
+    }
+
+    @Test
     fun `blank and empty nodes are ignored`() {
         val merged = BlockMerger.merge(listOf(node("  ", 0, 0, 10, 10), node("x", 5, 5, 5, 20)), emptyList())
         assertTrue(merged.isEmpty())

@@ -3,6 +3,38 @@
 Toutes les évolutions notables de ce projet sont documentées ici.
 Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), versionnage [SemVer](https://semver.org/lang/fr/).
 
+## [1.3.0] - 2026-09-25
+
+Hébreu → français sur ynet.co.il (site de référence), y compris le texte **dans** les images, sans
+choix manuel d'alphabet. Mis au point sur 5 vraies bannières ynet et 4 écrans de la page d'accueil
+(Doogee V30T) ; captures dans `docs/screenshots/ynet/`.
+
+### Modifié
+- Modèle OCR hébreu : `tessdata_best` (3,7 Mo) au lieu de `tessdata_fast` — lit les polices
+  publicitaires condensées (« לרכישת מנוי », « יש הצעות שחייבים לקחת ») que le modèle rapide ratait.
+- OCR automatique par ligne : chaque ligne latine douteuse (< 0,7 quand un autre alphabet est
+  présent à l'écran) est relue par le modèle de cet alphabet ; recadrages préparés pour Tesseract
+  (inversion du texte clair sur fond sombre, agrandissement ×2/×3 des petites lignes).
+- Passes hébreu plein écran en mode « texte épars » à 3 échelles (1, ½, ¼) : texte sur images
+  chargées et gros titres (100 px et plus) ; ~1,3 s.
+- Sans texte hébreu dans la page, la passe hébreu est lancée si plusieurs lignes douteuses restent
+  sans lecture ; les essais de relecture « à l'aveugle » sont limités à 2 (13,6 s → 3–5 s).
+
+### Corrigé
+- Charabia latin conservé quand l'écran contient un autre alphabet (« Mann n jpn n colmob »,
+  « DpU 2.10 NT! ») : lignes latines < 0,7 écartées dans ce cas.
+- Barre d'adresse et barre d'état traduites : l'OCR ignore les champs de saisie et les fenêtres
+  système (zones issues de l'arbre d'accessibilité).
+- Lectures superposées d'une même zone (bannière lue d'un bloc + sa vraie ligne) : dédoublonnage
+  par confiance avec bonus de complétude ; lignes identiques émises une seule fois.
+- Menu ynet fusionné sans espaces (« כותרותמבזקים… ») : éléments d'une même ligne séparés par un
+  espace visible traités comme éléments distincts, aussi de droite à gauche.
+- Corps de dépêches repliés (ynet « מבזקים ») traduits par-dessus les titres : nœuds web hors de
+  leur conteneur écartés, nœuds empilés départagés par ce que l'OCR voit réellement.
+- Charabia hébreu issu de petit texte latin (identifié comme yiddish, non traduisible) écarté.
+- Texte d'application relu dans un autre alphabet par l'OCR (« hébreu vers français » de Chrome
+  lu comme de l'hébreu) écarté, sans toucher au texte des images nommées en latin.
+
 ## [1.2.0] - 2026-09-25
 
 Correctif « Les images ne sont pas traduites » (diagnostiqué et validé sur Doogee V30T, Android 12).

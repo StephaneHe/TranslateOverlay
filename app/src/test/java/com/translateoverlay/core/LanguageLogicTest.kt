@@ -73,6 +73,13 @@ class LanguageLogicTest {
     }
 
     @Test
+    fun `ocr text in an untranslatable language is noise`() {
+        assertTrue(LanguageVoter.isOcrNoise("yi", translatable = false))
+        assertFalse(LanguageVoter.isOcrNoise("he", translatable = true))
+        assertFalse(LanguageVoter.isOcrNoise(UNDETERMINED, translatable = false))
+    }
+
+    @Test
     fun `dominant of blocks ignores short blocks unless all are short`() {
         val votes = listOf("ro" to 4, "ro" to 5, "ro" to 6, "ro" to 7, "en" to 120)
         assertEquals("en", LanguageVoter.dominantOfBlocks(votes))

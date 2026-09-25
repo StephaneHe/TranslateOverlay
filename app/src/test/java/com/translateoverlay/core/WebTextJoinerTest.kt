@@ -84,6 +84,31 @@ class WebTextJoinerTest {
     }
 
     @Test
+    fun `rtl menu items on one line are separate blocks`() {
+        // ynet menu: items of one element, laid out right to left with spacing.
+        val menu = Any()
+        val blocks = WebTextJoiner.join(
+            listOf(
+                run("כותרות", menu, 900, 430, 1050, 468),
+                run("מבזקים", menu, 700, 430, 850, 468),
+                run("חדשות", menu, 520, 430, 650, 468),
+            ),
+        )
+        assertEquals(listOf("כותרות", "מבזקים", "חדשות"), blocks.map { it.text })
+        // Flowing RTL text runs (no gap) still join.
+        assertFalse(WebTextJoiner.sideBySideItems(Box(600, 430, 1000, 468), Box(300, 430, 600, 468)))
+    }
+
+    @Test
+    fun `collapsed content outside its container is clipped away`() {
+        // ynet news flash item (container 380..620) with its collapsed body laid out below it.
+        val container = Box(0, 380, 1080, 620)
+        assertTrue(WebTextJoiner.isClippedAway(Box(40, 600, 1040, 1100), container))
+        assertFalse(WebTextJoiner.isClippedAway(Box(40, 400, 900, 470), container)) // headline
+        assertFalse(WebTextJoiner.isClippedAway(Box(0, 0, 0, 0), container))
+    }
+
+    @Test
     fun `heading followed by paragraph stays separate`() {
         val blocks = WebTextJoiner.join(
             listOf(run("Title", p1, 0, 0, 300, 60), run("Body text", p2, 0, 80, 900, 130)),

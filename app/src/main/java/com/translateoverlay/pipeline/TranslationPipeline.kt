@@ -6,6 +6,8 @@ import android.util.Log
 import com.translateoverlay.capture.OcrRecognizer
 import com.translateoverlay.core.BlockMerger
 import com.translateoverlay.core.BlockSource
+import com.translateoverlay.core.Box
+import com.translateoverlay.core.OcrLines
 import com.translateoverlay.core.CaseStyle
 import com.translateoverlay.core.LanguageScripts
 import com.translateoverlay.core.LanguageTags
@@ -37,15 +39,18 @@ class TranslationPipeline(
         nodes: List<TextBlock>,
         screenshot: Bitmap?,
         settings: Settings,
+        ignoreZones: List<Box> = emptyList(),
         onProgress: (String) -> Unit,
     ): PipelineOutcome {
         val target = settings.targetLanguage
         val ocrStart = SystemClock.uptimeMillis()
         val hints = ScriptDetector.hints(nodes.map { it.text })
-        val ocrResult = if (screenshot != null) runCatching { ocr.recognize(screenshot, settings.ocrScript, hints) }
+        val ocrResult = if (screenshot != null) runCatching { ocr.recognize(screenshot, settings.ocrScript, hints, ignoreZones) }
             .onFailure { Log.w(TAG, "OCR ${settings.ocrScript} failed", it) }
             .getOrNull() else null
-        val ocrBlocks = ocrResult?.blocks.orEmpty()
+        val ocrBlocks = ocrResult?.blocks.orEmpty().filter { b ->
+            !OcrLines.inZones(b.box, ignoreZones).also { if (it) Diag.log { "ocr in ignore zone ${Diag.describe(b)}" } }
+        }
         val ocrCovers = ocrResult?.covers ?: settings.ocrScript.covers
         if (screenshot != null) {
             Log.i(TAG, "OCR ${settings.ocrScript}: ${ocrBlocks.size} blocks in ${SystemClock.uptimeMillis() - ocrStart} ms")
@@ -99,7 +104,8 @@ class TranslationPipeline(
         val trustOcr = dominant == null || LanguageScripts.isReadableBy(dominant, ocrCovers)
         val work = blocks.indices.filter { i ->
             val lang = languages[i]
-            ((trustOcr || blocks[i].source != BlockSource.OCR) &&
+            val noise = blocks[i].source == BlockSource.OCR && LanguageVoter.isOcrNoise(detected[i], engine.isSupported(detected[i]))
+            (!noise && (trustOcr || blocks[i].source != BlockSource.OCR) &&
                 lang != UNDETERMINED && !LanguageTags.sameLanguage(lang, target) && engine.isSupported(lang))
                 .also { Diag.log { "lang ${detected[i]}->$lang work=$it trustOcr=$trustOcr ${Diag.describe(blocks[i])}" } }
         }

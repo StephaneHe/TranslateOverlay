@@ -12,6 +12,13 @@ package com.translateoverlay.core
  */
 object WebTextJoiner {
 
+    /**
+     * Web content clipped by an ancestor (collapsed news-flash bodies with `overflow: hidden` on
+     * ynet) is reported "visible" by Chrome although most of it lies outside its container.
+     */
+    fun isClippedAway(own: Box, clip: Box): Boolean =
+        !own.isEmpty && own.intersect(clip).area * 10 < own.area * 7
+
     data class Run(val text: String, val box: Box, val group: Any)
 
     fun join(runs: List<Run>): List<TextBlock> {
@@ -39,7 +46,20 @@ object WebTextJoiner {
     }
 
     private fun joins(prev: Run, next: Run): Boolean =
-        continuesLine(prev.box, next.box) || (next.group === prev.group && !separatedByGap(prev.box, next.box))
+        continuesLine(prev.box, next.box) ||
+            (next.group === prev.group && !separatedByGap(prev.box, next.box) && !sideBySideItems(prev.box, next.box))
+
+    /**
+     * Menu/tab items of the same element laid out on one line with visible spacing (ynet's
+     * "כותרות  מבזקים  חדשות…" menu, concatenated without spaces in the tree): separate items.
+     * Works in both directions (RTL items are laid out right to left).
+     */
+    fun sideBySideItems(prev: Box, next: Box): Boolean {
+        val small = minOf(prev.height, next.height).coerceAtLeast(1)
+        val verticalOverlap = minOf(prev.bottom, next.bottom) - maxOf(prev.top, next.top)
+        val horizontalGap = maxOf(next.left - prev.right, prev.left - next.right)
+        return verticalOverlap * 2 >= small && horizontalGap > maxOf(MIN_GAP_PX, small / 2)
+    }
 
     /**
      * True when [next] starts clearly below [prev]: consecutive lines of a paragraph touch (line
@@ -55,8 +75,9 @@ object WebTextJoiner {
         // Tolerance so that runs merely touching vertically (stacked blocks) do not count.
         val tolerance = minOf(prev.height, next.height) / 4
         val sameLine = next.top >= prev.top && next.top < prev.bottom - tolerance && next.bottom > prev.bottom - tolerance
-        // Flowing text runs touch (spaces belong to the runs); separate items (tabs, buttons) leave a gap.
-        val gap = next.left - prev.right
+        // Flowing text runs touch (spaces belong to the runs); separate items (tabs, buttons) leave a
+        // gap, on either side (RTL runs flow right to left).
+        val gap = maxOf(next.left - prev.right, prev.left - next.right)
         return (sameLine && gap <= tolerance) || isSuperscriptNeighbour(prev, next)
     }
 

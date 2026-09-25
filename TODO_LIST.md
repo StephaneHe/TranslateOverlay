@@ -23,3 +23,5 @@
 - [ ] 2026-09-25 18:25 — Post-MVP : OCR multi-écriture simultané (latin + hébreu) pour les écrans mixtes
 - [x] 2026-09-25 19:31 — Bug « Les images ne sont pas traduites » : cause = blocs web fusionnés dont le cadre englobait l'image + absorption OCR purement géométrique ; corrigé (absorption par texte, séparation par espacement), OCR automatique multi-alphabet, style mèmes/majuscules/UI ; 1.2.0 validée sur V30T (article, mème, image hébraïque, photo Wikipédia, Google Photos — docs/screenshots/images) (fait 2026-09-25 19:31)
 - [ ] 2026-09-25 19:31 — Post-MVP : OCR des vidéos en lecture (capture pendant la lecture, sous-titres incrustés)
+- [x] 2026-09-25 20:29 — ynet.co.il (hébreu→français, images comprises) : modèle Tesseract best, OCR par ligne, passes éparses multi-échelles, zones ignorées, nœuds repliés/empilés, bruit yiddish ; 1.3.0 (74 tests) (fait 2026-09-25 20:29)
+- [ ] 2026-09-25 20:29 — À valider sur device : 1.3.0 sur la page d'accueil ynet réelle (4 écrans, captures 01–04 perdues lors de l'interruption), temps de traduction (visé ≤ 5 s), non-régression article anglais / mème / Google Photos

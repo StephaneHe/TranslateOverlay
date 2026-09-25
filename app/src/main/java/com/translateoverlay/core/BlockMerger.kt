@@ -21,8 +21,8 @@ object BlockMerger {
         overlapThreshold: Double = 0.5,
         confirmLatinNodesWithOcr: Boolean = false,
     ): List<TextBlock> {
-        val cleanNodes = dedupeNested(nodes)
         val ocrLines = ocr.flatMap { block -> block.lines.ifEmpty { listOf(TextLine(block.text, block.box)) } }
+        val cleanNodes = resolveStacked(dedupeNested(nodes), ocrLines)
 
         val enrichedNodes = cleanNodes.mapNotNull { node ->
             val inside = ocrLines.filter {
@@ -40,12 +40,52 @@ object BlockMerger {
             if (area == 0L) return@filter false
             val overlapping = cleanNodes.filter { it.box.intersectionArea(block.box) > 0 }
             val covered = overlapping.sumOf { it.box.intersectionArea(block.box) }
-            val sameText = TextMatch.matches(block.text, overlapping.joinToString(" ") { it.text })
-            !(covered.toDouble() / area >= overlapThreshold && sameText)
+            val nodeText = overlapping.joinToString(" ") { it.text }
+            val sameText = TextMatch.matches(block.text, nodeText)
+            // Same place, other alphabet: a model forced app text into its own script (Chrome's
+            // "hébreu vers français" read by Tesseract as Hebrew-looking garbage). Only for nodes
+            // hugging the OCR text: an image node (file name, alt text) covering a whole banner
+            // says nothing about the text drawn inside it.
+            val ocrScript = ScriptDetector.dominant(block.text)
+            val nodeScript = ScriptDetector.dominant(nodeText)
+            val hugging = overlapping.sumOf { it.box.area } <= area * MAX_HUGGING_RATIO
+            val misread = hugging && ocrScript != null && nodeScript != null && ocrScript != nodeScript
+            !(covered.toDouble() / area >= overlapThreshold && (sameText || misread))
         }
 
         return (enrichedNodes + keptOcr).sortedWith(compareBy({ it.box.top }, { it.box.left }))
     }
+
+    /**
+     * Text nodes stacked on top of each other (collapsed news-flash bodies on ynet, still "visible"
+     * in the tree): only one of them is actually drawn. The one whose words the OCR reads on screen
+     * wins; without OCR evidence, the shortest (the visible headline, not the hidden body).
+     */
+    fun resolveStacked(nodes: List<TextBlock>, ocrLines: List<TextLine>): List<TextBlock> {
+        if (ocrLines.isEmpty()) return nodes
+        fun evidence(node: TextBlock): Int {
+            val nodeWords = TextMatch.words(node.text).toHashSet()
+            return ocrLines.filter { node.box.containsPoint(it.box.centerX, it.box.centerY) }
+                .sumOf { line -> TextMatch.words(line.text).count { it in nodeWords } }
+        }
+        val scores = nodes.associateWith(::evidence)
+        return nodes.filter { node ->
+            nodes.none { other ->
+                other !== node && stacked(node.box, other.box) && run {
+                    val mine = scores.getValue(node)
+                    val theirs = scores.getValue(other)
+                    theirs > mine || (theirs == mine && other.text.length < node.text.length)
+                }
+            }
+        }
+    }
+
+    private fun stacked(a: Box, b: Box): Boolean {
+        val inter = a.intersectionArea(b)
+        return inter > 0 && inter * 2 > minOf(a.area, b.area)
+    }
+
+    private const val MAX_HUGGING_RATIO = 4
 
     fun isMostlyLatin(text: String): Boolean {
         var letters = 0

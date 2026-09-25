@@ -158,7 +158,8 @@ class OverlayAccessibilityService : AccessibilityService() {
         val startedAt = SystemClock.uptimeMillis()
         val s = settingsRepo.settings.value
         val screen = ScreenMetrics.bounds(this)
-        val nodes = NodeTextCollector.collect(windows, packageName, screen)
+        val screenText = NodeTextCollector.collect(windows, packageName, screen)
+        val nodes = screenText.blocks
 
         val screenshot = if (s.ocrEnabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             bubble.setHidden(true)
@@ -173,7 +174,7 @@ class OverlayAccessibilityService : AccessibilityService() {
         }
 
         val outcome = try {
-            pipeline.run(nodes, screenshot, s) { toast(it) }
+            pipeline.run(nodes, screenshot, s, screenText.ignoreZones) { toast(it) }
         } finally {
             screenshot?.recycle()
         }

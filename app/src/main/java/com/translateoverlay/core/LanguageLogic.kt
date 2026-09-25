@@ -62,6 +62,13 @@ object LanguageVoter {
         shortLabelsPlausibleInTarget.isNotEmpty() &&
             shortLabelsPlausibleInTarget.count { it } * 2 >= shortLabelsPlausibleInTarget.size
 
+    /**
+     * OCR noise: text read in an image but identified as a real language we cannot translate. On
+     * ynet, Tesseract turned a tiny Latin weather strip into Hebrew-letter garbage identified as
+     * Yiddish ("7 מו 6זוטסזד"): it must be dropped, not assigned to the dominant language.
+     */
+    fun isOcrNoise(detected: String, translatable: Boolean): Boolean = detected != UNDETERMINED && !translatable
+
     /** Votes of reliable (long enough) blocks only, unless there are none. */
     fun dominantOfBlocks(votes: List<Pair<String, Int>>): String? =
         dominant(votes.filter { it.second >= MIN_RELIABLE_LENGTH }) ?: dominant(votes)
