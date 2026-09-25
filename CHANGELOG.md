@@ -3,6 +3,39 @@
 Toutes les évolutions notables de ce projet sont documentées ici.
 Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), versionnage [SemVer](https://semver.org/lang/fr/).
 
+## [1.2.0] - 2026-09-25
+
+Correctif « Les images ne sont pas traduites » (diagnostiqué et validé sur Doogee V30T, Android 12).
+
+### Corrigé
+- **Texte des images écarté dans les pages web (cause principale).** Chrome expose les textes
+  d'une page comme éléments frères : ils étaient fusionnés en un seul bloc dont le cadre englobait
+  les images situées entre eux, et tout bloc OCR couvert à plus de 50 % par ce cadre était supprimé
+  (« SUMMER SALE » absorbé par le paragraphe « Our store news… »). Désormais :
+  - les fragments web d'un même élément séparés par un espace vertical ne sont plus fusionnés ;
+  - un bloc OCR n'est absorbé par le texte d'accessibilité que s'il lit **le même texte**
+    (comparaison par mots, tolérante aux erreurs d'OCR), pas sur la seule géométrie ;
+  - les lignes OCR ne sont rattachées à un bloc d'accessibilité que si elles en lisent le texte.
+- Renvois « [1] » en exposant qui coupaient un paragraphe Wikipédia en deux.
+- Mèmes (texte blanc cerné de noir sur photo) rendus en couleurs inversées : le fond est désormais
+  mesuré sur un anneau autour du texte (médiane par canal), le contour est détecté et redessiné.
+- Masque de l'overlay trop juste sur les images : le texte d'origine débordait sur les bords.
+- Libellés courts de l'interface déjà dans la langue cible (« Partager », « Modifier »,
+  « 25 sept. ») retraduits parce qu'identifiés comme danois ou indéterminés.
+- Textes tout en majuscules traduits en minuscules : la casse est conservée (« VENTE D'ÉTÉ »).
+- Bruit OCR de la barre d'outils du navigateur (« A O localhost… + 33 ») traduit.
+
+### Ajouté
+- **OCR automatique multi-alphabet (nouveau réglage par défaut « Automatique »)** : l'utilisateur
+  n'a plus à choisir l'alphabet. Le modèle latin lit l'écran ; les lignes où il doute (confiance
+  < 0,5, mesurée à 0,33 sur de l'hébreu contre 0,77–0,92 sur du vrai latin) sont relues avec
+  Tesseract hébreu puis les modèles chinois, japonais, coréen, devanagari ; dès qu'un alphabet est
+  identifié, tout l'écran est relu avec son modèle. Les alphabets présents dans le texte
+  d'accessibilité déclenchent aussi une passe complète. Coût mesuré : 0,3–0,9 s d'OCR par écran.
+  Les choix manuels restent disponibles ; l'ancien choix (latin par défaut) est réinitialisé.
+- Journal de diagnostic du pipeline (`adb logcat -s TO-Diag`, builds debug) : capture, blocs OCR
+  bruts avec confiance, absorptions, filtres, langues, décisions.
+
 ## [1.1.0] - 2026-09-25
 
 Support complet de l'hébreu (validé sur Doogee V30T, Android 12).

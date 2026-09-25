@@ -37,9 +37,10 @@ Android < 11 (API < 30), dégradation gracieuse : arbre d'accessibilité seul, s
 
 ### 2.2 Fusion arbre + OCR
 
-Les blocs de l'arbre sont prioritaires (texte exact). Un bloc OCR est conservé seulement s'il ne
-recouvre pas significativement (> 50 % de sa surface) un bloc de l'arbre — typiquement le texte d'une
-image, d'une vidéo en pause ou d'un canvas. Logique pure `BlockMerger`, testée unitairement.
+Les blocs de l'arbre sont prioritaires (texte exact). Un bloc OCR est écarté seulement s'il est
+couvert à plus de 50 % par des blocs de l'arbre **qui lisent le même texte** (comparaison par mots) :
+la géométrie seule ne suffit pas, le cadre d'un conteneur web peut englober une image (bug 1.1.0 :
+texte des images supprimé). Logique pure `BlockMerger`, testée unitairement.
 
 ### 2.3 Traduction
 
@@ -82,6 +83,22 @@ devanagari uniquement). Options évaluées :
 Tesseract est exposé comme écriture OCR « Hébreu ». Garde-fou : quand l'écriture dominante de
 l'écran n'est pas lisible par le modèle OCR choisi, les blocs issus de l'OCR sont ignorés et
 l'alignement mesuré sur ses lignes n'est pas utilisé.
+
+### 2.5 ter OCR automatique multi-alphabet (ajout 1.2.0)
+
+Constat sur appareil : le modèle latin de ML Kit renvoie du texte incohérent mais **avec une faible
+confiance** sur les alphabets qu'il ne lit pas (hébreu lu « T272 Dh TOPn yYNn », confiance 0,33)
+alors que du vrai texte latin obtient 0,77–0,92. Stratégie retenue (coût 0,3–0,9 s mesuré) :
+
+1. OCR latin sur tout l'écran (toujours) ;
+2. alphabets présents dans le texte d'accessibilité (≥ 12 lettres) → passe complète de leur modèle ;
+3. lignes latines douteuses (< 0,5) en forme de ligne (≥ 4 caractères) → relecture du recadrage
+   par Tesseract hébreu puis ML Kit chinois/japonais/coréen/devanagari ; score = confiance × part de
+   lettres dans l'alphabet du modèle ; un alphabet découvert déclenche une passe complète ;
+4. les lignes d'un modèle spécialisé doivent être plausibles (≥ 3 lettres de l'alphabet, lettres
+   majoritaires) et ne pas recouvrir une zone lue avec confiance par le modèle latin.
+
+Écarté : lancer tous les modèles à chaque fois (≈ 2–3 s, faux positifs sur les icônes).
 
 ### 2.6 Reproduction du style
 
