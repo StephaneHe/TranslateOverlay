@@ -3,6 +3,15 @@
 Toutes les évolutions notables de ce projet sont documentées ici.
 Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), versionnage [SemVer](https://semver.org/lang/fr/).
 
+## [1.4.1] - 2026-09-25
+
+### Modifié
+- Azure et Google Cloud ne sont plus présentés comme recommandés (décision : pas de clé payante ni
+  de carte bancaire) ; le code reste disponible. ML Kit reste le moteur par défaut.
+- Étude des moteurs complétée avec 10 modèles de l'API catalogue NVIDIA (essai gratuit, sans
+  carte) : Gemma 4 31B meilleur en he→fr (chrF++ 72,9) mais 2 à 4 min par écran → non intégré ;
+  recommandation révisée : traduction sur l'appareil avec NLLB-200 600M (`docs/TRANSLATION_ENGINES.md`).
+
 ## [1.4.0] - 2026-09-25
 
 Qualité de traduction (« les traductions sont mauvaises »). Étude et mesures :

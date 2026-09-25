@@ -29,3 +29,5 @@
 - [ ] 2026-09-25 21:02 — À valider sur device : écran Paramètres › Moteur de traduction, enregistrement/test/suppression de clé, repli ML Kit sans réseau, légende « · Azure » dans l'overlay, 1.3.0/1.4.0 sur ynet réel
 - [ ] 2026-09-25 21:02 — Attente utilisateur : choix du moteur en ligne (Azure recommandé / Google Cloud) et clé API
 - [ ] 2026-09-25 21:02 — Post-MVP : moteur hors-ligne de meilleure qualité (Opus-MT/Bergamot int8 via ONNX Runtime, he→en→fr, +8 à +10 chrF sur ML Kit)
+- [x] 2026-09-25 22:59 — Évaluation NVIDIA API catalogue (10 modèles, 50 requêtes/150, 0 × 429) : Gemma 4 31B he→fr 72,9 mais écran p50 135 s → non intégré ; recommandation révisée NLLB-200 600M on-device (fait 2026-09-25 22:59)
+- [ ] 2026-09-25 22:59 — Attente utilisateur : intégrer NLLB-200 600M sur l'appareil ? et/ou mode « lecture différée » NVIDIA avec sa propre clé ?

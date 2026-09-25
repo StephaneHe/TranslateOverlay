@@ -11,8 +11,8 @@ android {
         applicationId = "com.translateoverlay"
         minSdk = 26
         targetSdk = 35
-        versionCode = 6
-        versionName = "1.4.0"
+        versionCode = 7
+        versionName = "1.4.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         // ML Kit ships ~28 MB of native code per ABI: keep phone ABIs only (add "x86_64" for emulators).
         ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a") }

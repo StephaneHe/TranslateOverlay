@@ -6,8 +6,9 @@ import org.json.JSONObject
 /** Translation engines offered in the settings (see docs/TRANSLATION_ENGINES.md). */
 enum class TranslationProvider(val label: String, val online: Boolean) {
     MLKIT("ML Kit (hors-ligne, sur l'appareil)", online = false),
-    AZURE("Microsoft Azure Translator (en ligne, recommandé)", online = true),
-    GOOGLE_CLOUD("Google Cloud Translation (en ligne)", online = true),
+    // Not recommended any more (user decision 2026-09-25: no paid key / credit card); kept for later.
+    AZURE("Microsoft Azure Translator (en ligne, clé + carte bancaire)", online = true),
+    GOOGLE_CLOUD("Google Cloud Translation (en ligne, clé + carte bancaire)", online = true),
 }
 
 fun TranslationProvider.shortLabel(): String = when (this) {
