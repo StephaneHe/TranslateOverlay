@@ -36,6 +36,8 @@
 - [x] 2026-09-26 09:00 — Signe visuel du modèle utilisé : pastille d'état à la place de la bulle (bleu en cours / vert U / jaune S / orange K) + repère par bloc (● ▲ ■ ○), option dans Paramètres ; 1.6.0 (101 tests) ; validé sur émulateur (vert, jaune simulé, orange hors-ligne) et sur V30T (en cours → vert, ynet) (fait 2026-09-26 09:30)
 - [ ] 2026-09-26 09:30 — Clé NVIDIA à saisir par l'utilisateur dans Paramètres › Moteur sur le V30T (la clé de test a été effacée ; 1.6.0 debug installée)
 - [x] 2026-09-26 09:35 — Validation V30T sans clé (ML Kit seul) : ynet he→fr texte + images, Wikipédia en→fr et en→he, repères orange (RTL à gauche) ; overlay 4,2–5,7 s (ynet, OCR 3,7 s) et 1,1–2,8 s (Wikipédia) ; captures docs/screenshots/device/ (fait 2026-09-26 09:35)
+- [x] 2026-09-26 10:30 — Une seule requête par écran (blocs numérotés, placement au fil du flux, secours groupé pour les blocs manquants) ; 1.7.0 (106 tests) ; émulateur : 1 requête/écran au lieu de 3–7, écran complet +3,0 à +5,2 s (fait 2026-09-26 10:30)
+- [ ] 2026-09-26 10:30 — Mesurer 1.7.0 sur le V30T avec la clé de l'utilisateur (débranché pendant la mesure)
 - [ ] 2026-09-26 09:35 — Avec la clé de l'utilisateur sur le V30T : vérifier Ultra (vert), secours Super (jaune) et repli ML Kit (orange) sur ynet et Wikipédia
 - [ ] 2026-09-26 09:35 — Bug : l'overlay reste affiché (et se décale) si la page change sous lui dans la même appli (URL ouverte dans Chrome par un intent, bannière qui se recharge) ; seul un changement d'appli le ferme — fermer sur changement de fenêtre/défilement de l'appli au premier plan
 - [ ] 2026-09-26 09:35 — ynet : les très gros titres hébreux des bannières image (« ראשון מתנה! », « יש הצעות שחייבים לקחת ») ne sont pas lus par l'OCR

@@ -156,14 +156,20 @@ object GoogleCloudProtocol {
  * NVIDIA API catalog (build.nvidia.com, free trial, no card): OpenAI-compatible
  * POST https://integrate.api.nvidia.com/v1/chat/completions, "Authorization: Bearer KEY",
  * streamed (server-sent events). Measured 2026-09-26 (docs/TRANSLATION_ENGINES.md §7): with
- * reasoning off and one line per block, a 15-block screen takes ~4 s instead of 1–4 min.
+ * reasoning off, a 15-block screen in ONE request takes p50 4,2 s / p95 6,9 s (6,0 / 8,7 s in
+ * parallel chunks), so a screen is one numbered request whose answer lines are placed on the
+ * blocks as they stream in.
  */
 object NvidiaProtocol {
     const val ENDPOINT = "https://integrate.api.nvidia.com/v1/chat/completions"
-    /** Blocks per request: small requests come back sooner and fail alone. */
-    const val ITEMS_PER_REQUEST = 4
-    /** Generation, not queueing, dominates a long chunk (6 blocks / ~700 chars: 16 s on 2026-09-26). */
-    const val MAX_CHARS = 500
+
+    /**
+     * A screen is split only beyond this many source characters (a busy article screen is
+     * ~1 500–2 500): the answer budget ([maxTokens]) then stays under [MAX_OUTPUT_TOKENS], well
+     * inside the models' context, and one request stays under ~20 s of generation.
+     */
+    const val MAX_CHARS_PER_REQUEST = 4_000
+    const val MAX_OUTPUT_TOKENS = 8_192
 
     /** @property label shown in the overlay caption. */
     data class Model(val id: String, val label: String)
@@ -183,20 +189,26 @@ object NvidiaProtocol {
     fun languageName(code: String): String =
         java.util.Locale.forLanguageTag(code).getDisplayLanguage(java.util.Locale.ENGLISH).ifBlank { code }
 
-    /** One block per line; the answer must have exactly as many lines. */
-    fun body(model: String, texts: List<String>, source: String, target: String): String {
-        val lines = texts.map { it.replace(Regex("\\s*\\n\\s*"), " ").trim() }
-        val chars = lines.sumOf { it.length }
-        // Tight output budget: a runaway answer is cut instead of eating the time budget.
-        val maxTokens = (32 + 2 * chars + 8 * lines.size).coerceAtMost(2048)
+    /** Tight output budget: a runaway answer is cut instead of eating the time budget. */
+    fun maxTokens(texts: List<String>): Int =
+        (32 + 2 * texts.sumOf { it.length } + 12 * texts.size).coerceAtMost(MAX_OUTPUT_TOKENS)
+
+    /**
+     * Every block of the screen in one message, numbered from 1 ("[3] text"); the answer repeats
+     * the numbers, so blocks are placed by id, not by line position.
+     * @param source language of all blocks, or null when the screen mixes languages.
+     */
+    fun body(model: String, texts: List<String>, source: String?, target: String): String {
+        val lines = texts.mapIndexed { i, t -> "[${i + 1}] " + t.replace(Regex("\\s*\\n\\s*"), " ").trim() }
+        val from = source?.let { "from ${languageName(it)} " } ?: ""
         val messages = JSONArray()
             // Nemotron: reasoning off (it multiplied the latency by 15 in the 2026-09-25 bench).
             .put(JSONObject().put("role", "system").put("content", "/no_think"))
             .put(
                 JSONObject().put("role", "system").put(
                     "content",
-                    "Translate each line from ${languageName(source)} to ${languageName(target)}. " +
-                        "Output only the translations, one per line, same order.",
+                    "Translate each numbered line ${from}to ${languageName(target)}. Answer one line per input, " +
+                        "starting with the same [number], then the translation only.",
                 ),
             )
             .put(JSONObject().put("role", "user").put("content", lines.joinToString("\n")))
@@ -204,7 +216,7 @@ object NvidiaProtocol {
             .put("model", model)
             .put("messages", messages)
             .put("temperature", 0)
-            .put("max_tokens", maxTokens)
+            .put("max_tokens", maxTokens(texts))
             .put("stream", true)
             .put("chat_template_kwargs", JSONObject().put("enable_thinking", false))
             .toString()
@@ -229,13 +241,77 @@ object NvidiaProtocol {
         // Reasoning ("reasoning_content") is ignored: only the answer is kept.
         return choices.getJSONObject(0).optJSONObject("delta")?.optString("content", "") ?: ""
     }
+}
 
-    fun parseLines(content: String, expected: Int): List<String> {
-        val lines = content.replace(Regex("(?s)<think>.*?</think>"), "")
-            .lines().map { it.trim() }.filter { it.isNotEmpty() }
-        // A single long paragraph may come back in several lines (seen with Nemotron Ultra): one block.
-        if (expected == 1 && lines.isNotEmpty()) return listOf(lines.joinToString(" "))
-        if (lines.size != expected) throw OnlineTranslationException(OnlineFailure.MALFORMED, "${lines.size} lignes / $expected")
-        return lines
+/**
+ * Turns the streamed answer into (block index, translation) as soon as each line is complete.
+ * Tolerant: "[3] …", "3. …", "3) …", "3: …" or "3 - …"; answers in any order; a duplicate id
+ * keeps the first answer; an unknown id or a line without id continues the previous block (a
+ * long paragraph answered on several lines), which is then re-emitted with the longer text.
+ * Blocks never answered are left to the caller (fail-safe, then offline).
+ *
+ * @param count number of blocks in the request (ids 1..count)
+ * @param emit block index (0-based) and its translation so far; may be called again for the same
+ *   index when a continuation line arrives.
+ */
+class NumberedLineParser(private val count: Int, private val emit: (Int, String) -> Unit) {
+    private val buffer = StringBuilder()
+    private val texts = HashMap<Int, String>()
+    private var current: Int? = null
+    private var thinking = false
+
+    /** Indices answered so far. */
+    val received: Set<Int> get() = texts.keys
+
+    fun feed(piece: String) {
+        buffer.append(piece)
+        while (true) {
+            val nl = buffer.indexOf("\n")
+            if (nl < 0) return
+            val line = buffer.substring(0, nl)
+            buffer.delete(0, nl + 1)
+            line(line)
+        }
+    }
+
+    /** End of the stream: the last line has no newline. */
+    fun finish() {
+        if (buffer.isNotEmpty()) line(buffer.toString())
+        buffer.setLength(0)
+    }
+
+    private fun line(raw: String) {
+        val text = raw.trim()
+        if (text.isEmpty()) return
+        if (text.startsWith("<think>")) thinking = true
+        if (thinking) {
+            if (text.contains("</think>")) thinking = false
+            return
+        }
+        val m = ID.matchEntire(text)
+        val id = m?.let { (it.groupValues[1].ifEmpty { it.groupValues[3] }).toIntOrNull() }
+        val body = m?.let { (it.groupValues[2].ifEmpty { it.groupValues[4] }).trim() }
+        if (id != null && id in 1..count) {
+            if ((id - 1) in texts) {
+                current = null // duplicate: keep the first answer, drop this one and its continuation
+                return
+            }
+            current = id - 1
+            if (!body.isNullOrEmpty()) put(id - 1, body)
+            return
+        }
+        // No usable id: continuation of the block being answered.
+        val index = current ?: return
+        put(index, texts[index]?.let { "$it $text" } ?: text)
+    }
+
+    private fun put(index: Int, text: String) {
+        texts[index] = text
+        emit(index, text)
+    }
+
+    private companion object {
+        /** "[12] text" (brackets) or "12. text" / "12) text" / "12: text" / "12 - text". */
+        val ID = Regex("""^\[(\d{1,3})]\s*(.*)$|^(\d{1,3})\s*[.):\-–]\s+(.*)$""")
     }
 }

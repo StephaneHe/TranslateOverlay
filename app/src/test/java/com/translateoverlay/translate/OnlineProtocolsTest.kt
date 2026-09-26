@@ -86,18 +86,76 @@ class OnlineProtocolsTest {
     }
 
     @Test
-    fun `nvidia request - reasoning off, streamed, one block per line`() {
+    fun `nvidia request - whole screen numbered, reasoning off, streamed`() {
         val body = JSONObject(NvidiaProtocol.body(NvidiaProtocol.PRIMARY.id, listOf("שורה\nשנייה", ynet[0]), "he", "fr"))
         assertEquals("nvidia/nemotron-3-ultra-550b-a55b", body.getString("model"))
         assertTrue(body.getBoolean("stream"))
         assertFalse(body.getJSONObject("chat_template_kwargs").getBoolean("enable_thinking"))
         val messages = body.getJSONArray("messages")
         assertEquals("/no_think", messages.getJSONObject(0).getString("content"))
-        assertTrue(messages.getJSONObject(1).getString("content").startsWith("Translate each line from Hebrew to French."))
-        // A block's own line breaks are flattened: one line = one block.
-        assertEquals("שורה שנייה\nלכל המבזקים", messages.getJSONObject(2).getString("content"))
+        assertTrue(messages.getJSONObject(1).getString("content").startsWith("Translate each numbered line from Hebrew to French."))
+        // A block's own line breaks are flattened: one line = one numbered block.
+        assertEquals("[1] שורה שנייה\n[2] לכל המבזקים", messages.getJSONObject(2).getString("content"))
         assertTrue(body.getInt("max_tokens") in 40..200)
         assertEquals("Bearer k", NvidiaProtocol.headers("k")["Authorization"])
+        // Mixed languages: no source named.
+        val mixed = JSONObject(NvidiaProtocol.body("m", listOf("a"), null, "fr")).getJSONArray("messages")
+        assertTrue(mixed.getJSONObject(1).getString("content").startsWith("Translate each numbered line to French."))
+        // Output budget capped for huge screens.
+        assertEquals(NvidiaProtocol.MAX_OUTPUT_TOKENS, NvidiaProtocol.maxTokens(listOf("x".repeat(10_000))))
+    }
+
+    private fun parse(count: Int, vararg pieces: String): Pair<Map<Int, String>, List<Int>> {
+        val out = LinkedHashMap<Int, String>()
+        val order = ArrayList<Int>()
+        val p = NumberedLineParser(count) { i, t -> out[i] = t; order += i }
+        pieces.forEach(p::feed)
+        p.finish()
+        return out to order
+    }
+
+    @Test
+    fun `numbered answer - each block as soon as its line is complete`() {
+        val emitted = ArrayList<Int>()
+        val p = NumberedLineParser(3) { i, _ -> emitted += i }
+        p.feed("[1] Toutes les ")
+        assertTrue(emitted.isEmpty()) // line not complete yet
+        p.feed("brèves\n[2] Un mort")
+        assertEquals(listOf(0), emitted)
+        p.feed("\n[3] Faites le test")
+        assertEquals(listOf(0, 1), emitted)
+        p.finish() // last line has no newline
+        assertEquals(listOf(0, 1, 2), emitted)
+        assertEquals(setOf(0, 1, 2), p.received)
+    }
+
+    @Test
+    fun `numbered answer - order, formats, duplicates, unknown ids, missing ids`() {
+        val (out, _) = parse(
+            5,
+            "[3] trois\n",
+            "1. un\n",
+            "[3] doublon ignoré\n",
+            "suite ignorée du doublon\n",
+            "2) deux\n",
+            "[9] id inconnu : suite du bloc 2\n",
+            "<think>\nhmm\n</think>\n",
+        )
+        assertEquals(mapOf(2 to "trois", 0 to "un", 1 to "deux [9] id inconnu : suite du bloc 2"), out)
+        // ids 4 and 5 never answered: left to the fail-safe.
+        assertFalse(3 in out || 4 in out)
+    }
+
+    @Test
+    fun `numbered answer - paragraph answered on several lines is one block, re-emitted`() {
+        val (out, order) = parse(2, "[1] Le chat.\nIl chasse.\n[2] Fin")
+        assertEquals(mapOf(0 to "Le chat. Il chasse.", 1 to "Fin"), out)
+        assertEquals(listOf(0, 0, 1), order) // block 0 updated when its continuation arrived
+        // Number alone on its line, translation on the next one.
+        assertEquals(mapOf(0 to "Bonjour"), parse(1, "[1]\nBonjour\n").first)
+        // A year at the start of a translation is not an id (only 1..count, with a separator).
+        assertEquals(mapOf(0 to "Élections 2026"), parse(1, "[1] Élections 2026").first)
+        assertEquals(mapOf(0 to "texte 2026 - année"), parse(1, "[1] texte\n2026 - année").first)
     }
 
     @Test
@@ -115,11 +173,7 @@ class OnlineProtocolsTest {
     }
 
     @Test
-    fun `nvidia answer lines must match the blocks`() {
-        assertEquals(listOf("Toutes les brèves", "Un mort"), NvidiaProtocol.parseLines("Toutes les brèves\n\n Un mort \n", 2))
-        assertEquals(listOf("A"), NvidiaProtocol.parseLines("<think>\nx\ny\n</think>\nA", 1))
-        assertEquals(OnlineFailure.MALFORMED, assertThrows(OnlineTranslationException::class.java) { NvidiaProtocol.parseLines("A B", 2) }.failure)
-        assertEquals(listOf("Le chat. Il chasse."), NvidiaProtocol.parseLines("Le chat.\nIl chasse.", 1))
+    fun `language names for the prompt`() {
         assertEquals("Hebrew", NvidiaProtocol.languageName("he"))
         assertEquals("French", NvidiaProtocol.languageName("fr"))
     }

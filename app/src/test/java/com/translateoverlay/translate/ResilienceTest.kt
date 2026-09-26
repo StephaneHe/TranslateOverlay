@@ -3,15 +3,21 @@ package com.translateoverlay.translate
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class ResilienceTest {
     private var now = 0L
     private val slept = ArrayList<Long>()
-    private val calls = ArrayList<String>()
+    /** (engine id, texts it received in its one request) */
+    private val calls = ArrayList<Pair<String, List<String>>>()
+    /** index → "engine:translation" as delivered to the overlay */
+    private val shown = HashMap<Int, String>()
 
+    /**
+     * @param answers indices (in the texts it is given) the engine answers before [fail] / the end;
+     *   null = all of them.
+     */
     private fun engine(
         id: String,
         breaker: CircuitBreaker = CircuitBreaker(),
@@ -19,14 +25,18 @@ class ResilienceTest {
         account: CircuitBreaker? = null,
         fail: OnlineFailure? = null,
         retryAfterMs: Long? = null,
-    ) = ChainEngine(id, id.uppercase(), breaker, limiter, account) { texts ->
-        calls += id
+        answers: Set<Int>? = null,
+    ) = ChainEngine(id, id.uppercase(), breaker, limiter, account) { texts, onBlock ->
+        calls += id to texts
+        texts.forEachIndexed { k, t -> if (answers == null || k in answers) onBlock(k, "$id:$t") }
         if (fail != null) throw OnlineTranslationException(fail, retryAfterMs = retryAfterMs)
-        texts.map { "$id:$it" }
     }
 
     private fun chain(vararg engines: ChainEngine) =
         FallbackChain(engines.toList(), clock = { now }, sleep = { slept += it; now += it })
+
+    private suspend fun FallbackChain.run(texts: List<String>) =
+        translate(texts) { i, text, _ -> shown[i] = text }
 
     @Test
     fun `rate limiter allows 20 starts per sliding minute`() {
@@ -72,53 +82,76 @@ class ResilienceTest {
     }
 
     @Test
-    fun `primary answers - fail-safe not called`() = runBlocking {
-        val r = chain(engine("ultra"), engine("super")).translate(listOf("a", "b"))
-        assertEquals(listOf("ultra:a", "ultra:b"), r.translations)
-        assertEquals("ultra", r.engine?.id)
-        assertEquals(listOf("ultra"), calls)
+    fun `whole screen in ONE request - fail-safe not called`() = runBlocking {
+        val r = chain(engine("ultra"), engine("super")).run(listOf("a", "b", "c"))
+        assertEquals(listOf("ultra" to listOf("a", "b", "c")), calls)
+        assertEquals(1, r.requests)
+        assertTrue(r.missing.isEmpty())
+        assertEquals(mapOf(0 to "ultra:a", 1 to "ultra:b", 2 to "ultra:c"), shown)
     }
 
     @Test
-    fun `primary fails - fail-safe answers`() = runBlocking {
-        for (failure in listOf(OnlineFailure.SERVER, OnlineFailure.TIMEOUT, OnlineFailure.NETWORK, OnlineFailure.MALFORMED)) {
+    fun `missing ids go to the fail-safe in ONE grouped request`() = runBlocking {
+        // Ultra answers blocks 0 and 2 only (ids 2, 4, 5 missing from its answer).
+        val r = chain(engine("ultra", answers = setOf(0, 2)), engine("super")).run(listOf("a", "b", "c", "d", "e"))
+        assertEquals(listOf("ultra" to listOf("a", "b", "c", "d", "e"), "super" to listOf("b", "d", "e")), calls)
+        assertEquals(2, r.requests)
+        assertEquals(mapOf(0 to "ultra:a", 1 to "super:b", 2 to "ultra:c", 3 to "super:d", 4 to "super:e"), shown)
+        assertTrue(r.missing.isEmpty())
+        assertEquals(listOf("ultra" to OnlineFailure.MALFORMED), r.failures)
+    }
+
+    @Test
+    fun `failure mid-stream keeps the blocks already shown, the rest to the fail-safe`() = runBlocking {
+        val r = chain(engine("ultra", answers = setOf(0), fail = OnlineFailure.TIMEOUT), engine("super")).run(listOf("a", "b", "c"))
+        assertEquals("ultra:a", shown[0])
+        assertEquals(listOf("b", "c"), calls[1].second)
+        assertEquals("super:c", shown[2])
+        assertTrue(r.missing.isEmpty())
+    }
+
+    @Test
+    fun `primary down - fail-safe gets the whole screen in one request`() = runBlocking {
+        for (failure in listOf(OnlineFailure.SERVER, OnlineFailure.TIMEOUT, OnlineFailure.NETWORK)) {
             calls.clear()
-            val r = chain(engine("ultra", fail = failure), engine("super")).translate(listOf("a"))
-            assertEquals(listOf("super:a"), r.translations)
+            val r = chain(engine("ultra", fail = failure, answers = emptySet()), engine("super")).run(listOf("a", "b"))
+            assertEquals(listOf("ultra" to listOf("a", "b"), "super" to listOf("a", "b")), calls)
             assertEquals(listOf("ultra" to failure), r.failures)
-            assertEquals(listOf("ultra", "super"), calls)
         }
     }
 
     @Test
-    fun `everything fails - null so the offline translation stays`() = runBlocking {
-        val r = chain(engine("ultra", fail = OnlineFailure.SERVER), engine("super", fail = OnlineFailure.TIMEOUT)).translate(listOf("a"))
-        assertNull(r.translations)
-        assertNull(r.engine)
-        assertEquals(2, r.failures.size)
+    fun `everything fails - missing blocks keep the offline translation`() = runBlocking {
+        val r = chain(
+            engine("ultra", fail = OnlineFailure.SERVER, answers = setOf(1)),
+            engine("super", fail = OnlineFailure.TIMEOUT, answers = emptySet()),
+        ).run(listOf("a", "b", "c"))
+        assertEquals(listOf(0, 2), r.missing)
+        assertEquals(mapOf(1 to "ultra:b"), shown)
+        assertEquals(2, r.requests)
     }
 
     @Test
     fun `open breaker skips the primary without a request`() = runBlocking {
         val broken = CircuitBreaker(failureThreshold = 1).apply { onFailure(OnlineFailure.SERVER, now = 0) }
         now = 1_000
-        val r = chain(engine("ultra", breaker = broken), engine("super")).translate(listOf("a"))
-        assertEquals("super", r.engine?.id)
-        assertEquals(listOf("super"), calls)
+        val r = chain(engine("ultra", breaker = broken), engine("super")).run(listOf("a"))
+        assertEquals(listOf("super"), calls.map { it.first })
+        assertEquals(1, r.requests)
         assertEquals(listOf("ultra" to OnlineFailure.CIRCUIT_OPEN), r.failures)
     }
 
     @Test
     fun `429 pauses the whole account - fail-safe on the same account not called`() = runBlocking {
         val account = CircuitBreaker(failureThreshold = Int.MAX_VALUE)
-        val ultra = engine("ultra", account = account, fail = OnlineFailure.QUOTA, retryAfterMs = 20_000)
+        val ultra = engine("ultra", account = account, fail = OnlineFailure.QUOTA, retryAfterMs = 20_000, answers = emptySet())
         val superE = engine("super", account = account)
-        val r = chain(ultra, superE).translate(listOf("a"))
-        assertNull(r.translations)
-        assertEquals(listOf("ultra"), calls)
+        val r = chain(ultra, superE).run(listOf("a"))
+        assertEquals(listOf(0), r.missing)
+        assertEquals(listOf("ultra"), calls.map { it.first })
         assertEquals(OnlineFailure.CIRCUIT_OPEN, r.failures.last().second)
         now = 20_000
-        assertEquals("ultra", chain(engine("ultra", account = account), superE).translate(listOf("a")).engine?.id)
+        assertTrue(chain(engine("ultra", account = account), superE).run(listOf("a")).missing.isEmpty())
     }
 
     @Test
@@ -126,14 +159,14 @@ class ResilienceTest {
         val limiter = RateLimiter(maxRequests = 1, windowMs = 60_000)
         limiter.acquire(0)
         now = 58_000 // 2 s left: worth waiting
-        val r = chain(engine("ultra", limiter = limiter)).translate(listOf("a"))
+        chain(engine("ultra", limiter = limiter)).run(listOf("a"))
         assertEquals(listOf(2_000L), slept)
-        assertEquals("ultra", r.engine?.id)
         now = 70_000 // window full again until 120 s: 50 s wait, not worth it
         calls.clear()
-        val r2 = chain(engine("ultra", limiter = limiter), engine("super", limiter = limiter)).translate(listOf("a"))
-        assertNull(r2.translations)
+        val r2 = chain(engine("ultra", limiter = limiter), engine("super", limiter = limiter)).run(listOf("a"))
+        assertEquals(listOf(0), r2.missing)
         assertTrue(calls.isEmpty())
+        assertEquals(0, r2.requests)
         assertEquals(listOf("ultra" to OnlineFailure.RATE_LIMITED), r2.failures)
     }
 }

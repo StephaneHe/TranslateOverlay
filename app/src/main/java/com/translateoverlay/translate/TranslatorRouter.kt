@@ -1,8 +1,8 @@
 package com.translateoverlay.translate
 
 import android.os.SystemClock
-import com.translateoverlay.core.RefineChunks
 import com.translateoverlay.core.RefineItem
+import com.translateoverlay.core.ScreenRequests
 import com.translateoverlay.core.TranslationCache
 import com.translateoverlay.pipeline.Diag
 import kotlinx.coroutines.Dispatchers
@@ -11,8 +11,6 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Semaphore
-import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.net.HttpURLConnection
@@ -22,8 +20,9 @@ import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * Online translation behind the offline one: for the engine chosen in the settings, a chain of
- * models (NVIDIA: primary, then fail-safe) translates the screen by small chunks; whatever fails
- * keeps the ML Kit translation already shown. Limiter and circuit breakers live as long as the
+ * models (NVIDIA: primary, then fail-safe) translates the whole screen in ONE streamed request
+ * (blocks numbered, answers placed by number as they arrive); blocks the primary did not answer
+ * go to the fail-safe in one more request; whatever fails keeps the ML Kit translation shown. Limiter and circuit breakers live as long as the
  * app process and are only touched from the main thread (network calls hop to IO).
  */
 class TranslatorRouter(private val mlKit: TranslationEngine, private val secrets: SecretStore) {
@@ -77,14 +76,17 @@ class TranslatorRouter(private val mlKit: TranslationEngine, private val secrets
         else -> listOf(provider.name to provider.shortLabel())
     }
 
-    private fun chain(provider: TranslationProvider, source: String, target: String, azureRegion: String?): FallbackChain {
+    private fun chain(provider: TranslationProvider, source: String?, target: String, azureRegion: String?): FallbackChain {
         val engines = when (provider) {
             TranslationProvider.NVIDIA -> listOf(NvidiaProtocol.PRIMARY, NvidiaProtocol.FAILSAFE).map { m ->
-                ChainEngine(m.id, m.label, breaker(m.id), nvidiaLimiter, nvidiaAccount) { texts -> nvidia(m, texts, source, target) }
+                ChainEngine(m.id, m.label, breaker(m.id), nvidiaLimiter, nvidiaAccount) { texts, onBlock ->
+                    nvidia(m, texts, source, target, onBlock)
+                }
             }
             TranslationProvider.AZURE, TranslationProvider.GOOGLE_CLOUD -> listOf(
-                ChainEngine(provider.name, provider.shortLabel(), breaker(provider.name), null) { texts ->
-                    classic(provider, texts, source, target, azureRegion)
+                ChainEngine(provider.name, provider.shortLabel(), breaker(provider.name), null) { texts, onBlock ->
+                    // One language per call for these APIs.
+                    classic(provider, texts, source ?: "auto", target, azureRegion).forEachIndexed(onBlock)
                 },
             )
             TranslationProvider.MLKIT -> emptyList()
@@ -93,94 +95,120 @@ class TranslatorRouter(private val mlKit: TranslationEngine, private val secrets
     }
 
     /**
-     * Translates [items] with [provider]'s chain, chunk by chunk (top of the screen first, a few
-     * chunks in parallel); [onChunk] receives each chunk's translations as soon as they arrive,
-     * [onFailed] the chunks every engine failed on (their offline translation stays).
-     * Call from the main thread.
+     * Translates [items] with [provider]'s chain: ONE request for the whole screen (split only
+     * beyond [NvidiaProtocol.MAX_CHARS_PER_REQUEST]), then one fail-safe request for the blocks
+     * still missing. [onBlock] gets each block as soon as its line has streamed in (possibly
+     * again when the line grows), [onFailed] the blocks every engine failed on (their offline
+     * translation stays). Call from the main thread.
      */
     suspend fun refine(
         provider: TranslationProvider,
         items: List<RefineItem>,
         target: String,
         azureRegion: String?,
-        onChunk: (List<RefineItem>, List<String>, String) -> Unit,
+        onBlock: (RefineItem, String, String) -> Unit,
         onFailed: (List<RefineItem>, OnlineFailure) -> Unit,
     ) {
         if (items.isEmpty()) return
         if (!isReady(provider)) return onFailed(items, OnlineFailure.NO_KEY)
         if (!mlKit.canDownloadNow(wifiOnly = false)) return onFailed(items, OnlineFailure.NETWORK)
-        val (perChunk, maxChars) = when (provider) {
-            TranslationProvider.NVIDIA -> NvidiaProtocol.ITEMS_PER_REQUEST to NvidiaProtocol.MAX_CHARS
-            else -> Int.MAX_VALUE to Int.MAX_VALUE // one request; the protocol splits by its own limits
+        val requests = when (provider) {
+            TranslationProvider.NVIDIA -> ScreenRequests.plan(items, NvidiaProtocol.MAX_CHARS_PER_REQUEST)
+            // These APIs take one source language per call (and split by their own limits).
+            else -> items.groupBy { it.source }.values.toList()
         }
-        val chunks = RefineChunks.plan(items, perChunk, maxChars, targetRequests = MAX_PARALLEL_REQUESTS)
-        val parallel = Semaphore(MAX_PARALLEL_REQUESTS)
+        var sent = 0
         coroutineScope {
-            for (chunk in chunks) {
+            for (group in requests) {
                 launch {
-                    parallel.withPermit {
-                        val source = chunk.first().source
-                        val texts = chunk.map { it.text }
-                        val result = chain(provider, source, target, azureRegion).translate(texts)
-                        Diag.log { "refine ${chunk.size} blocks: ${result.engine?.label ?: "none"} failures=${result.failures}" }
-                        val out = result.translations
-                        val engine = result.engine
-                        if (out != null && engine != null) {
-                            chunk.forEachIndexed { k, item -> cache.put("${engine.id}:$source", target, item.text, out[k]) }
-                            onChunk(chunk, out, engine.label)
-                        } else {
-                            onFailed(chunk, result.failures.lastOrNull()?.second ?: OnlineFailure.SERVER)
+                    val result = chain(provider, ScreenRequests.commonSource(group), target, azureRegion)
+                        .translate(group.map { it.text }) { k, text, engine ->
+                            val item = group[k]
+                            cache.put("${engine.id}:${item.source}", target, item.text, text)
+                            onBlock(item, text, engine.label)
                         }
+                    sent += result.requests
+                    Diag.log { "refine ${group.size} blocks in ${result.requests} request(s), missing=${result.missing.size} failures=${result.failures}" }
+                    if (result.missing.isNotEmpty()) {
+                        onFailed(result.missing.map { group[it] }, result.failures.lastOrNull()?.second ?: OnlineFailure.SERVER)
                     }
                 }
+            }
+        }
+        Diag.log { "screen: ${items.size} blocks, $sent request(s)" }
+    }
+
+    /**
+     * Streamed chat completion of a numbered screen; each answer line is handed to [onBlock] on
+     * the main thread as soon as it is complete. Short timeouts: the offline text is on screen.
+     */
+    private suspend fun nvidia(
+        model: NvidiaProtocol.Model,
+        texts: List<String>,
+        source: String?,
+        target: String,
+        onBlock: (Int, String) -> Unit,
+    ) = withContext(Dispatchers.IO) {
+        val key = secrets.get(SecretStore.NVIDIA_KEY) ?: throw OnlineTranslationException(OnlineFailure.NO_KEY)
+        if (model.id in simulatedDown) throw OnlineTranslationException(OnlineFailure.SERVER, "simulated 503 (debug)")
+        val n = requests.incrementAndGet()
+        val started = SystemClock.elapsedRealtime()
+        var status = 0
+        var firstTokenMs = -1L
+        var firstBlockMs = -1L
+        val ready = ArrayList<Pair<Int, String>>()
+        val parser = NumberedLineParser(texts.size) { i, t -> ready += i to t }
+        var conn: HttpURLConnection? = null
+        // Closing the connection is the only way to abort a blocking read (overlay dismissed).
+        val onCancel = coroutineContext[Job]?.invokeOnCompletion { conn?.disconnect() }
+        suspend fun flush() {
+            if (ready.isEmpty()) return
+            if (firstBlockMs < 0) firstBlockMs = SystemClock.elapsedRealtime() - started
+            val batch = ready.toList()
+            ready.clear()
+            withContext(Dispatchers.Main) { batch.forEach { (i, t) -> onBlock(i, t) } }
+        }
+        try {
+            val c = open(NvidiaProtocol.ENDPOINT, NvidiaProtocol.headers(key), STREAM_READ_TIMEOUT_MS)
+            conn = c
+            c.outputStream.use { it.write(NvidiaProtocol.body(model.id, texts, source, target).toByteArray(Charsets.UTF_8)) }
+            status = c.responseCode
+            if (status !in 200..299) throw httpFailure(c, status)
+            c.inputStream.bufferedReader(Charsets.UTF_8).use { reader ->
+                while (true) {
+                    ensureActive()
+                    if (SystemClock.elapsedRealtime() - started > STREAM_TOTAL_TIMEOUT_MS) {
+                        throw OnlineTranslationException(OnlineFailure.TIMEOUT)
+                    }
+                    val line = reader.readLine() ?: break
+                    val piece = NvidiaProtocol.parseEvent(line) ?: break
+                    if (piece.isNotEmpty() && firstTokenMs < 0) firstTokenMs = SystemClock.elapsedRealtime() - started
+                    parser.feed(piece)
+                    flush()
+                }
+            }
+            parser.finish()
+            flush()
+        } catch (e: SocketTimeoutException) {
+            flush() // blocks already complete are kept
+            throw OnlineTranslationException(OnlineFailure.TIMEOUT, e.message)
+        } catch (e: IOException) {
+            ensureActive() // cancelled: not a network failure
+            flush()
+            throw OnlineTranslationException(OnlineFailure.NETWORK, e.message)
+        } catch (e: OnlineTranslationException) {
+            flush()
+            throw e
+        } finally {
+            onCancel?.dispose()
+            conn?.disconnect()
+            // Request counter (the NVIDIA quota is shared): never the key, never the text.
+            Diag.log {
+                "nvidia #$n ${model.id} ${texts.size} blocks HTTP $status ttft=${firstTokenMs}ms " +
+                    "firstBlock=${firstBlockMs}ms total=${SystemClock.elapsedRealtime() - started}ms received=${parser.received.size}/${texts.size}"
             }
         }
     }
-
-    /** Streamed chat completion; short timeouts: the offline text is on screen meanwhile. */
-    private suspend fun nvidia(model: NvidiaProtocol.Model, texts: List<String>, source: String, target: String): List<String> =
-        withContext(Dispatchers.IO) {
-            val key = secrets.get(SecretStore.NVIDIA_KEY) ?: throw OnlineTranslationException(OnlineFailure.NO_KEY)
-            if (model.id in simulatedDown) throw OnlineTranslationException(OnlineFailure.SERVER, "simulated 503 (debug)")
-            val n = requests.incrementAndGet()
-            val started = SystemClock.elapsedRealtime()
-            var status = 0
-            var firstTokenMs = -1L
-            var conn: HttpURLConnection? = null
-            // Closing the connection is the only way to abort a blocking read (overlay dismissed).
-            val onCancel = coroutineContext[Job]?.invokeOnCompletion { conn?.disconnect() }
-            try {
-                val c = open(NvidiaProtocol.ENDPOINT, NvidiaProtocol.headers(key), STREAM_READ_TIMEOUT_MS)
-                conn = c
-                c.outputStream.use { it.write(NvidiaProtocol.body(model.id, texts, source, target).toByteArray(Charsets.UTF_8)) }
-                status = c.responseCode
-                if (status !in 200..299) throw httpFailure(c, status)
-                val content = StringBuilder()
-                c.inputStream.bufferedReader(Charsets.UTF_8).use { reader ->
-                    while (true) {
-                        ensureActive()
-                        if (SystemClock.elapsedRealtime() - started > STREAM_TOTAL_TIMEOUT_MS) {
-                            throw OnlineTranslationException(OnlineFailure.TIMEOUT)
-                        }
-                        val line = reader.readLine() ?: break
-                        val piece = NvidiaProtocol.parseEvent(line) ?: break
-                        if (piece.isNotEmpty() && firstTokenMs < 0) firstTokenMs = SystemClock.elapsedRealtime() - started
-                        content.append(piece)
-                    }
-                }
-                NvidiaProtocol.parseLines(content.toString(), texts.size)
-            } catch (e: SocketTimeoutException) {
-                throw OnlineTranslationException(OnlineFailure.TIMEOUT, e.message)
-            } catch (e: IOException) {
-                ensureActive() // cancelled: not a network failure
-                throw OnlineTranslationException(OnlineFailure.NETWORK, e.message)
-            } finally {
-                onCancel?.dispose()
-                conn?.disconnect()
-                // Request counter (the NVIDIA quota is shared): never the key, never the text.
-                Diag.log { "nvidia #$n ${model.id} ${texts.size} blocks HTTP $status ttft=${firstTokenMs}ms total=${SystemClock.elapsedRealtime() - started}ms" }
-            }
-        }
 
     private suspend fun classic(
         provider: TranslationProvider,
@@ -252,7 +280,7 @@ class TranslatorRouter(private val mlKit: TranslationEngine, private val secrets
         var result = "Échec : ${OnlineFailure.SERVER.message}"
         refine(
             provider, listOf(RefineItem(0, "בדיקת תרגום", "he", 0, 0)), target, azureRegion,
-            onChunk = { _, out, engine -> result = "OK ($engine) : « ${out.first()} »" },
+            onBlock = { _, text, engine -> result = "OK ($engine) : « $text »" },
             onFailed = { _, failure -> result = "Échec : ${failure.message}" },
         )
         return result
@@ -263,8 +291,7 @@ class TranslatorRouter(private val mlKit: TranslationEngine, private val secrets
         const val CLASSIC_TIMEOUT_MS = 8_000
         /** Max silence while streaming (first token included): TTFT 0.6–6.5 s measured; beyond, the fail-safe is quicker. */
         const val STREAM_READ_TIMEOUT_MS = 7_000
-        const val STREAM_TOTAL_TIMEOUT_MS = 25_000L
-        /** A screen is about 4 chunks: all in flight at once (the rate limiter still applies). */
-        const val MAX_PARALLEL_REQUESTS = 4
+        /** A whole screen in one answer: ~4 s typical, 7 s p95 (2026-09-26). */
+        const val STREAM_TOTAL_TIMEOUT_MS = 30_000L
     }
 }

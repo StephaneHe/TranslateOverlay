@@ -73,6 +73,9 @@ class CircuitBreaker(
  * One online engine in a fallback chain.
  * @property breaker per model; [accountBreaker] is shared by the models of one account (a 429
  *   is an account quota: the fail-safe model on the same account must not be hammered either).
+ * @property call translates the texts in ONE request and reports each block (index in the list
+ *   it was given) as soon as it is known — possibly several times for one block while its text
+ *   grows; it may deliver only part of them, and throws on failure after partial delivery.
  */
 class ChainEngine(
     val id: String,
@@ -80,17 +83,22 @@ class ChainEngine(
     val breaker: CircuitBreaker,
     val limiter: RateLimiter?,
     val accountBreaker: CircuitBreaker? = null,
-    val call: suspend (List<String>) -> List<String>,
+    val call: suspend (texts: List<String>, onBlock: (Int, String) -> Unit) -> Unit,
 )
 
 data class ChainResult(
-    /** null when every engine failed: the offline translation stays. */
-    val translations: List<String>?,
-    val engine: ChainEngine?,
+    /** Blocks no engine translated: the offline translation stays. */
+    val missing: List<Int>,
     val failures: List<Pair<String, OnlineFailure>>,
+    /** Requests actually sent (skipped engines don't count). */
+    val requests: Int,
 )
 
-/** Tries each engine in order (primary, then fail-safe); never throws [OnlineTranslationException]. */
+/**
+ * Tries each engine in order (primary, then fail-safe): the first gets every block in one
+ * request, the next one only the blocks still missing, again in one request. Never throws
+ * [OnlineTranslationException].
+ */
 class FallbackChain(
     private val engines: List<ChainEngine>,
     private val clock: () -> Long,
@@ -98,9 +106,14 @@ class FallbackChain(
     /** Longer than this, waiting for the rate limiter is not worth it: the offline text is shown. */
     private val maxLimiterWaitMs: Long = 3_000,
 ) {
-    suspend fun translate(texts: List<String>): ChainResult {
+    /** @param onBlock block index in [texts], translation, engine — as soon as each block arrives. */
+    suspend fun translate(texts: List<String>, onBlock: (Int, String, ChainEngine) -> Unit): ChainResult {
         val failures = ArrayList<Pair<String, OnlineFailure>>()
+        val done = HashSet<Int>()
+        var requests = 0
         for (engine in engines) {
+            val pending = texts.indices.filter { it !in done }
+            if (pending.isEmpty()) break
             val now = clock()
             if (!engine.breaker.allows(now) || engine.accountBreaker?.allows(now) == false) {
                 failures += engine.id to OnlineFailure.CIRCUIT_OPEN
@@ -110,16 +123,23 @@ class FallbackChain(
                 val wait = limiter.waitMs(now)
                 if (wait > maxLimiterWaitMs) {
                     failures += engine.id to OnlineFailure.RATE_LIMITED
-                    return ChainResult(null, null, failures) // same limit for the next engines
+                    return ChainResult(pending, failures, requests) // same limit for the next engines
                 }
                 if (wait > 0) sleep(wait)
                 limiter.acquire(clock())
             }
+            requests++
+            val delivered = HashSet<Int>()
             try {
-                val out = engine.call(texts)
+                engine.call(pending.map { texts[it] }) { k, text ->
+                    val index = pending.getOrNull(k) ?: return@call
+                    delivered += index
+                    onBlock(index, text, engine)
+                }
                 engine.breaker.onSuccess()
                 engine.accountBreaker?.onSuccess()
-                return ChainResult(out, engine, failures)
+                // Answer without some ids: not a service failure, the next engine gets them.
+                if (delivered.size < pending.size) failures += engine.id to OnlineFailure.MALFORMED
             } catch (e: OnlineTranslationException) {
                 failures += engine.id to e.failure
                 engine.breaker.onFailure(e.failure, clock(), e.retryAfterMs)
@@ -127,7 +147,8 @@ class FallbackChain(
                     engine.accountBreaker?.onFailure(e.failure, clock(), e.retryAfterMs)
                 }
             }
+            done += delivered
         }
-        return ChainResult(null, null, failures)
+        return ChainResult(texts.indices.filter { it !in done }, failures, requests)
     }
 }

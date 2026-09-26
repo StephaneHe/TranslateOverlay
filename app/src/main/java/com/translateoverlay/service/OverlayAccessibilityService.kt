@@ -234,15 +234,18 @@ class OverlayAccessibilityService : AccessibilityService() {
             view.setCaption(caption(progress.caption()))
             view.setEngineState(List(blockCount) { progress.tier(it) }, s.engineMarkers)
         }
+        var firstLogged = false
         refineJob = scope.launch {
             app.router.refine(
                 s.provider, pending, s.targetLanguage, s.azureRegion,
-                onChunk = { chunk, out, engine ->
-                    chunk.forEachIndexed { k, item ->
-                        val text = CaseStyle.apply(item.text, out[k], locale)
-                        if (text.isNotBlank() && progress.offer(item.index, engine)) view.update(item.index, text)
+                onBlock = { item, translation, engine ->
+                    val text = CaseStyle.apply(item.text, translation, locale)
+                    if (text.isNotBlank() && progress.offer(item.index, engine)) view.update(item.index, text)
+                    if (!firstLogged) {
+                        firstLogged = true
+                        Log.i(TAG, "refined first block with $engine at ${SystemClock.uptimeMillis() - startedAt} ms")
                     }
-                    Log.i(TAG, "refined ${chunk.size} blocks with $engine at ${SystemClock.uptimeMillis() - startedAt} ms")
+                    if (progress.isDone) Log.i(TAG, "refined all blocks at ${SystemClock.uptimeMillis() - startedAt} ms")
                     showState()
                 },
                 onFailed = { chunk, failure ->

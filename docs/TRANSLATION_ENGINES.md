@@ -219,3 +219,26 @@ blocs remplacés par Nemotron Ultra à +0,8 s et +3,4 s, pastille verte « U »
 (`docs/screenshots/v30t/`). Reste à valider **avec la clé de l'utilisateur** : secours Super et
 passage Ultra → Super → ML Kit sur l'appareil (validés sur émulateur uniquement).
 
+### 7 bis. Une seule requête par écran (1.7.0) — avant / après
+
+Émulateur API 33 (clé de test injectée par le build debug, effacée ensuite ; V30T débranché
+pendant la mesure). Temps comptés **depuis l'affichage de l'overlay ML Kit**. « Avant » = 1.5.0 /
+1.6.0 (lots de ≤ 4 blocs, 4 en parallèle), relevés dans les journaux des tours précédents.
+
+| Écran | Blocs | Avant : requêtes · 1ᵉʳ bloc · écran complet | Après : requêtes · 1ᵉʳ bloc · écran complet |
+|---|---|---|---|
+| Wikipédia « Cat » en→fr | 6 | 3 · +1,2 s · +2,4 s ; 3 · +2,2 s · +4,9 s ; 4 · +1,0 s · +7,3 s | **1** · +3,0 s · +5,2 s (TTFT 2,4 s) |
+| Wikipédia « Dog » en→fr | 6 | — | **1** · +1,1 s · +3,0 s |
+| Wikipédia « Cat » en→he | 6 | 3 · +1,1 s · +9,0 s | **1** · +1,1 s · +5,1 s |
+| ynet he→fr | 16 / 11 | 7 (dont 2 secours) · +1,2 s · +13,0 s | **1** (11 blocs) · +1,4 s · +4,0 s |
+| Ultra indisponible (secours Super) | 11 / 5 | 3 · +1,1 s · +3,6 s (ynet) | **1** Super (Horse, 5 blocs) · +1,1 s · +3,5 s |
+
+Bilan : **1 requête par écran au lieu de 3 à 7** (quota partagé divisé par 3 à 7), écran complet
+aussi rapide ou plus rapide (plus de lot lent en queue), premier bloc ~1 s après l'overlay sauf
+quand le premier jeton tarde (2,4 s sur « Cat »). 5 requêtes NVIDIA consommées pour ces mesures.
+Captures `docs/screenshots/emulator/one-*.png`.
+
+Émulateur 31.3.12 : il s'arrête net (aucune erreur au journal) sur un `am start` vers Chrome
+après la fermeture d'un overlay, ou après `svc wifi` ; contourné en redémarrant l'émulateur par
+scénario (`-gpu host`). Sans effet sur l'app ; mettre à jour l'émulateur du SDK.
+

@@ -3,7 +3,27 @@
 Toutes les évolutions notables de ce projet sont documentées ici.
 Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), versionnage [SemVer](https://semver.org/lang/fr/).
 
-## [1.6.0] - 2026-09-26
+## [1.7.0] - 2026-09-26
+
+Demande : « un seul message pour traduire tout ce qu'il y a à traduire, à toi de répartir dans
+l'écran ». Mesures : `docs/TRANSLATION_ENGINES.md` §7 bis.
+
+### Modifié
+- **Une seule requête par écran** : tous les blocs numérotés (`[1] …`, du haut de l'écran vers le
+  bas, langues mélangées acceptées) dans un message ; la réponse répète les numéros et chaque
+  traduction est placée sur son bloc **dès que sa ligne arrive** (flux), au lieu de 3–4 lots
+  parallèles. Blocs non reçus (id manquant) → **une** requête groupée au secours Nemotron Super,
+  puis ML Kit reste. Une coupure en cours de réponse garde les blocs déjà reçus.
+- Lecture tolérante : `[3]`, `3.`, `3)`, `3:`, `3 -` ; ordre quelconque ; id dupliqué ignoré ;
+  id inconnu ou ligne sans id = suite du bloc précédent (paragraphe rendu sur plusieurs lignes).
+- Découpe seulement au-delà de 4 000 caractères source par écran (`MAX_CHARS_PER_REQUEST` ; un
+  écran d'article chargé en fait 1 500–2 500) ; `max_tokens` ≈ 2 × caractères + 12 × blocs, plafonné
+  à 8 192 ; délai total 30 s.
+- Journal debug : `nvidia #n … firstBlock=… received=k/n` et `screen: N blocks, R request(s)`.
+- Paramètres : « Une seule requête par écran (une de plus vers le secours pour les blocs
+  manquants) ».
+
+
 
 Demande : « un signe visuel pour savoir quel modèle a été utilisé ». Captures :
 `docs/screenshots/emulator/etat-*.png`, `docs/screenshots/v30t/engine-state-*.png`.

@@ -77,7 +77,8 @@ fun TranslationEngineSection(
             Text(
                 "Clé gratuite, sans carte bancaire : créez un compte sur build.nvidia.com puis « Get API Key ». " +
                     "La traduction hors-ligne ML Kit s'affiche aussitôt, puis chaque bloc est remplacé par celle de " +
-                    "Nemotron Ultra (secours : Nemotron Super). Au plus 20 requêtes par minute (~3 par écran).",
+                    "Nemotron Ultra (secours : Nemotron Super). Une seule requête par écran (une de plus vers le " +
+                    "secours pour les blocs manquants), au plus 20 requêtes par minute.",
                 style = MaterialTheme.typography.bodySmall,
             )
         }

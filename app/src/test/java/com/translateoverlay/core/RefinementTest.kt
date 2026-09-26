@@ -10,20 +10,22 @@ class RefinementTest {
         RefineItem(index, text, source, top, 0)
 
     @Test
-    fun `chunks follow the screen from the top, per language`() {
+    fun `one request per screen, top of the screen first, languages mixed`() {
         // Overlay order is not screen order (OCR blocks come after the tree ones).
         val items = listOf(item(0, 900), item(1, 100), item(2, 500), item(3, 50, "en"), item(4, 300), item(5, 700))
-        val chunks = RefineChunks.plan(items, itemsPerChunk = 2, maxChars = 1000)
-        assertEquals(listOf(listOf(3), listOf(1, 4), listOf(2, 5), listOf(0)), chunks.map { c -> c.map { it.index } })
-        assertTrue(chunks.all { c -> c.map { it.source }.toSet().size == 1 })
+        val requests = ScreenRequests.plan(items, maxChars = 4_000)
+        assertEquals(listOf(listOf(3, 1, 4, 2, 5, 0)), requests.map { r -> r.map { it.index } })
+        assertEquals(null, ScreenRequests.commonSource(items)) // mixed: the prompt names no source
+        assertEquals("he", ScreenRequests.commonSource(items.filter { it.source == "he" }))
     }
 
     @Test
-    fun `crowded screen - about three requests, character limit still applies`() {
-        val many = (0 until 30).map { item(it, it * 10) }
-        assertEquals(3, RefineChunks.plan(many, itemsPerChunk = 6, maxChars = 10_000).size)
-        val long = (0 until 4).map { item(it, it, text = "x".repeat(500)) }
-        assertEquals(listOf(2, 2), RefineChunks.plan(long, itemsPerChunk = 6, maxChars = 1_200).map { it.size })
+    fun `a screen is split only beyond the character threshold`() {
+        val big = (0 until 10).map { item(it, it * 10, text = "x".repeat(900)) }
+        val requests = ScreenRequests.plan(big, maxChars = 4_000)
+        assertEquals(listOf(4, 4, 2), requests.map { it.size })
+        assertEquals((0 until 10).toList(), requests.flatten().map { it.index })
+        assertEquals(1, ScreenRequests.plan((0 until 40).map { item(it, it) }, maxChars = 4_000).size)
     }
 
     private val ranks = mapOf("Nemotron Ultra" to 0, "Nemotron Super" to 1)
@@ -63,6 +65,8 @@ class RefinementTest {
         assertFalse(p.offer(0, "Nemotron Super"))
         val q = RefinementProgress("ML Kit", listOf(0), ranks)
         assertTrue(q.offer(0, "Nemotron Super"))
+        assertTrue(q.offer(0, "Nemotron Ultra"))
+        // The same engine may update its block (a streamed line that grows).
         assertTrue(q.offer(0, "Nemotron Ultra"))
     }
 

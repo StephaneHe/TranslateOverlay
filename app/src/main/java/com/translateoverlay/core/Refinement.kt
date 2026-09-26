@@ -8,28 +8,18 @@ package com.translateoverlay.core
 /** A block of the overlay waiting for a better translation. @property index position in the overlay. */
 data class RefineItem(val index: Int, val text: String, val source: String, val top: Int, val left: Int)
 
-object RefineChunks {
+object ScreenRequests {
     /**
-     * Requests per source language, top of the screen first (read first, and the first chunk to
-     * come back), [itemsPerChunk] blocks each (more on a crowded screen: about [targetRequests]
-     * requests per language, few of the rate limit) and at most [maxChars] characters.
+     * The whole screen in one request, top of the screen first (its lines stream back first);
+     * split into consecutive requests only beyond [maxChars] source characters.
      */
-    fun plan(items: List<RefineItem>, itemsPerChunk: Int, maxChars: Int, targetRequests: Int = 3): List<List<RefineItem>> =
-        items.groupBy { it.source }.values
-            .sortedBy { group -> group.minOf { it.top } }
-            .flatMap { group ->
-                val ordered = group.sortedWith(compareBy({ it.top }, { it.left }))
-                val perChunk = maxOf(itemsPerChunk, (ordered.size + targetRequests - 1) / targetRequests)
-                split(ordered, perChunk, maxChars)
-            }
-            .sortedBy { chunk -> chunk.first().top }
-
-    private fun split(items: List<RefineItem>, maxItems: Int, maxChars: Int): List<List<RefineItem>> {
+    fun plan(items: List<RefineItem>, maxChars: Int): List<List<RefineItem>> {
+        val ordered = items.sortedWith(compareBy({ it.top }, { it.left }))
         val out = ArrayList<List<RefineItem>>()
         var current = ArrayList<RefineItem>()
         var chars = 0
-        for (item in items) {
-            if (current.isNotEmpty() && (current.size >= maxItems || chars + item.text.length > maxChars)) {
+        for (item in ordered) {
+            if (current.isNotEmpty() && chars + item.text.length > maxChars) {
                 out += current
                 current = ArrayList()
                 chars = 0
@@ -40,6 +30,9 @@ object RefineChunks {
         if (current.isNotEmpty()) out += current
         return out
     }
+
+    /** Language named in the prompt: the blocks' common one, null when the screen mixes several. */
+    fun commonSource(items: List<RefineItem>): String? = items.map { it.source }.distinct().singleOrNull()
 }
 
 /**
@@ -58,11 +51,14 @@ class RefinementProgress(
 
     val isDone: Boolean get() = waiting.isEmpty()
 
-    /** Records [engine]'s answer for [index]; false when the block already has a better one. */
+    /**
+     * Records [engine]'s answer for [index]; false when the block already has a better one (the
+     * same engine may update it: a streamed line can grow).
+     */
     fun offer(index: Int, engine: String): Boolean {
         waiting -= index
         val current = engineOf[index]
-        if (current != null && rank(current) <= rank(engine)) return false
+        if (current != null && rank(current) < rank(engine)) return false
         engineOf[index] = engine
         return true
     }
