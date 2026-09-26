@@ -3,6 +3,7 @@ package com.translateoverlay.overlay
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.PixelFormat
+import android.graphics.RectF
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -82,6 +83,15 @@ class BubbleController(
     }
 
     fun setBusy(busy: Boolean) = view.setBusy(busy)
+
+    /** Where the bubble is (or would be) on screen, even while it is hidden by the overlay. */
+    fun screenBox(): RectF {
+        val screen = ScreenMetrics.bounds(context)
+        val saved = settings.bubblePosition()
+        val x = (if (attached || saved == null) params.x else saved.first).coerceIn(0, (screen.width - sizePx).coerceAtLeast(0))
+        val y = (if (attached || saved == null) params.y else saved.second).coerceIn(0, (screen.height - sizePx).coerceAtLeast(0))
+        return RectF(x.toFloat(), y.toFloat(), (x + sizePx).toFloat(), (y + sizePx).toFloat())
+    }
 
     override fun onTap() = onTap.invoke()
     override fun onLongPress() = onLongPress.invoke()

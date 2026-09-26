@@ -33,5 +33,8 @@
 - [x] 2026-09-25 22:59 — Attente utilisateur : intégrer NLLB-200 600M sur l'appareil ? et/ou mode « lecture différée » NVIDIA avec sa propre clé ? (fait 2026-09-26 — décision : meilleur gratuit en ligne + fail-safe)
 - [x] 2026-09-26 08:00 — NVIDIA en principal (Nemotron 3 Ultra) + fail-safe (Nemotron 3 Super) + ML Kit, traduction progressive, limiteur/disjoncteur ; latence écran p50 4,2 s (au lieu de 135 s) ; validé sur émulateur API 33 (ynet he→fr, Wikipédia en→fr et en→he, sans réseau) ; 1.5.0 (98 tests) (fait 2026-09-26 08:45)
 - [ ] 2026-09-26 08:45 — À valider sur le V30T : 1.5.0 avec la clé NVIDIA personnelle de l'utilisateur (saisie dans Paramètres › Moteur), latence réelle sur 4G/Wi-Fi
+- [x] 2026-09-26 09:00 — Signe visuel du modèle utilisé : pastille d'état à la place de la bulle (bleu en cours / vert U / jaune S / orange K) + repère par bloc (● ▲ ■ ○), option dans Paramètres ; 1.6.0 (101 tests) ; validé sur émulateur (vert, jaune simulé, orange hors-ligne) et sur V30T (en cours → vert, ynet) (fait 2026-09-26 09:30)
+- [ ] 2026-09-26 09:30 — Clé NVIDIA à saisir par l'utilisateur dans Paramètres › Moteur sur le V30T (la clé de test a été effacée ; 1.6.0 debug installée)
+- [ ] 2026-09-26 09:30 — Émulateur 31.3.12 : s'arrête après `svc wifi disable/enable` (2 fois) — mettre à jour l'émulateur du SDK
 - [ ] 2026-09-26 08:45 — Post-MVP : sur ynet, la page n'expose parfois aucun nœud d'accessibilité juste après la (ré)activation du service → tout passe par l'OCR (lignes découpées, traduites séparément)
 - [ ] 2026-09-26 08:45 — Post-MVP : gros titres hébreux sur fond coloré dans les images (bannière rouge ynet) non lus par l'OCR

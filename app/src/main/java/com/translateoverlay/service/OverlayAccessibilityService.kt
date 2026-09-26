@@ -23,6 +23,7 @@ import com.translateoverlay.capture.NodeTextCollector
 import com.translateoverlay.capture.OcrRecognizer
 import com.translateoverlay.core.BubbleVisibilityPolicy
 import com.translateoverlay.core.CaseStyle
+import com.translateoverlay.core.EngineTier
 import com.translateoverlay.core.RefineItem
 import com.translateoverlay.core.RefinementProgress
 import com.translateoverlay.overlay.BubbleController
@@ -197,10 +198,18 @@ class OverlayAccessibilityService : AccessibilityService() {
                     RefinementProgress(outcome.engine, it.map { item -> item.index }, app.router.ranks(s.provider))
                         .apply { outcome.improved.forEach { (i, engine) -> offer(i, engine) } }
                 }
+                // The bubble's position is read before the overlay hides it.
+                val statusBox = bubble.screenBox()
                 val view = showOverlay(outcome, s.targetLanguage, caption(progress?.caption() ?: outcome.engine))
+                val ranks = app.router.ranks(s.provider)
+                view.setStatusBox(statusBox)
+                view.setEngineState(
+                    List(outcome.blocks.size) { i -> progress?.tier(i) ?: EngineTier.of(outcome.improved[i], ranks) },
+                    s.engineMarkers,
+                )
                 Log.i(TAG, "overlay shown (${outcome.engine}) in ${SystemClock.uptimeMillis() - startedAt} ms, ${pending?.size ?: 0} blocks to improve")
                 if (outcome.modelsToDownload.isNotEmpty()) downloadModelsInBackground(outcome.modelsToDownload, s)
-                if (pending != null && progress != null) refine(view, pending, progress, s, startedAt, ::caption)
+                if (pending != null && progress != null) refine(view, pending, progress, outcome.blocks.size, s, startedAt, ::caption)
             }
             is PipelineOutcome.NoResult -> toast(outcome.message)
             is PipelineOutcome.Failure -> toast(outcome.message)
@@ -215,11 +224,16 @@ class OverlayAccessibilityService : AccessibilityService() {
         view: TranslationOverlayView,
         pending: List<RefineItem>,
         progress: RefinementProgress,
+        blockCount: Int,
         s: Settings,
         startedAt: Long,
         caption: (String) -> String,
     ) {
         val locale = Locale.forLanguageTag(s.targetLanguage)
+        fun showState() {
+            view.setCaption(caption(progress.caption()))
+            view.setEngineState(List(blockCount) { progress.tier(it) }, s.engineMarkers)
+        }
         refineJob = scope.launch {
             app.router.refine(
                 s.provider, pending, s.targetLanguage, s.azureRegion,
@@ -229,12 +243,12 @@ class OverlayAccessibilityService : AccessibilityService() {
                         if (text.isNotBlank() && progress.offer(item.index, engine)) view.update(item.index, text)
                     }
                     Log.i(TAG, "refined ${chunk.size} blocks with $engine at ${SystemClock.uptimeMillis() - startedAt} ms")
-                    view.setCaption(caption(progress.caption()))
+                    showState()
                 },
                 onFailed = { chunk, failure ->
                     progress.failed(chunk.map { it.index }, "${s.provider.shortLabel()} indisponible : ${failure.message}")
                     Log.i(TAG, "refine failed for ${chunk.size} blocks: $failure")
-                    view.setCaption(caption(progress.caption()))
+                    showState()
                 },
             )
         }

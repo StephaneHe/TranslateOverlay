@@ -17,7 +17,8 @@ import java.io.File
  *   adb shell run-as com.translateoverlay sh -c 'cat > files/debug_nvidia_key' < (key on stdin)
  *   adb shell am broadcast -n com.translateoverlay/.debug.DebugKeyReceiver [--es provider NVIDIA]
  *
- * Without the file, only the extras are applied: provider, target (language code), clear (deletes the key).
+ * Without the file, only the extras are applied: provider, target (language code), clear (deletes the key),
+ * down (comma-separated model ids answering a simulated 503 without any request; "" = none).
  */
 class DebugKeyReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -40,6 +41,11 @@ class DebugKeyReceiver : BroadcastReceiver() {
                 app.settings.setProvider(it)
                 Log.i(TAG, "provider = $it")
             }
+        }
+        intent.getStringExtra("down")?.let { ids ->
+            app.router.simulatedDown = ids.split(',').map { it.trim() }.filter { it.isNotEmpty() }.toSet()
+            app.router.onKeyChanged() // forget the breakers' state
+            Log.i(TAG, "simulated down = ${app.router.simulatedDown}")
         }
         intent.getStringExtra("target")?.let {
             app.settings.setTargetLanguage(it)

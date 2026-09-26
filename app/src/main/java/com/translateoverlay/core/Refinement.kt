@@ -89,5 +89,43 @@ class RefinementProgress(
         }
     }
 
+    /** Tier of the overlay block [index] (blocks not tracked here keep their offline text). */
+    fun tier(index: Int): EngineTier = when (index) {
+        in engineOf -> EngineTier.of(engineOf[index], ranks)
+        in waiting -> EngineTier.PENDING
+        else -> EngineTier.OFFLINE
+    }
+
     private fun rank(engine: String): Int = ranks[engine] ?: Int.MAX_VALUE
+}
+
+/**
+ * Quality tier of the engine that translated a block, shown on the overlay (colour + shape +
+ * letter, so it does not rely on colour alone). Ordered best → worst.
+ */
+enum class EngineTier(val letter: String) {
+    /** The primary online model (NVIDIA: Nemotron Ultra). */
+    BEST("U"),
+    /** A fail-safe online model (Nemotron Super). */
+    FALLBACK("S"),
+    /** Offline ML Kit translation (no key, no network, online engines failed, or chosen). */
+    OFFLINE("K"),
+    /** Offline translation shown, online one still expected. */
+    PENDING("…");
+
+    companion object {
+        /** @param engine online engine label, null for ML Kit; [ranks]: engine label → 0 for the primary. */
+        fun of(engine: String?, ranks: Map<String, Int>): EngineTier = when (engine?.let { ranks[it] }) {
+            null -> OFFLINE
+            0 -> BEST
+            else -> FALLBACK
+        }
+
+        /** Whole-screen state: still improving while any block is pending, else the worst block. */
+        fun overall(tiers: Collection<EngineTier>): EngineTier = when {
+            tiers.isEmpty() -> OFFLINE
+            PENDING in tiers -> PENDING
+            else -> tiers.maxOf { it }
+        }
+    }
 }

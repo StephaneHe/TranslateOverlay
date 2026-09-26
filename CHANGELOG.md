@@ -3,7 +3,30 @@
 Toutes les évolutions notables de ce projet sont documentées ici.
 Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), versionnage [SemVer](https://semver.org/lang/fr/).
 
-## [1.5.0] - 2026-09-26
+## [1.6.0] - 2026-09-26
+
+Demande : « un signe visuel pour savoir quel modèle a été utilisé ». Captures :
+`docs/screenshots/emulator/etat-*.png`, `docs/screenshots/v30t/engine-state-*.png`.
+
+### Ajouté
+- **Pastille d'état à la place de la bulle** pendant l'overlay (la bulle elle-même est masquée tant
+  que l'overlay est affiché : sa couleur ne se verrait qu'après fermeture). Même forme que la
+  bulle, couleur + lettre du **moins bon moteur visible à l'écran** :
+  - bleu avec anneau tournant « 文A » : amélioration en cours ;
+  - **vert « U »** : tout l'écran traduit par Nemotron Ultra ;
+  - **jaune « S »** : au moins un bloc traduit par le secours Nemotron Super ;
+  - **orange « K »** : au moins un bloc resté en ML Kit (hors-ligne, NVIDIA indisponible, pas de
+    clé, ou ML Kit choisi).
+  La toucher ferme l'overlay, comme la bulle.
+- **Repère par bloc** : petite forme au coin de fin du bloc (dans la marge quand il y a la place,
+  pour ne jamais masquer une lettre ; à gauche pour une cible RTL) — ● vert Ultra, ▲ jaune Super,
+  ■ orange ML Kit, ○ bleu creux en attente. La forme distingue les moteurs sans la couleur
+  (daltonisme). Désactivable : Paramètres › « Repère du moteur sur chaque bloc ».
+- La légende (« Nemotron Ultra 12 · Nemotron Super 4 ») est inchangée.
+- Builds debug : `DebugKeyReceiver --es down <id modèle>` simule un modèle en 503 sans aucune
+  requête (tests du repli).
+
+
 
 Décision utilisateur : « intègre le meilleur gratuit même s'il est en ligne, puis le 2e en fail
 safe ». Mesures : `docs/TRANSLATION_ENGINES.md` §7.

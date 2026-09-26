@@ -65,4 +65,44 @@ class RefinementTest {
         assertTrue(q.offer(0, "Nemotron Super"))
         assertTrue(q.offer(0, "Nemotron Ultra"))
     }
+
+    @Test
+    fun `engine tier of a block - primary, fail-safe, offline`() {
+        assertEquals(EngineTier.BEST, EngineTier.of("Nemotron Ultra", ranks))
+        assertEquals(EngineTier.FALLBACK, EngineTier.of("Nemotron Super", ranks))
+        assertEquals(EngineTier.OFFLINE, EngineTier.of(null, ranks))
+        assertEquals(EngineTier.OFFLINE, EngineTier.of("ML Kit", ranks))
+        // A single-model online engine (Azure) is its own best.
+        assertEquals(EngineTier.BEST, EngineTier.of("Azure", mapOf("Azure" to 0)))
+        // Distinct letters: the state does not rely on colour alone.
+        assertEquals(4, EngineTier.entries.map { it.letter }.toSet().size)
+    }
+
+    @Test
+    fun `screen state - improving, then the worst engine on screen`() {
+        val (u, s, k, p) = listOf(EngineTier.BEST, EngineTier.FALLBACK, EngineTier.OFFLINE, EngineTier.PENDING)
+        assertEquals(p, EngineTier.overall(listOf(u, p, s)))
+        assertEquals(u, EngineTier.overall(listOf(u, u, u))) // green
+        assertEquals(s, EngineTier.overall(listOf(u, s, u))) // yellow: at least one fail-safe block
+        assertEquals(k, EngineTier.overall(listOf(u, s, k))) // orange: a block stayed offline
+        assertEquals(k, EngineTier.overall(listOf(k, k))) // ML Kit only
+        assertEquals(k, EngineTier.overall(emptyList()))
+    }
+
+    @Test
+    fun `per-block tiers follow the refinement (ynet case - Ultra 12, Super 4)`() {
+        val p = RefinementProgress("ML Kit", (0 until 16).toList(), ranks)
+        assertEquals(EngineTier.PENDING, EngineTier.overall(List(16) { p.tier(it) }))
+        (0 until 12).forEach { p.offer(it, "Nemotron Ultra") }
+        assertEquals(EngineTier.BEST, p.tier(0))
+        assertEquals(EngineTier.PENDING, p.tier(12))
+        (12 until 16).forEach { p.offer(it, "Nemotron Super") }
+        assertEquals(EngineTier.FALLBACK, p.tier(15))
+        assertEquals(EngineTier.FALLBACK, EngineTier.overall(List(16) { p.tier(it) }))
+        assertEquals(EngineTier.OFFLINE, p.tier(99)) // not tracked (e.g. text ML Kit alone handled)
+
+        val down = RefinementProgress("ML Kit", listOf(0, 1), ranks)
+        down.failed(listOf(0, 1), "NVIDIA indisponible : réseau indisponible")
+        assertEquals(EngineTier.OFFLINE, EngineTier.overall(List(2) { down.tier(it) }))
+    }
 }

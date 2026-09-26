@@ -33,6 +33,8 @@ data class Settings(
     val provider: TranslationProvider = TranslationProvider.NVIDIA,
     /** Azure resource region ("francecentral"…); blank for a global resource. Not a secret. */
     val azureRegion: String = "",
+    /** Per-block engine marks on the overlay (the status disc and the caption always show). */
+    val engineMarkers: Boolean = true,
 )
 
 /** SharedPreferences-backed settings exposed as a [StateFlow] shared by the UI and the service. */
@@ -67,6 +69,7 @@ class SettingsRepository(context: Context) {
             provider = prefs.getString(K_PROVIDER, null)
                 ?.let { runCatching { TranslationProvider.valueOf(it) }.getOrNull() } ?: d.provider,
             azureRegion = prefs.getString(K_AZURE_REGION, d.azureRegion) ?: d.azureRegion,
+            engineMarkers = prefs.getBoolean(K_ENGINE_MARKERS, d.engineMarkers),
         )
     }
 
@@ -79,6 +82,7 @@ class SettingsRepository(context: Context) {
     fun setBubbleOpacity(v: Float) = prefs.edit().putFloat(K_BUBBLE_OPACITY, v).apply()
     fun setProvider(v: TranslationProvider) = prefs.edit().putString(K_PROVIDER, v.name).apply()
     fun setAzureRegion(v: String) = prefs.edit().putString(K_AZURE_REGION, v.trim()).apply()
+    fun setEngineMarkers(v: Boolean) = prefs.edit().putBoolean(K_ENGINE_MARKERS, v).apply()
 
     fun setExcluded(pkg: String, excluded: Boolean) {
         val next = _settings.value.excludedPackages.toMutableSet()
@@ -106,6 +110,7 @@ class SettingsRepository(context: Context) {
         const val K_BUBBLE_OPACITY = "bubble_opacity"
         const val K_PROVIDER = "translation_provider"
         const val K_AZURE_REGION = "azure_region"
+        const val K_ENGINE_MARKERS = "engine_markers"
         const val K_BUBBLE_X = "bubble_x"
         const val K_BUBBLE_Y = "bubble_y"
     }

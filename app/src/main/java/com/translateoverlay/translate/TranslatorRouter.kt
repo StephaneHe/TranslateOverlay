@@ -38,6 +38,10 @@ class TranslatorRouter(private val mlKit: TranslationEngine, private val secrets
 
     private fun breaker(id: String) = breakers.getOrPut(id) { CircuitBreaker() }
 
+    /** Test hook (set only by the debug build's DebugKeyReceiver): model ids answering "503". */
+    @Volatile
+    var simulatedDown: Set<String> = emptySet()
+
     /** True when [provider] can be used right now (an online engine needs its key). */
     fun isReady(provider: TranslationProvider): Boolean = when (provider) {
         TranslationProvider.MLKIT -> true
@@ -137,6 +141,7 @@ class TranslatorRouter(private val mlKit: TranslationEngine, private val secrets
     private suspend fun nvidia(model: NvidiaProtocol.Model, texts: List<String>, source: String, target: String): List<String> =
         withContext(Dispatchers.IO) {
             val key = secrets.get(SecretStore.NVIDIA_KEY) ?: throw OnlineTranslationException(OnlineFailure.NO_KEY)
+            if (model.id in simulatedDown) throw OnlineTranslationException(OnlineFailure.SERVER, "simulated 503 (debug)")
             val n = requests.incrementAndGet()
             val started = SystemClock.elapsedRealtime()
             var status = 0

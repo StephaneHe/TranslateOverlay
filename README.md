@@ -43,6 +43,10 @@ compte sur build.nvidia.com, « Get API Key », puis la coller dans Paramètres 
 - L'essai NVIDIA est limité à 40 requêtes/min par compte : l'application s'en tient à 20/min
   (~3–4 requêtes par écran), recule sur 429 (Retry-After) et met en pause un modèle en échec.
 - Sans clé : ML Kit seul, la légende l'indique.
+- **Quel moteur a traduit ?** Pendant l'overlay, une pastille remplace la bulle : bleue qui tourne =
+  amélioration en cours, **vert U** = tout en Nemotron Ultra, **jaune S** = au moins un bloc en
+  secours Nemotron Super, **orange K** = au moins un bloc resté en ML Kit. Chaque bloc porte aussi
+  un petit repère (● Ultra, ▲ Super, ■ ML Kit, ○ en attente), masquable dans les Paramètres.
 
 Autres moteurs (code conservé, non recommandés : clé + carte bancaire) : Microsoft Azure
 Translator, Google Cloud Translation. Mesures et choix : `docs/TRANSLATION_ENGINES.md`.

@@ -98,6 +98,13 @@ fun HomeScreen(
             )
 
             TranslationEngineSection(s, settings, secrets, router)
+            SwitchRow(
+                "Repère du moteur sur chaque bloc",
+                "● vert : Nemotron Ultra · ▲ jaune : secours Nemotron Super · ■ orange : ML Kit hors-ligne. " +
+                    "La pastille à la place de la bulle et la légende l'indiquent toujours pour tout l'écran.",
+                s.engineMarkers,
+                settings::setEngineMarkers,
+            )
 
             SectionTitle("Capture du texte")
             SwitchRow(
