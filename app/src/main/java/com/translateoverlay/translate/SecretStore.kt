@@ -54,6 +54,7 @@ class SecretStore(context: Context) {
     fun has(name: String): Boolean = prefs.contains(name)
 
     companion object {
+        const val NVIDIA_KEY = "nvidia_key"
         const val AZURE_KEY = "azure_key"
         const val GOOGLE_KEY = "google_cloud_key"
         private const val ANDROID_KEYSTORE = "AndroidKeyStore"

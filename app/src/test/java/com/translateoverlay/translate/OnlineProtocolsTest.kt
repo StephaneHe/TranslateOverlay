@@ -84,4 +84,43 @@ class OnlineProtocolsTest {
         assertEquals(listOf(listOf("x".repeat(50))), Batching.chunks(listOf("x".repeat(50)), 10, 25))
         assertTrue(Batching.chunks(emptyList(), 10, 25).isEmpty())
     }
+
+    @Test
+    fun `nvidia request - reasoning off, streamed, one block per line`() {
+        val body = JSONObject(NvidiaProtocol.body(NvidiaProtocol.PRIMARY.id, listOf("שורה\nשנייה", ynet[0]), "he", "fr"))
+        assertEquals("nvidia/nemotron-3-ultra-550b-a55b", body.getString("model"))
+        assertTrue(body.getBoolean("stream"))
+        assertFalse(body.getJSONObject("chat_template_kwargs").getBoolean("enable_thinking"))
+        val messages = body.getJSONArray("messages")
+        assertEquals("/no_think", messages.getJSONObject(0).getString("content"))
+        assertTrue(messages.getJSONObject(1).getString("content").startsWith("Translate each line from Hebrew to French."))
+        // A block's own line breaks are flattened: one line = one block.
+        assertEquals("שורה שנייה\nלכל המבזקים", messages.getJSONObject(2).getString("content"))
+        assertTrue(body.getInt("max_tokens") in 40..200)
+        assertEquals("Bearer k", NvidiaProtocol.headers("k")["Authorization"])
+    }
+
+    @Test
+    fun `nvidia stream events`() {
+        assertEquals("Tous", NvidiaProtocol.parseEvent("""data: {"choices":[{"delta":{"content":"Tous"}}]}"""))
+        assertEquals("", NvidiaProtocol.parseEvent("""data: {"choices":[{"delta":{"reasoning_content":"hmm"}}]}"""))
+        assertEquals("", NvidiaProtocol.parseEvent("""data: {"choices":[],"usage":{"total_tokens":12}}"""))
+        assertEquals("", NvidiaProtocol.parseEvent(""))
+        assertEquals(null, NvidiaProtocol.parseEvent("data: [DONE]"))
+        // Live answer of an overloaded model (2026-09-26): HTTP 200, then this event.
+        val overloaded = """data: {"error": {"message": "Service temporarily overloaded", "type": "service_unavailable", "code": 503}}"""
+        assertEquals(OnlineFailure.SERVER, assertThrows(OnlineTranslationException::class.java) { NvidiaProtocol.parseEvent(overloaded) }.failure)
+        val quota = """data: {"error": {"message": "Too many requests", "code": 429}}"""
+        assertEquals(OnlineFailure.QUOTA, assertThrows(OnlineTranslationException::class.java) { NvidiaProtocol.parseEvent(quota) }.failure)
+    }
+
+    @Test
+    fun `nvidia answer lines must match the blocks`() {
+        assertEquals(listOf("Toutes les brèves", "Un mort"), NvidiaProtocol.parseLines("Toutes les brèves\n\n Un mort \n", 2))
+        assertEquals(listOf("A"), NvidiaProtocol.parseLines("<think>\nx\ny\n</think>\nA", 1))
+        assertEquals(OnlineFailure.MALFORMED, assertThrows(OnlineTranslationException::class.java) { NvidiaProtocol.parseLines("A B", 2) }.failure)
+        assertEquals(listOf("Le chat. Il chasse."), NvidiaProtocol.parseLines("Le chat.\nIl chasse.", 1))
+        assertEquals("Hebrew", NvidiaProtocol.languageName("he"))
+        assertEquals("French", NvidiaProtocol.languageName("fr"))
+    }
 }

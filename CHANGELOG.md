@@ -3,6 +3,36 @@
 Toutes les évolutions notables de ce projet sont documentées ici.
 Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), versionnage [SemVer](https://semver.org/lang/fr/).
 
+## [1.5.0] - 2026-09-26
+
+Décision utilisateur : « intègre le meilleur gratuit même s'il est en ligne, puis le 2e en fail
+safe ». Mesures : `docs/TRANSLATION_ENGINES.md` §7.
+
+### Ajouté
+- Moteur **NVIDIA** (API catalogue, essai gratuit sans carte, clé personnelle chiffrée), par défaut :
+  **Nemotron 3 Ultra 550B** en principal (chrF++ he→fr 74,4 / en→fr 80,3 / en→he 67,7), **Nemotron 3
+  Super 120B** en secours (72,4 / 79,5 / 55,3), ML Kit en dernier recours hors-ligne.
+- Traduction **progressive** : l'overlay ML Kit s'affiche immédiatement, puis chaque bloc est
+  remplacé au fil des réponses en ligne ; légende « amélioration… (k/n) » puis moteur(s) utilisé(s),
+  ou la raison de l'échec (« NVIDIA indisponible : réseau indisponible »). Un bloc n'est jamais
+  remplacé par un moteur moins bon. Toucher hors du texte ferme l'overlay et annule les requêtes.
+- Requêtes par petits lots (≤ 4 blocs / 500 caractères), haut de l'écran d'abord, 4 en parallèle,
+  en flux (SSE), raisonnement désactivé, consigne minimale « une ligne par bloc », `max_tokens`
+  ajusté ; délais : 7 s sans jeton, 25 s au total.
+- Auto-limitation (quota NVIDIA partagé) : ≤ 20 requêtes/min (fenêtre glissante), disjoncteur par
+  modèle (2 échecs → pause 30 s doublée jusqu'à 10 min), pause de tout le compte sur 429
+  (Retry-After) ou clé refusée ; cache des traductions en ligne par modèle.
+- Modèles ML Kit manquants avec un moteur en ligne : traduction en ligne seule, modèles téléchargés
+  en arrière-plan pour le repli.
+- Builds debug : ABI x86_64 (émulateur) et récepteur de test `DebugKeyReceiver` (clé transmise par
+  fichier privé + stdin, jamais en ligne de commande ni dans un log). Absents du build release.
+
+### Modifié
+- Gemma 4 31B (n°1 du banc précédent) n'est pas retenu : sur l'essai gratuit il ne renvoie aucun
+  jeton en 60 s, même pour 1 bloc (4 essais sur la journée) ; Nemotron 3 Ultra sans raisonnement le
+  dépasse en qualité et répond en ~4 s par écran.
+- Textes de divulgation : le texte n'est envoyé que si une clé de moteur en ligne est enregistrée.
+
 ## [1.4.1] - 2026-09-25
 
 ### Modifié

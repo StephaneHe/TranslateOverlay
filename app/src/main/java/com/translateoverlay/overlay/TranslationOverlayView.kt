@@ -11,6 +11,7 @@ import android.graphics.Typeface
 import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextDirectionHeuristics
+import android.text.TextUtils
 import android.text.TextPaint
 import android.view.MotionEvent
 import android.view.View
@@ -22,14 +23,15 @@ import com.translateoverlay.core.TranslatedBlock
 
 /**
  * Full-screen overlay painting each translation over its source block, in the estimated style.
- * Tap a block to toggle original/translation; tap anywhere else to close.
+ * Tap a block to toggle original/translation; tap anywhere else to close. Blocks can be replaced
+ * while it is shown ([update]): offline translation first, online one as it arrives.
  */
 @SuppressLint("ViewConstructor")
 class TranslationOverlayView(
     context: Context,
     blocks: List<TranslatedBlock>,
     targetLanguage: String,
-    private val caption: String,
+    private var caption: String,
     private val screenHeight: Int,
     private val onDismiss: () -> Unit,
 ) : View(context) {
@@ -42,13 +44,17 @@ class TranslationOverlayView(
         val background: Paint,
         val outlineColor: Int?,
         var showTranslation: Boolean = true,
-    )
+    ) {
+        /** No translation yet (waiting for the online engine): nothing drawn, original visible. */
+        val empty: Boolean get() = layout.text.isEmpty()
+    }
 
     private val density = resources.displayMetrics.density
     // Forced (not first-strong) so a Hebrew sentence starting with a Latin word or a number stays RTL.
     private val targetDirection =
         if (Bidi.isRtlLanguage(targetLanguage)) TextDirectionHeuristics.RTL else TextDirectionHeuristics.LTR
-    private val items = blocks.map(::prepare)
+    private val blocks = blocks.toMutableList()
+    private val items = blocks.map(::prepare).toMutableList()
     private val location = IntArray(2)
 
     private val outline = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -109,11 +115,27 @@ class TranslationOverlayView(
         return Item(rect, box.left.toFloat(), textTop, layout, bg, style.outlineColor)
     }
 
+    /** Replaces block [index]'s translation (keeps whether the user toggled it to the original). */
+    fun update(index: Int, translation: String) {
+        if (index !in items.indices) return
+        val block = blocks[index].copy(translation = translation)
+        blocks[index] = block
+        val shown = items[index].showTranslation
+        items[index] = prepare(block).also { it.showTranslation = shown }
+        invalidate()
+    }
+
+    fun setCaption(text: String) {
+        caption = text
+        invalidate()
+    }
+
     override fun onDraw(canvas: Canvas) {
         getLocationOnScreen(location)
         canvas.save()
         canvas.translate(-location[0].toFloat(), -location[1].toFloat())
         for (item in items) {
+            if (item.empty) continue
             if (item.showTranslation) {
                 canvas.drawRect(item.rect, item.background)
                 canvas.save()
@@ -145,6 +167,8 @@ class TranslationOverlayView(
 
     private fun drawCaption(canvas: Canvas) {
         val pad = 12f * density
+        // Ellipsized: the engine/progress part comes first, the closing hint is cut if needed.
+        val caption = TextUtils.ellipsize(this.caption, pillText, width - 4 * pad, TextUtils.TruncateAt.END).toString()
         val textWidth = pillText.measureText(caption)
         val h = pillText.textSize + pad
         val cx = width / 2f
@@ -160,7 +184,7 @@ class TranslationOverlayView(
             getLocationOnScreen(location)
             val x = event.x + location[0]
             val y = event.y + location[1]
-            val hit = items.lastOrNull { it.rect.contains(x, y) }
+            val hit = items.lastOrNull { !it.empty && it.rect.contains(x, y) }
             if (hit != null) {
                 hit.showTranslation = !hit.showTranslation
                 invalidate()

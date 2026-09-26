@@ -50,7 +50,11 @@ texte des images supprimé). Logique pure `BlockMerger`, testée unitairement.
 | Google Cloud Translation / DeepL | Non | Oui | Très bonne | Payant au-delà du quota, données envoyées à un tiers |
 | LLM local (Gemma via MediaPipe/LiteRT) | Oui | Non | Bonne mais lente, modèle 1–3 Go, RAM | Latence de plusieurs secondes par écran |
 
-**Choix : ML Kit Translation.** Gratuit, sans clé, hors-ligne après téléchargement du modèle, latence de
+**Mise à jour 1.5.0 (2026-09-26)** : moteur en ligne NVIDIA (Nemotron 3 Ultra, secours Nemotron 3
+Super, clé personnelle gratuite) affiché **par-dessus** la traduction ML Kit immédiate, bloc par
+bloc ; ML Kit reste le dernier recours hors-ligne. Voir `docs/TRANSLATION_ENGINES.md` §7.
+
+**Choix initial : ML Kit Translation.** Gratuit, sans clé, hors-ligne après téléchargement du modèle, latence de
 quelques dizaines de ms par bloc. Le pivot se fait par l'anglais en interne (ML Kit gère). L'interface
 `TextTranslator` permet de brancher plus tard un moteur en ligne (DeepL) ou un LLM local.
 

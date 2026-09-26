@@ -30,4 +30,8 @@
 - [ ] 2026-09-25 21:02 — Attente utilisateur : choix du moteur en ligne (Azure recommandé / Google Cloud) et clé API
 - [ ] 2026-09-25 21:02 — Post-MVP : moteur hors-ligne de meilleure qualité (Opus-MT/Bergamot int8 via ONNX Runtime, he→en→fr, +8 à +10 chrF sur ML Kit)
 - [x] 2026-09-25 22:59 — Évaluation NVIDIA API catalogue (10 modèles, 50 requêtes/150, 0 × 429) : Gemma 4 31B he→fr 72,9 mais écran p50 135 s → non intégré ; recommandation révisée NLLB-200 600M on-device (fait 2026-09-25 22:59)
-- [ ] 2026-09-25 22:59 — Attente utilisateur : intégrer NLLB-200 600M sur l'appareil ? et/ou mode « lecture différée » NVIDIA avec sa propre clé ?
+- [x] 2026-09-25 22:59 — Attente utilisateur : intégrer NLLB-200 600M sur l'appareil ? et/ou mode « lecture différée » NVIDIA avec sa propre clé ? (fait 2026-09-26 — décision : meilleur gratuit en ligne + fail-safe)
+- [x] 2026-09-26 08:00 — NVIDIA en principal (Nemotron 3 Ultra) + fail-safe (Nemotron 3 Super) + ML Kit, traduction progressive, limiteur/disjoncteur ; latence écran p50 4,2 s (au lieu de 135 s) ; validé sur émulateur API 33 (ynet he→fr, Wikipédia en→fr et en→he, sans réseau) ; 1.5.0 (98 tests) (fait 2026-09-26 08:45)
+- [ ] 2026-09-26 08:45 — À valider sur le V30T : 1.5.0 avec la clé NVIDIA personnelle de l'utilisateur (saisie dans Paramètres › Moteur), latence réelle sur 4G/Wi-Fi
+- [ ] 2026-09-26 08:45 — Post-MVP : sur ynet, la page n'expose parfois aucun nœud d'accessibilité juste après la (ré)activation du service → tout passe par l'OCR (lignes découpées, traduites séparément)
+- [ ] 2026-09-26 08:45 — Post-MVP : gros titres hébreux sur fond coloré dans les images (bannière rouge ynet) non lus par l'OCR

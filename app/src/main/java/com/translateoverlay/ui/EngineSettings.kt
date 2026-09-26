@@ -66,12 +66,24 @@ fun TranslationEngineSection(
         )
         return
     }
-    val keyName = if (s.provider == TranslationProvider.AZURE) SecretStore.AZURE_KEY else SecretStore.GOOGLE_KEY
+    val keyName = router.keyName(s.provider) ?: return
+    val company = when (s.provider) {
+        TranslationProvider.NVIDIA -> "NVIDIA"
+        TranslationProvider.AZURE -> "Microsoft"
+        else -> "Google"
+    }
     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        if (s.provider == TranslationProvider.NVIDIA) {
+            Text(
+                "Clé gratuite, sans carte bancaire : créez un compte sur build.nvidia.com puis « Get API Key ». " +
+                    "La traduction hors-ligne ML Kit s'affiche aussitôt, puis chaque bloc est remplacé par celle de " +
+                    "Nemotron Ultra (secours : Nemotron Super). Au plus 20 requêtes par minute (~3 par écran).",
+                style = MaterialTheme.typography.bodySmall,
+            )
+        }
         Text(
-            "Le texte affiché est envoyé à ${if (s.provider == TranslationProvider.AZURE) "Microsoft" else "Google"} " +
-                "uniquement quand vous touchez la bulle. Sans clé, sans réseau ou en cas d'erreur, la traduction " +
-                "se fait hors-ligne avec ML Kit.",
+            "Le texte affiché est envoyé à $company uniquement quand vous touchez la bulle. Sans clé, sans réseau " +
+                "ou en cas d'erreur, la traduction hors-ligne ML Kit reste affichée.",
             style = MaterialTheme.typography.bodySmall,
         )
         OutlinedTextField(
@@ -94,7 +106,10 @@ fun TranslationEngineSection(
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             OutlinedButton(onClick = {
-                if (keyInput.isNotBlank()) secrets.put(keyName, keyInput)
+                if (keyInput.isNotBlank()) {
+                    secrets.put(keyName, keyInput)
+                    router.onKeyChanged()
+                }
                 if (s.provider == TranslationProvider.AZURE) settings.setAzureRegion(region)
                 keyInput = ""
                 keySaved = router.isReady(s.provider)
@@ -106,6 +121,7 @@ fun TranslationEngineSection(
             }) { Text("Tester") }
             TextButton(enabled = keySaved, onClick = {
                 secrets.put(keyName, null)
+                router.onKeyChanged()
                 keySaved = false
                 status = "Clé supprimée"
             }) { Text("Supprimer") }

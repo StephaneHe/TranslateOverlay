@@ -29,7 +29,8 @@ data class Settings(
     val wifiOnlyDownloads: Boolean = true,
     val bubbleSizeDp: Int = 52,
     val bubbleOpacity: Float = 0.85f,
-    val provider: TranslationProvider = TranslationProvider.MLKIT,
+    /** NVIDIA by default (1.5.0); without its key, ML Kit translates and the caption says so. */
+    val provider: TranslationProvider = TranslationProvider.NVIDIA,
     /** Azure resource region ("francecentral"…); blank for a global resource. Not a secret. */
     val azureRegion: String = "",
 )

@@ -147,8 +147,8 @@ fun HomeScreen(
                         "• afficher la bulle flottante au-dessus des autres applications ;\n" +
                         "• détecter l'application au premier plan afin de masquer la bulle dans les applications exclues ;\n" +
                         "• lire le texte affiché et faire une capture d'écran, uniquement quand vous touchez la bulle, pour le traduire.\n\n" +
-                        "Par défaut, tout est traité sur l'appareil. Si vous choisissez un moteur de traduction en " +
-                        "ligne (Azure ou Google), le texte à traduire est envoyé à ce seul service au moment du " +
+                        "Sans clé de moteur en ligne, tout est traité sur l'appareil. Si vous enregistrez une clé " +
+                        "(NVIDIA, Azure ou Google), le texte à traduire est envoyé à ce seul service au moment du " +
                         "toucher. Rien n'est collecté ni conservé par l'application.",
                 )
             },

@@ -1,0 +1,799 @@
+{
+ "google/gemma-4-31b-it|whole": [
+  {
+   "ok": false,
+   "first": null,
+   "total": 60.38012480735779,
+   "parts": [
+    {
+     "ok": false,
+     "status": -1,
+     "ttft": null,
+     "total": 60.30218744277954,
+     "done_at": 60.38012480735779,
+     "err": "TimeoutError: The read operation timed out"
+    }
+   ],
+   "out": []
+  }
+ ],
+ "google/gemma-4-31b-it|first1": [
+  {
+   "ok": false,
+   "first": null,
+   "total": 60.2721164226532,
+   "parts": [
+    {
+     "ok": false,
+     "status": -1,
+     "ttft": null,
+     "total": 60.20728063583374,
+     "done_at": 60.2721164226532,
+     "err": "TimeoutError: The read operation timed out"
+    }
+   ],
+   "out": []
+  },
+  {
+   "ok": false,
+   "first": null,
+   "total": 60.254899740219116,
+   "parts": [
+    {
+     "ok": false,
+     "status": -1,
+     "ttft": null,
+     "total": 60.20184516906738,
+     "done_at": 60.254899740219116,
+     "err": "TimeoutError: The read operation timed out"
+    }
+   ],
+   "out": []
+  },
+  {
+   "ok": false,
+   "first": null,
+   "total": 60.26397657394409,
+   "parts": [
+    {
+     "ok": false,
+     "status": -1,
+     "ttft": null,
+     "total": 60.25246238708496,
+     "done_at": 60.26397657394409,
+     "err": "TimeoutError: The read operation timed out"
+    }
+   ],
+   "out": []
+  }
+ ],
+ "nvidia/nemotron-3-super-120b-a12b|first1": [
+  {
+   "ok": true,
+   "first": 0.7527976036071777,
+   "total": 0.7527976036071777,
+   "parts": [
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 0.6247153282165527,
+     "total": 0.7021937370300293,
+     "done_at": 0.7527976036071777,
+     "err": ""
+    }
+   ],
+   "out": [
+    "Le candidat principal des électeurs libéraux - et l'effondrement de la coalition"
+   ]
+  }
+ ],
+ "nvidia/nemotron-3-super-120b-a12b|whole": [
+  {
+   "ok": true,
+   "first": 4.131836175918579,
+   "total": 4.131836175918579,
+   "parts": [
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 0.7225196361541748,
+     "total": 4.0926008224487305,
+     "done_at": 4.131836175918579,
+     "err": ""
+    }
+   ],
+   "out": [
+    "Le candidat principal des électeurs libéraux - et l'effondrement de la coalition",
+    "Un mort dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave",
+    "Le décès du jeune homme abattu en Galilée occidentale a été constaté",
+    "Crainte de noyade d'une personne sur une plage d'Ashkelon, 2 jeunes qui étaient avec lui ont été secourus, l'un dans un état grave",
+    "Un haut responsable iranien : « Nous ne céderons pas sur le programme nucléaire »",
+    "Tous les flashs",
+    "Elle remplace l'affichage et vous profitez de prix spéciaux",
+    "Fête de la reprise",
+    "Il y a des offres qu'il faut absolument saisir",
+    "Essai routier : la petite électrique avec l'âme sportive",
+    "Seulement 2 390 ₪ par mois : Kia Sportage essence en leasing attractif",
+    "La vente est interdite aux personnes de moins de 18 ans",
+    "Deux tombés dans le petit village, maison contre maison",
+    "Passez le test",
+    "Avec le premier mois offert !"
+   ]
+  },
+  {
+   "ok": false,
+   "first": null,
+   "total": 0.5766880512237549,
+   "parts": [
+    {
+     "ok": false,
+     "status": 200,
+     "ttft": null,
+     "total": 0.5656704902648926,
+     "done_at": 0.5766880512237549,
+     "err": "{\"error\": {\"message\": \"Service temporarily overloaded\", \"type\": \"service_unavailable\", \"code\": 503}}"
+    }
+   ],
+   "out": []
+  },
+  {
+   "ok": false,
+   "first": null,
+   "total": 0.4994058609008789,
+   "parts": [
+    {
+     "ok": false,
+     "status": 200,
+     "ttft": null,
+     "total": 0.48422670364379883,
+     "done_at": 0.4994058609008789,
+     "err": "{\"error\": {\"message\": \"Service temporarily overloaded\", \"type\": \"service_unavailable\", \"code\": 503}}"
+    }
+   ],
+   "out": []
+  },
+  {
+   "ok": false,
+   "first": null,
+   "total": 0.525932788848877,
+   "parts": [
+    {
+     "ok": false,
+     "status": 200,
+     "ttft": null,
+     "total": 0.5097572803497314,
+     "done_at": 0.525932788848877,
+     "err": "{\"error\": {\"message\": \"Service temporarily overloaded\", \"type\": \"service_unavailable\", \"code\": 503}}"
+    }
+   ],
+   "out": []
+  },
+  {
+   "ok": true,
+   "first": 4.105488061904907,
+   "total": 4.105488061904907,
+   "parts": [
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 0.8278567790985107,
+     "total": 4.088963985443115,
+     "done_at": 4.105488061904907,
+     "err": ""
+    }
+   ],
+   "out": [
+    "Le candidat principal candidat des électeurs libéraux - et l'effondrement de la coalition",
+    "Un mort dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave",
+    "La mort du jeune homme blessé par balle en Galilée occidentale a été confirmée",
+    "Crainte de noyade d'une personne sur une plage d'Ashkelon, 2 jeunes qui étaient avec lui ont été secourus, l'un dans un état grave",
+    "Un haut responsable iranien : « Nous ne céderons pas sur notre programme nucléaire »",
+    "Tous les flashs",
+    "Elle remplace l'affichage et vous profitez de prix spéciaux",
+    "Fête de la reprise",
+    "Il y a des offres qu'il faut absolument saisir",
+    "Essai routier : la petite électrique avec l'âme sportive",
+    "Seulement 2 390 ₪ par mois : Kia Sportage essence en leasing attractif",
+    "La vente est interdite aux personnes de moins de 18 ans",
+    "Deux tombés dans le petit village, maison contre maison",
+    "Passez le test",
+    "Avec un premier mois offert !"
+   ]
+  }
+ ],
+ "z-ai/glm-5.3-flash|whole": [
+  {
+   "ok": false,
+   "first": null,
+   "total": 60.02632689476013,
+   "parts": [
+    {
+     "ok": false,
+     "status": 200,
+     "ttft": null,
+     "total": 60.01615381240845,
+     "done_at": 60.02632689476013,
+     "err": "deadline"
+    }
+   ],
+   "out": []
+  }
+ ],
+ "deepseek-ai/deepseek-v4.1-flash|whole": [
+  {
+   "ok": false,
+   "first": null,
+   "total": 60.20511245727539,
+   "parts": [
+    {
+     "ok": false,
+     "status": -1,
+     "ttft": null,
+     "total": 60.19405746459961,
+     "done_at": 60.20511245727539,
+     "err": "TimeoutError: The read operation timed out"
+    }
+   ],
+   "out": []
+  }
+ ],
+ "nvidia/nemotron-3-ultra-550b-a55b|first1": [
+  {
+   "ok": true,
+   "first": 0.8135483264923096,
+   "total": 0.8135483264923096,
+   "parts": [
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 0.6890246868133545,
+     "total": 0.8013474941253662,
+     "done_at": 0.8135483264923096,
+     "err": ""
+    }
+   ],
+   "out": [
+    "Le candidat de premier choix des électeurs libéraux - et l'effondrement de la coalition"
+   ]
+  }
+ ],
+ "mistralai/mistral-nemotron|first1": [
+  {
+   "ok": false,
+   "first": null,
+   "total": 60.21997570991516,
+   "parts": [
+    {
+     "ok": false,
+     "status": -1,
+     "ttft": null,
+     "total": 60.209532260894775,
+     "done_at": 60.21997570991516,
+     "err": "TimeoutError: The read operation timed out"
+    }
+   ],
+   "out": []
+  }
+ ],
+ "moonshotai/kimi-k2.6|first1": [
+  {
+   "ok": false,
+   "first": null,
+   "total": 0.3961825370788574,
+   "parts": [
+    {
+     "ok": false,
+     "status": 404,
+     "ttft": null,
+     "total": 0.385448694229126,
+     "done_at": 0.3961825370788574,
+     "err": "{\"status\":404,\"title\":\"Not Found\",\"detail\":\"Function '***': Not found for account '***'\"}"
+    }
+   ],
+   "out": []
+  }
+ ],
+ "meta/llama-3.2-90b-vision-instruct|first1": [
+  {
+   "ok": false,
+   "first": null,
+   "total": 60.21595048904419,
+   "parts": [
+    {
+     "ok": false,
+     "status": -1,
+     "ttft": null,
+     "total": 60.204195737838745,
+     "done_at": 60.21595048904419,
+     "err": "TimeoutError: The read operation timed out"
+    }
+   ],
+   "out": []
+  }
+ ],
+ "nvidia/nemotron-nano-3-30b-a3b|first1": [
+  {
+   "ok": false,
+   "first": null,
+   "total": 0.3986473083496094,
+   "parts": [
+    {
+     "ok": false,
+     "status": 404,
+     "ttft": null,
+     "total": 0.38727712631225586,
+     "done_at": 0.3986473083496094,
+     "err": "{\"status\":404,\"title\":\"Not Found\",\"detail\":\"Function '***': Not found for account '***'\"}"
+    }
+   ],
+   "out": []
+  }
+ ],
+ "nvidia/nemotron-3-super-120b-a12b|quality|he-fr": {
+  "ok": true,
+  "total": 4.165405511856079,
+  "ttft": 0.7551920413970947,
+  "out": [
+   "Le candidat principal des électeurs libéraux - et l'effondrement de la coalition",
+   "Un mort dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave",
+   "Le décès du jeune homme tiré dans l'ouest de la Galilée a été constaté",
+   "Crainte de noyade d'une personne sur une plage d'Ashkelon, 2 jeunes qui étaient avec lui ont été secourus, l'un dans un état grave",
+   "Un haut responsable iranien : « Nous ne céderons pas sur le programme nucléaire »",
+   "Tous les flashs",
+   "Elle remplace l'affichage et vous profitez de prix spéciaux",
+   "Fête de la reprise",
+   "Il y a des offres qu'il faut absolument saisir",
+   "Essai routier : la petite électrique avec l'âme sportive",
+   "Seulement 2 390 ₪ par mois : Kia Sportage essence en leasing attractif",
+   "La vente est interdite aux personnes de moins de 18 ans",
+   "Deux tombés dans le petit village, maison contre maison",
+   "Passez le test",
+   "Avec le premier mois offert !",
+   "Pour plus de détails"
+  ]
+ },
+ "nvidia/nemotron-3-super-120b-a12b|quality|en-fr": {
+  "ok": true,
+  "total": 1.2578251361846924,
+  "ttft": 0.5988736152648926,
+  "out": [
+   "Un carnivore obligatoire, nécessitant un régime alimentaire principalement à base de viande, il possède des griffes rétractiles adaptées à la chasse de petites proies telles que les souris et les rats.",
+   "C'est une espèce sociale, mais un chasseur solitaire et un prédateur crépusculaire.",
+   "Le chat (Felis catus), également appelé chat domestique et chat de maison, est un petit mammifère carnivore domestiqué.",
+   "Aujourd'hui seulement, dans la limite des stocks disponibles",
+   "Tout à 50 % de réduction",
+   "Soldes d'été",
+   "Parler",
+   "Pour d'autres usages, voir Chat (homonymie)."
+  ]
+ },
+ "nvidia/nemotron-3-super-120b-a12b|quality|en-he": {
+  "ok": true,
+  "total": 2.661303758621216,
+  "ttft": 0.5507516860961914,
+  "out": [
+   "הוא חבר במשפחת הפלידיים, משפחת היונקים בסדר הטורפים, המכונה גם באופן קולוקוויאלי חתולים.",
+   "הוא טורף חובה, הדורש תזונה המבוססת בעיקר על בשר, ויש לו ציפורניים ניתנות להסתגרות המותאמות להרג של מיני טרף קטנים כמו עכברים וחולדות.",
+   "החתול (Felis catus), הנקרא גם חתול בית וחתול ביתי, הוא יונק טורף קטן מבוית.",
+   "דברו"
+  ]
+ },
+ "nvidia/nemotron-3-ultra-550b-a55b|quality|he-fr": {
+  "ok": true,
+  "total": 25.809814453125,
+  "ttft": 1.6582391262054443,
+  "out": [
+   "Le candidat principal des électeurs libéraux - et l'effondrement de la coalition",
+   "Un mort dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave",
+   "La mort du jeune homme abattu en Galilée occidentale a été constatée",
+   "Crainte de noyade sur une plage d'Ashkelon, 2 jeunes qui étaient avec lui ont été secourus, l'un dans un état grave",
+   "Un haut responsable iranien : \"Nous ne ferons pas de compromis sur le programme nucléaire\"",
+   "Pour tous les flashs d'information",
+   "Remplace l'affichage et vous profitez de prix spéciaux",
+   "Fête de la reprise",
+   "Il y a des offres qu'il faut saisir",
+   "Test routier : la petite électrique à l'âme sportive",
+   "Seulement 2 390 ₪ par mois : Kia Sportage essence en leasing attractif",
+   "La vente est interdite aux personnes de moins de 18 ans",
+   "Deux morts dans la petite localité, maison face à maison",
+   "Effectuez le test",
+   "Avec le premier mois offert !",
+   "Pour plus de détails"
+  ]
+ },
+ "nvidia/nemotron-3-ultra-550b-a55b|quality|en-fr": {
+  "ok": true,
+  "total": 1.693483829498291,
+  "ttft": 0.5800380706787109,
+  "out": [
+   "Carnivore obligé, nécessitant un régime alimentaire principalement à base de viande, il possède des griffes rétractiles adaptées à la mise à mort de petites proies telles que les souris et les rats.",
+   "C'est une espèce sociale, mais un chasseur solitaire et un prédateur crépusculaire.",
+   "Le chat (Felis catus), aussi appelé chat domestique et chat de maison, est un petit mammifère carnivore domestiqué.",
+   "Aujourd'hui seulement, jusqu'à épuisement des stocks",
+   "Tout à 50 % de réduction",
+   "Soldes d'été",
+   "Parler",
+   "Pour les autres significations, voir Chat (homonymie)."
+  ]
+ },
+ "nvidia/nemotron-3-ultra-550b-a55b|quality|en-he": {
+  "ok": true,
+  "total": 9.127957582473755,
+  "ttft": 0.603978157043457,
+  "out": [
+   "הוא חבר במשפחת החתוליים (Felidae), משפחת יונקים בסדרת הטורפים (Carnivora) המכונה גם חתולים.",
+   "טורף מחייב, הדורש תזונה המבוססת בעיקר על בשר, יש לו ציפורניים נשלפות המותאמות להריגת מיני טרף קטנים כגון עכברים וחולדות.",
+   "החתול (Felis catus), הנקרא גם חתול בית וחתול ביתי, הוא יונק טורף קטן ומבוית.",
+   "דבר"
+  ]
+ },
+ "nvidia/nemotron-3-ultra-550b-a55b|whole": [
+  {
+   "ok": true,
+   "first": 6.949343204498291,
+   "total": 6.949343204498291,
+   "parts": [
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 0.8263876438140869,
+     "total": 6.938912391662598,
+     "done_at": 6.949343204498291,
+     "err": ""
+    }
+   ],
+   "out": [
+    "Le candidat principal des électeurs libéraux - et l'effondrement de la coalition",
+    "Un mort dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave",
+    "La mort du jeune homme abattu en Galilée occidentale a été constatée",
+    "Crainte de noyade sur une plage d'Ashkelon, 2 jeunes qui étaient avec lui ont été secourus, l'un dans un état grave",
+    "Un haut responsable iranien : « Nous ne ferons pas de compromis sur le programme nucléaire »",
+    "Pour tous les flashs d'information",
+    "Remplace l'affichage et vous profitez de prix spéciaux",
+    "Fête de la reprise",
+    "Il y a des offres qu'il faut saisir",
+    "Essai routier : la petite électrique à l'âme sportive",
+    "Seulement 2 390 ₪ par mois : Kia Sportage essence en leasing attractif",
+    "La vente est interdite aux personnes de moins de 18 ans",
+    "Deux morts dans la petite localité, maison face à maison",
+    "Effectuez le test",
+    "Avec le premier mois offert !"
+   ]
+  },
+  {
+   "ok": true,
+   "first": 4.0173659324646,
+   "total": 4.0173659324646,
+   "parts": [
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 1.7744245529174805,
+     "total": 4.000598907470703,
+     "done_at": 4.0173659324646,
+     "err": ""
+    }
+   ],
+   "out": [
+    "Le candidat principal des électeurs libéraux - et l'effondrement de la coalition",
+    "Un mort dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave",
+    "La mort du jeune homme abattu en Galilée occidentale a été constatée",
+    "Crainte de noyade sur une plage d'Ashkelon, 2 jeunes qui étaient avec lui ont été secourus, l'un dans un état grave",
+    "Un haut responsable iranien : « Nous ne ferons pas de compromis sur le programme nucléaire »",
+    "Pour tous les flashs d'information",
+    "Remplace l'affichage et vous profitez de prix spéciaux",
+    "Fête de la reprise",
+    "Il y a des offres qu'il faut saisir",
+    "Test routier : la petite électrique à l'âme sportive",
+    "Seulement 2 390 ₪ par mois : Kia Sportage essence en leasing attractif",
+    "La vente est interdite à ceux qui n'ont pas encore 18 ans",
+    "Deux tombés dans la petite localité, maison face à maison",
+    "Effectuez le test",
+    "Avec le premier mois offert !"
+   ]
+  },
+  {
+   "ok": true,
+   "first": 4.286935567855835,
+   "total": 4.286935567855835,
+   "parts": [
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 0.7906491756439209,
+     "total": 4.26927375793457,
+     "done_at": 4.286935567855835,
+     "err": ""
+    }
+   ],
+   "out": [
+    "Le candidat principal des électeurs libéraux - et l'effondrement de la coalition",
+    "Un mort dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave",
+    "La mort du jeune homme abattu en Galilée occidentale a été constatée",
+    "Crainte de noyade sur une plage d'Ashkelon, 2 jeunes qui étaient avec lui ont été secourus, l'un dans un état grave",
+    "Un haut responsable iranien : « Nous ne ferons pas de compromis sur le programme nucléaire »",
+    "Pour tous les flashs d'information",
+    "Remplace l'affichage et vous profitez de prix spéciaux",
+    "Fête de la reprise",
+    "Il y a des offres qu'il faut saisir",
+    "Test routier : la petite électrique avec l'âme sportive",
+    "Seulement 2 390 ₪ par mois : Kia Sportage essence en leasing attractif",
+    "La vente est interdite à ceux qui n'ont pas encore 18 ans",
+    "Deux tombés dans la petite localité, maison face à maison",
+    "Effectuez le test",
+    "Avec le premier mois offert !"
+   ]
+  },
+  {
+   "ok": true,
+   "first": 3.8867268562316895,
+   "total": 3.8867268562316895,
+   "parts": [
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 0.7740428447723389,
+     "total": 3.8707168102264404,
+     "done_at": 3.8867268562316895,
+     "err": ""
+    }
+   ],
+   "out": [
+    "Le candidat principal des électeurs libéraux - et l'effondrement de la coalition",
+    "Un mort dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave",
+    "La mort du jeune homme abattu en Galilée occidentale a été confirmée",
+    "Inquiétude pour une noyade sur une plage d'Ashkelon, 2 jeunes qui étaient avec lui ont été secourus, l'un dans un état grave",
+    "Un haut responsable iranien : \"Nous ne ferons pas de compromis sur le programme nucléaire\"",
+    "Pour tous les flashs d'information",
+    "Remplace l'affichage et vous profitez de prix spéciaux",
+    "Fête de la reprise",
+    "Il y a des offres qu'il faut saisir",
+    "Test routier : la petite électrique à l'âme sportive",
+    "Seulement 2 390 ₪ par mois : Kia Sportage essence en leasing attractif",
+    "La vente est interdite à ceux qui n'ont pas encore 18 ans",
+    "Deux tombés dans la petite localité, maison face à maison",
+    "Effectuez le test",
+    "Avec le premier mois offert !"
+   ]
+  }
+ ],
+ "nvidia/nemotron-3-ultra-550b-a55b|chunk5": [
+  {
+   "ok": true,
+   "first": 2.4312846660614014,
+   "total": 3.266709089279175,
+   "parts": [
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 1.4682731628417969,
+     "total": 2.418213129043579,
+     "done_at": 2.4312846660614014,
+     "err": ""
+    },
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 0.9616348743438721,
+     "total": 2.622598648071289,
+     "done_at": 2.9345414638519287,
+     "err": ""
+    },
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 0.7894513607025146,
+     "total": 2.6545722484588623,
+     "done_at": 3.266709089279175,
+     "err": ""
+    }
+   ],
+   "out": [
+    "Le candidat principal des électeurs libéraux - et l'effondrement de la coalition",
+    "Un mort dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave",
+    "La mort du jeune homme abattu en Galilée occidentale a été constatée",
+    "Crainte de noyade sur une plage d'Ashkelon, 2 jeunes qui étaient avec lui ont été secourus, l'un dans un état grave",
+    "Un haut responsable iranien : « Nous ne ferons pas de compromis sur le programme nucléaire »",
+    "Tous les flashs d'actualité",
+    "Change l'affichage et vous profitez de prix spéciaux",
+    "Fête de la reprise",
+    "Il y a des offres qu'il faut saisir",
+    "Essai routier : la petite électrique à l'âme sportive",
+    "Seulement 2 390 ₪ par mois : Kia Sportage essence en leasing attractif",
+    "La vente est interdite aux personnes de moins de 18 ans",
+    "Deux chutes dans la petite localité, maison face à maison",
+    "Effectuez le test",
+    "Avec le premier mois offert !"
+   ]
+  },
+  {
+   "ok": true,
+   "first": 1.2978415489196777,
+   "total": 5.966804027557373,
+   "parts": [
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 0.9762818813323975,
+     "total": 2.1514389514923096,
+     "done_at": 2.1690287590026855,
+     "err": ""
+    },
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 0.5635504722595215,
+     "total": 0.9819636344909668,
+     "done_at": 1.2978415489196777,
+     "err": ""
+    },
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 4.701406955718994,
+     "total": 5.351947069168091,
+     "done_at": 5.966804027557373,
+     "err": ""
+    }
+   ],
+   "out": [
+    "Le candidat principal des électeurs libéraux - et l'effondrement de la coalition",
+    "Un mort dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave",
+    "La mort du jeune homme abattu en Galilée occidentale a été constatée",
+    "Crainte de noyade sur une plage d'Ashkelon, 2 jeunes qui étaient avec lui ont été secourus, l'un dans un état grave",
+    "Un haut responsable iranien : « Nous ne ferons pas de compromis sur le programme nucléaire »",
+    "Tous les flashs d'actualité",
+    "Change l'affichage et vous profitez de prix spéciaux",
+    "Fête de reprise",
+    "Il y a des offres qu'il faut saisir",
+    "Essai routier : la petite électrique à l'âme sportive",
+    "Seulement 2 390 ₪ par mois : Kia Sportage essence en leasing attractif",
+    "La vente est interdite aux personnes de moins de 18 ans",
+    "Deux chutes dans la petite localité, maison face à maison",
+    "Effectuez le test",
+    "Avec le premier mois offert !"
+   ]
+  },
+  {
+   "ok": true,
+   "first": 1.2165868282318115,
+   "total": 8.73657488822937,
+   "parts": [
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 0.6693756580352783,
+     "total": 2.396390438079834,
+     "done_at": 2.4133071899414062,
+     "err": ""
+    },
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 0.5515761375427246,
+     "total": 0.8999648094177246,
+     "done_at": 1.2165868282318115,
+     "err": ""
+    },
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 6.521241188049316,
+     "total": 8.117575645446777,
+     "done_at": 8.73657488822937,
+     "err": ""
+    }
+   ],
+   "out": [
+    "Le candidat principal des électeurs libéraux - et l'effondrement de la coalition",
+    "Un mort dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave",
+    "La mort du jeune homme abattu en Galilée occidentale a été constatée",
+    "Crainte de noyade sur une plage d'Ashkelon, 2 jeunes qui étaient avec lui ont été secourus, l'un dans un état grave",
+    "Un haut responsable iranien : \"Nous ne ferons pas de compromis sur le programme nucléaire\"",
+    "Tous les flashs d'actualité",
+    "Change l'affichage et vous profitez de prix spéciaux",
+    "Fête de la reprise",
+    "Il y a des offres qu'il faut saisir",
+    "Essai routier : la petite électrique à l'âme sportive",
+    "Seulement 2 390 ₪ par mois : Kia Sportage essence en leasing attractif",
+    "La vente est interdite à toute personne n'ayant pas atteint l'âge de 18 ans",
+    "Deux morts dans la petite localité, maison face à maison",
+    "Effectuez le test",
+    "Avec le premier mois offert !"
+   ]
+  }
+ ],
+ "nvidia/nemotron-3-super-120b-a12b|chunk5": [
+  {
+   "ok": true,
+   "first": 1.2565438747406006,
+   "total": 1.9698879718780518,
+   "parts": [
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 0.6997900009155273,
+     "total": 1.8069920539855957,
+     "done_at": 1.8192589282989502,
+     "err": ""
+    },
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 0.5386300086975098,
+     "total": 0.9435997009277344,
+     "done_at": 1.2565438747406006,
+     "err": ""
+    },
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 0.594036340713501,
+     "total": 1.3569962978363037,
+     "done_at": 1.9698879718780518,
+     "err": ""
+    }
+   ],
+   "out": [
+    "Le candidat principal des électeurs libéraux - et l'effondrement de la coalition",
+    "Un mort dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave",
+    "La mort du jeune homme abattu en Galilée occidentale a été confirmée",
+    "Crainte de noyade d'une personne sur une plage d'Ashkelon, 2 jeunes qui étaient avec lui ont été secourus, l'un dans un état grave",
+    "Un haut responsable iranien : « Nous ne céderons pas sur le programme nucléaire »",
+    "Pour tous les flashs",
+    "Elle remplace l'affichage et vous profitez de prix spéciaux",
+    "Fête de la reprise",
+    "Il y a des offres qu'il faut absolument saisir",
+    "Essai sur route : la petite électrique avec l'âme sportive",
+    "Seulement 2 390 ₪ par mois : Kia Sportage essence en leasing attractif",
+    "La vente est interdite aux personnes de moins de 18 ans",
+    "Deux tombés dans le petit village, maison contre maison",
+    "Passez le test",
+    "Avec le premier mois offert !"
+   ]
+  },
+  {
+   "ok": false,
+   "first": 1.8201689720153809,
+   "total": 2.472606897354126,
+   "parts": [
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 0.6382620334625244,
+     "total": 1.8040688037872314,
+     "done_at": 1.8201689720153809,
+     "err": ""
+    },
+    {
+     "ok": true,
+     "status": 200,
+     "ttft": 0.8093290328979492,
+     "total": 2.1566905975341797,
+     "done_at": 2.472606897354126,
+     "err": ""
+    },
+    {
+     "ok": false,
+     "status": 200,
+     "ttft": null,
+     "total": 0.4689145088195801,
+     "done_at": 1.0857486724853516,
+     "err": "{\"error\": {\"message\": \"Service temporarily overloaded\", \"type\": \"service_unavailable\", \"code\": 503}}"
+    }
+   ],
+   "out": [
+    "Le candidat principal des électeurs libéraux - et l'effondrement de la coalition",
+    "Un mort dans un accident dans la vallée du Jourdain, 3 blessés dans un état grave",
+    "La mort du jeune homme abattu en Galilée occidentale a été confirmée",
+    "Crainte de noyade d'une personne sur une plage d'Ashkelon, deux jeunes qui étaient avec lui ont été secourus, l'un dans un état grave",
+    "Un haut responsable iranien : « Nous ne céderons pas sur notre programme nucléaire »",
+    "Pour tous les flashs",
+    "Elle remplace l'affichage et vous profitez de prix spéciaux",
+    "Célébration du trade-in",
+    "Il y a des offres qu'il faut absolument saisir",
+    "Essai sur route : la petite électrique avec l'âme sportive"
+   ]
+  }
+ ]
+}

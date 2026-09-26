@@ -27,6 +27,8 @@ _2026-09-25. Retour utilisateur : « trouvez un modèle plus efficace, les tradu
 | Google (modèle Translate) | en ligne | 63,5 | 75,5 | 51,0 | ~1 s |
 | **NVIDIA · Gemma 4 31B** | en ligne (essai) | **72,9** | 79,6 | 59,6 | **p50 135 s, p95 215 s** |
 | NVIDIA · Nemotron 3 Super 120B | en ligne (essai) | 67,3 | 72,4 | 51,4 | p50 59 s ; 3 × 503 sur 5 |
+| **NVIDIA · Nemotron 3 Ultra 550B, sans raisonnement** (§7) | en ligne (essai) | **74,4** | **80,3** | **67,7** | **p50 4,2 s, p95 6,9 s** |
+| **NVIDIA · Nemotron 3 Super, sans raisonnement** (§7) | en ligne (essai) | 72,4 | 79,5 | 55,3 | 2–4 s ; 503 fréquents |
 | NVIDIA · DeepSeek V4.1 Flash | en ligne (essai) | > 240 s | 79,0 | **60,8** | > 240 s |
 | NVIDIA · GLM 5.3 Flash | en ligne (essai) | > 240 s | **86,8** | 59,8 | > 240 s |
 | NVIDIA · Kimi K3 | en ligne (essai) | > 240 s | > 240 s | non testé | > 240 s |
@@ -145,6 +147,54 @@ ne sont plus proposés comme recommandés.
 - À ne pas retenir : TranslateGemma 4B local (lent, invente), Riva Translate (pas d'hébreu),
   modèles « raisonnement » (lents, sortie non conforme).
 
-Décision attendue de l'utilisateur : intégrer NLLB-200 600M sur l'appareil (chantier : runtime
+Décision de l'utilisateur (2026-09-26) : « intègre le meilleur gratuit même s'il est en ligne, puis
+le 2e en fail safe » → §7. (Question initiale : intégrer NLLB-200 600M sur l'appareil (chantier : runtime
 natif + tokeniseur SentencePiece + téléchargement du modèle ~600 Mo), et/ou un mode « lecture
-différée » via NVIDIA avec sa propre clé.
+différée » via NVIDIA avec sa propre clé.)
+
+## 7. Latence travaillée et classement réel — 2026-09-26 (version 1.5.0)
+
+**Cause des 135 s** : pas le réseau ni la taille des lots, mais (1) le **raisonnement caché** des
+Nemotron, que la consigne « detailed thinking off » du premier banc ne coupait pas, et (2) la
+**file d'attente** de certains modèles sur l'essai gratuit. Correctifs mesurés
+(`tools/mt-bench/nvidia_latency.py`, résultats `nvidia-latency.json`) : raisonnement coupé
+(`/no_think` + `chat_template_kwargs.enable_thinking=false`), consigne minimale « une ligne par
+bloc » (au lieu d'un tableau JSON), `max_tokens` ≈ 2 × caractères source, flux SSE (délai au
+premier jeton), lots parallèles.
+
+| Modèle (sans raisonnement) | 1 bloc | Écran 15 blocs, 1 requête | Écran, 3 lots de 5 en parallèle | chrF++ he→fr / en→fr / en→he |
+|---|---|---|---|---|
+| **Nemotron 3 Ultra 550B** | 0,8 s | **p50 4,2 s, p95 6,9 s** (n = 4, 0 erreur) | 1ᵉʳ lot p50 1,3 s ; écran p50 6,0 s, p95 8,7 s (n = 3) | **74,4 / 80,3 / 67,7** |
+| Nemotron 3 Super 120B | 0,7 s | 4,1 s, mais **3 × 503 « overloaded » sur 5 écrans** | 2,0 s (1 lot sur 3 en 503) | 72,4 / 79,5 / 55,3 |
+| Gemma 4 31B | **aucun jeton en 60 s** (4 essais sur 40 min) | — | — | 72,9 / 79,6 / 59,6 (§5) |
+| GLM 5.3 Flash | raisonne malgré la consigne (1 400 car. en 60 s) | — | — | |
+| DeepSeek V4.1 Flash, Mistral Nemotron, Llama 3.2 90B | aucun jeton en 60 s | — | — | |
+| Kimi K2.6, Nemotron Nano 3 | HTTP 404 (non déployés pour le compte) | — | — | |
+
+**Classement réel « gratuit »** : Gemma 4 31B est inutilisable en interactif (file d'attente) et
+Nemotron 3 Ultra, qui n'avait pas été testé au premier banc, le dépasse en qualité sur les trois
+paires. D'où : **principal = Nemotron 3 Ultra**, **fail-safe = Nemotron 3 Super** (qualité proche
+de Gemma, rapide mais souvent surchargé), **dernier recours = ML Kit** hors-ligne.
+
+**Dans l'application (émulateur API 33, x86_64)** — temps depuis l'appui sur la bulle ; l'overlay ML
+Kit s'affiche d'abord (3,6–10,8 s sur l'émulateur, dominé par l'OCR logiciel ; ~1–3 s sur le V30T) :
+
+| Écran | Blocs | Overlay ML Kit | 1ᵉʳ bloc amélioré | Tout amélioré | Moteurs |
+|---|---|---|---|---|---|
+| ynet.co.il he→fr (titres + image) | 16 | 10,8 s | +1,2 s | +13,0 s | Ultra 12, Super 4 (2 × Ultra sans jeton en 10 s → secours) |
+| Wikipédia « Cat » en→fr | 6 | 4,9 s | +1,0 s | +7,3 s | Ultra 5, Super 1 (paragraphe rendu sur plusieurs lignes → corrigé) |
+| Wikipédia « Cat » en→he | 6 | 4,6 s | +1,1 s | +9,0 s | Ultra 6 |
+| Sans réseau (`sans-reseau-2-final.png`) | 6 | 3,6 s | — | — | ML Kit, « NVIDIA indisponible : réseau indisponible », 0 requête |
+
+Captures avant/après : `docs/screenshots/emulator/` (`*-1-repli.png` = ML Kit immédiat,
+`*-2-ameliore.png` = après les réponses en ligne). Exemples : « Abbas comme un furtif… Geva Maurar
+Crochet » → « Abbas Kaanoul a atterri secrètement à l'aéroport Ben Gourion » ; « Cat
+(Disambimuation) » → « Chat (homonymie) » ; « Un carnivore contrausse » → « Carnivore strict » ;
+en→he, ML Kit laissait « colloququially », « purring, trilling, wassing » en anglais.
+
+**Consommation de ce tour** : 59 requêtes sur le budget de 150 (43 banc PC, 16 application sur
+l'émulateur), **0 × HTTP 429** ; compteur `tools/mt-bench/nvidia-usage-2.json`.
+
+**Limites** : service d'essai sans SLA (503 fréquents sur Super, files d'attente variables) ; le
+texte de l'écran part chez NVIDIA quand une clé est enregistrée ; la clé est celle de l'utilisateur
+(le quota de 40 req/min est par compte, l'app s'en tient à 20/min).

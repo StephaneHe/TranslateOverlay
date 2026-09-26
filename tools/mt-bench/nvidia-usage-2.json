@@ -1,0 +1,311 @@
+{
+ "budget": 150,
+ "requests": 43,
+ "http_429": 0,
+ "stopped": false,
+ "log": [
+  {
+   "t": "08:10:16",
+   "label": "google/gemma-4-31b-it whole #1 part0",
+   "status": -1,
+   "ttft_ms": null,
+   "ms": 60302
+  },
+  {
+   "t": "08:11:22",
+   "label": "google/gemma-4-31b-it first1 #1 part0",
+   "status": -1,
+   "ttft_ms": null,
+   "ms": 60207
+  },
+  {
+   "t": "08:11:23",
+   "label": "nvidia/nemotron-3-super-120b-a12b first1 #1 part0",
+   "status": 200,
+   "ttft_ms": 624,
+   "ms": 702
+  },
+  {
+   "t": "08:12:31",
+   "label": "google/gemma-4-31b-it first1 #2 part0",
+   "status": -1,
+   "ttft_ms": null,
+   "ms": 60201
+  },
+  {
+   "t": "08:12:35",
+   "label": "nvidia/nemotron-3-super-120b-a12b whole #1 part0",
+   "status": 200,
+   "ttft_ms": 722,
+   "ms": 4092
+  },
+  {
+   "t": "08:13:47",
+   "label": "z-ai/glm-5.3-flash whole #1 part0",
+   "status": 200,
+   "ttft_ms": null,
+   "ms": 60016
+  },
+  {
+   "t": "08:14:47",
+   "label": "deepseek-ai/deepseek-v4.1-flash whole #1 part0",
+   "status": -1,
+   "ttft_ms": null,
+   "ms": 60194
+  },
+  {
+   "t": "08:15:03",
+   "label": "nvidia/nemotron-3-ultra-550b-a55b first1 #1 part0",
+   "status": 200,
+   "ttft_ms": 689,
+   "ms": 801
+  },
+  {
+   "t": "08:16:04",
+   "label": "mistralai/mistral-nemotron first1 #1 part0",
+   "status": -1,
+   "ttft_ms": null,
+   "ms": 60209
+  },
+  {
+   "t": "08:16:04",
+   "label": "moonshotai/kimi-k2.6 first1 #1 part0",
+   "status": 404,
+   "ttft_ms": null,
+   "ms": 385
+  },
+  {
+   "t": "08:17:05",
+   "label": "meta/llama-3.2-90b-vision-instruct first1 #1 part0",
+   "status": -1,
+   "ttft_ms": null,
+   "ms": 60204
+  },
+  {
+   "t": "08:17:05",
+   "label": "nvidia/nemotron-nano-3-30b-a3b first1 #1 part0",
+   "status": 404,
+   "ttft_ms": null,
+   "ms": 387
+  },
+  {
+   "t": "08:17:18",
+   "label": "nvidia/nemotron-3-super-120b-a12b quality he-fr",
+   "status": -1,
+   "ttft_ms": null,
+   "ms": 526
+  },
+  {
+   "t": "08:17:21",
+   "label": "nvidia/nemotron-3-super-120b-a12b quality en-fr",
+   "status": 200,
+   "ttft_ms": 598,
+   "ms": 1257
+  },
+  {
+   "t": "08:17:26",
+   "label": "nvidia/nemotron-3-super-120b-a12b quality en-he",
+   "status": 200,
+   "ttft_ms": 550,
+   "ms": 2661
+  },
+  {
+   "t": "08:17:52",
+   "label": "nvidia/nemotron-3-ultra-550b-a55b quality he-fr",
+   "status": 200,
+   "ttft_ms": 1658,
+   "ms": 25809
+  },
+  {
+   "t": "08:17:54",
+   "label": "nvidia/nemotron-3-ultra-550b-a55b quality en-fr",
+   "status": 200,
+   "ttft_ms": 580,
+   "ms": 1693
+  },
+  {
+   "t": "08:18:04",
+   "label": "nvidia/nemotron-3-ultra-550b-a55b quality en-he",
+   "status": 200,
+   "ttft_ms": 603,
+   "ms": 9127
+  },
+  {
+   "t": "08:18:16",
+   "label": "nvidia/nemotron-3-super-120b-a12b quality he-fr",
+   "status": 200,
+   "ttft_ms": 755,
+   "ms": 4165
+  },
+  {
+   "t": "08:18:27",
+   "label": "nvidia/nemotron-3-super-120b-a12b whole #2 part0",
+   "status": 200,
+   "ttft_ms": null,
+   "ms": 565
+  },
+  {
+   "t": "08:18:28",
+   "label": "nvidia/nemotron-3-super-120b-a12b whole #3 part0",
+   "status": 200,
+   "ttft_ms": null,
+   "ms": 484
+  },
+  {
+   "t": "08:18:28",
+   "label": "nvidia/nemotron-3-super-120b-a12b whole #4 part0",
+   "status": 200,
+   "ttft_ms": null,
+   "ms": 509
+  },
+  {
+   "t": "08:18:32",
+   "label": "nvidia/nemotron-3-super-120b-a12b whole #5 part0",
+   "status": 200,
+   "ttft_ms": 827,
+   "ms": 4088
+  },
+  {
+   "t": "08:18:40",
+   "label": "nvidia/nemotron-3-ultra-550b-a55b whole #1 part0",
+   "status": 200,
+   "ttft_ms": 826,
+   "ms": 6938
+  },
+  {
+   "t": "08:18:44",
+   "label": "nvidia/nemotron-3-ultra-550b-a55b whole #2 part0",
+   "status": 200,
+   "ttft_ms": 1774,
+   "ms": 4000
+  },
+  {
+   "t": "08:18:48",
+   "label": "nvidia/nemotron-3-ultra-550b-a55b whole #3 part0",
+   "status": 200,
+   "ttft_ms": 790,
+   "ms": 4269
+  },
+  {
+   "t": "08:18:52",
+   "label": "nvidia/nemotron-3-ultra-550b-a55b whole #4 part0",
+   "status": 200,
+   "ttft_ms": 774,
+   "ms": 3870
+  },
+  {
+   "t": "08:19:04",
+   "label": "nvidia/nemotron-3-ultra-550b-a55b chunk5 #1 part0",
+   "status": 200,
+   "ttft_ms": 1468,
+   "ms": 2418
+  },
+  {
+   "t": "08:19:05",
+   "label": "nvidia/nemotron-3-ultra-550b-a55b chunk5 #1 part1",
+   "status": 200,
+   "ttft_ms": 961,
+   "ms": 2622
+  },
+  {
+   "t": "08:19:05",
+   "label": "nvidia/nemotron-3-ultra-550b-a55b chunk5 #1 part2",
+   "status": 200,
+   "ttft_ms": 789,
+   "ms": 2654
+  },
+  {
+   "t": "08:19:06",
+   "label": "nvidia/nemotron-3-ultra-550b-a55b chunk5 #2 part1",
+   "status": 200,
+   "ttft_ms": 563,
+   "ms": 981
+  },
+  {
+   "t": "08:19:07",
+   "label": "nvidia/nemotron-3-ultra-550b-a55b chunk5 #2 part0",
+   "status": 200,
+   "ttft_ms": 976,
+   "ms": 2151
+  },
+  {
+   "t": "08:19:11",
+   "label": "nvidia/nemotron-3-ultra-550b-a55b chunk5 #2 part2",
+   "status": 200,
+   "ttft_ms": 4701,
+   "ms": 5351
+  },
+  {
+   "t": "08:19:12",
+   "label": "nvidia/nemotron-3-ultra-550b-a55b chunk5 #3 part1",
+   "status": 200,
+   "ttft_ms": 551,
+   "ms": 899
+  },
+  {
+   "t": "08:19:13",
+   "label": "nvidia/nemotron-3-ultra-550b-a55b chunk5 #3 part0",
+   "status": 200,
+   "ttft_ms": 669,
+   "ms": 2396
+  },
+  {
+   "t": "08:19:20",
+   "label": "nvidia/nemotron-3-ultra-550b-a55b chunk5 #3 part2",
+   "status": 200,
+   "ttft_ms": 6521,
+   "ms": 8117
+  },
+  {
+   "t": "08:19:26",
+   "label": "nvidia/nemotron-3-super-120b-a12b chunk5 #1 part1",
+   "status": 200,
+   "ttft_ms": 538,
+   "ms": 943
+  },
+  {
+   "t": "08:19:27",
+   "label": "nvidia/nemotron-3-super-120b-a12b chunk5 #1 part0",
+   "status": 200,
+   "ttft_ms": 699,
+   "ms": 1806
+  },
+  {
+   "t": "08:19:27",
+   "label": "nvidia/nemotron-3-super-120b-a12b chunk5 #1 part2",
+   "status": 200,
+   "ttft_ms": 594,
+   "ms": 1356
+  },
+  {
+   "t": "08:19:28",
+   "label": "nvidia/nemotron-3-super-120b-a12b chunk5 #2 part2",
+   "status": 200,
+   "ttft_ms": null,
+   "ms": 468
+  },
+  {
+   "t": "08:19:29",
+   "label": "nvidia/nemotron-3-super-120b-a12b chunk5 #2 part0",
+   "status": 200,
+   "ttft_ms": 638,
+   "ms": 1804
+  },
+  {
+   "t": "08:19:29",
+   "label": "nvidia/nemotron-3-super-120b-a12b chunk5 #2 part1",
+   "status": 200,
+   "ttft_ms": 809,
+   "ms": 2156
+  },
+  {
+   "t": "08:40:26",
+   "label": "google/gemma-4-31b-it first1 #3 part0",
+   "status": -1,
+   "ttft_ms": null,
+   "ms": 60252
+  }
+ ],
+ "app_emulator_requests": 16,
+ "note": "requests = banc PC (nvidia_latency.py) ; app_emulator_requests = requêtes de l'app sur l'émulateur (logcat TO-Diag 'nvidia #n'). Total du tour = requests + app_emulator_requests."
+}

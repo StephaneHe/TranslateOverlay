@@ -32,16 +32,22 @@ téléchargés, Wi-Fi uniquement, taille/opacité de la bulle, version.
 
 ## Moteur de traduction
 
-Par défaut **ML Kit** (hors-ligne, qualité limitée : passe par l'anglais). Pour une bien meilleure
-qualité (mesures : `docs/TRANSLATION_ENGINES.md`), choisir dans Paramètres › Moteur de traduction :
+Par défaut (1.5.0) **NVIDIA Nemotron**, gratuit et sans carte bancaire, avec **votre** clé : créer un
+compte sur build.nvidia.com, « Get API Key », puis la coller dans Paramètres › Moteur de traduction.
 
-- **Microsoft Azure Translator** (clé + carte bancaire ; non retenu pour l'instant) : créer une ressource « Translator » niveau gratuit F0
-  (2 M caractères/mois) sur portal.azure.com, copier la clé et la région ;
-- **Google Cloud Translation** : activer l'API « Cloud Translation » dans un projet avec
-  facturation (500 k caractères/mois gratuits), créer une clé API.
+- Un appui sur la bulle affiche **aussitôt** la traduction hors-ligne ML Kit, puis chaque bloc est
+  remplacé dès que la traduction en ligne arrive (légende « ML Kit · amélioration… » puis
+  « Nemotron Ultra »). Mesuré : premier bloc amélioré ~1 s après l'overlay, écran complet 3–9 s.
+- Chaîne : **Nemotron 3 Ultra** (principal) → **Nemotron 3 Super** (secours) → ML Kit reste affiché
+  (erreur, 429, 503, délai, pas de réseau, pas de clé). Jamais d'overlay bloqué.
+- L'essai NVIDIA est limité à 40 requêtes/min par compte : l'application s'en tient à 20/min
+  (~3–4 requêtes par écran), recule sur 429 (Retry-After) et met en pause un modèle en échec.
+- Sans clé : ML Kit seul, la légende l'indique.
 
-La clé est chiffrée sur l'appareil (Android Keystore), jamais sauvegardée. Sans clé, sans réseau
-ou en cas d'erreur, la traduction retombe automatiquement sur ML Kit.
+Autres moteurs (code conservé, non recommandés : clé + carte bancaire) : Microsoft Azure
+Translator, Google Cloud Translation. Mesures et choix : `docs/TRANSLATION_ENGINES.md`.
+
+La clé est chiffrée sur l'appareil (Android Keystore), jamais affichée ni sauvegardée.
 
 ## Hébreu (et langues RTL)
 

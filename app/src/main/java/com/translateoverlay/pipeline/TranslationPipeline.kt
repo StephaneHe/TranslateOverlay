@@ -8,6 +8,7 @@ import com.translateoverlay.core.BlockMerger
 import com.translateoverlay.core.BlockSource
 import com.translateoverlay.core.Box
 import com.translateoverlay.core.OcrLines
+import com.translateoverlay.core.RefineItem
 import com.translateoverlay.core.CaseStyle
 import com.translateoverlay.core.LanguageScripts
 import com.translateoverlay.core.LanguageTags
@@ -19,21 +20,26 @@ import com.translateoverlay.core.TranslatableFilter
 import com.translateoverlay.core.TranslatedBlock
 import com.translateoverlay.core.UNDETERMINED
 import com.translateoverlay.settings.Settings
-import com.translateoverlay.translate.OnlineFailure
 import com.translateoverlay.translate.TranslationEngine
-import com.translateoverlay.translate.TranslationProvider
 import com.translateoverlay.translate.TranslatorRouter
 import com.translateoverlay.translate.shortLabel
 import kotlinx.coroutines.withTimeout
 import java.util.Locale
 
 sealed interface PipelineOutcome {
-    /** @property engine label of the engine that translated; [notice] explains a fallback. */
+    /**
+     * @property engine label of the engine that translated; [notice] explains a fallback.
+     * @property refinement blocks to improve with the online engine once the overlay is shown.
+     * @property improved overlay index → online engine label for blocks taken from its cache.
+     */
     data class Success(
         val blocks: List<TranslatedBlock>,
         val sourceLanguages: Set<String>,
         val engine: String = "ML Kit",
         val notice: String? = null,
+        val refinement: List<RefineItem>? = null,
+        val improved: Map<Int, String> = emptyMap(),
+        val modelsToDownload: Set<String> = emptySet(),
     ) : PipelineOutcome
     data class NoResult(val message: String) : PipelineOutcome
     data class Failure(val message: String) : PipelineOutcome
@@ -131,45 +137,68 @@ class TranslationPipeline(
             )
         }
 
-        // One request per source language with an online engine; ML Kit (offline) otherwise or
-        // as fallback when the online engine has no key or fails.
-        val provider = settings.provider.takeIf { router.isReady(it) } ?: TranslationProvider.MLKIT
-        var fallback: OnlineFailure? = null
+        // Offline translation first (instant, shown at once); the online engine then improves the
+        // overlay block by block (see OverlayAccessibilityService.refine). Online answers already
+        // in the cache are used right away.
+        val provider = settings.provider
+        val online = provider.online && router.isReady(provider)
         val translated = HashMap<Int, String?>()
-        for ((lang, indices) in work.groupBy { languages[it] }) {
-            val texts = indices.map { blocks[it].text }
-            val online = router.translateOnline(provider, texts, lang, target, settings.azureRegion) { fallback = it }
-            val out = online ?: run {
-                ensureMlKitModels(setOf(lang, target), settings, onProgress)?.let { return it }
-                texts.map { runCatching { engine.translate(lang, target, it) }.getOrNull() }
+        val engineOf = HashMap<Int, String>()
+        if (online) {
+            work.forEach { i ->
+                router.cached(provider, languages[i], target, blocks[i].text)?.let { (text, engineLabel) ->
+                    translated[i] = text
+                    engineOf[i] = engineLabel
+                }
             }
-            indices.forEachIndexed { k, i -> translated[i] = out[k] }
         }
-        val usedOnline = provider.online && fallback == null
-        val engineLabel = if (usedOnline) provider.shortLabel() else "ML Kit"
-        val notice = fallback?.let { "${settings.provider.shortLabel()} indisponible (${it.message}) : traduction hors-ligne ML Kit" }
-            ?: if (settings.provider.online && !router.isReady(settings.provider)) {
-                "Clé ${settings.provider.shortLabel()} absente : traduction hors-ligne ML Kit"
-            } else {
-                null
-            }
+        val offlineWork = work.filter { it !in translated }
+        val modelsMissing = offlineWork.isNotEmpty() &&
+            (offlineWork.map { languages[it] }.toSet() + target - engine.downloadedModels()).isNotEmpty()
+        if (!(online && modelsMissing)) {
+            // Without an online engine, missing ML Kit models are downloaded (or reported) as before.
+            if (modelsMissing) ensureMlKitModels(offlineWork.map { languages[it] }.toSet() + target, settings, onProgress)?.let { return it }
+            for (i in offlineWork) translated[i] = runCatching { engine.translate(languages[i], target, blocks[i].text) }.getOrNull()
+        } else {
+            Diag.log { "ML Kit models missing: online translation only" }
+        }
 
-        val result = work.mapNotNull { i ->
+        val result = ArrayList<TranslatedBlock>()
+        val pending = ArrayList<RefineItem>()
+        val improved = HashMap<Int, String>()
+        for (i in work) {
             val block = blocks[i]
             val lang = languages[i]
-            val translation = translated[i]
-                ?.let { CaseStyle.apply(block.text, it, Locale.forLanguageTag(target)) }
-                ?: return@mapNotNull null
-            if (translation.isBlank() || translation.trim().equals(block.text.trim(), ignoreCase = true)) {
+            val translation = translated[i]?.let { CaseStyle.apply(block.text, it, Locale.forLanguageTag(target)) }
+            val usable = translation != null && translation.isNotBlank() && !translation.trim().equals(block.text.trim(), ignoreCase = true)
+            val improvable = online && i !in engineOf
+            if (!usable && !improvable) {
                 Diag.log { "unchanged by translation ${Diag.describe(block)}" }
-                return@mapNotNull null
+                continue
             }
             val style = styles.estimate(block, screenshot)
             // Garbage OCR lines still give line heights, but not a trustworthy alignment.
-            TranslatedBlock(block, if (trustOcr) style else style.copy(alignMeasured = false), lang, translation)
+            // A block without offline translation stays invisible until the online one arrives.
+            result += TranslatedBlock(block, if (trustOcr) style else style.copy(alignMeasured = false), lang, if (usable) translation!! else "")
+            if (improvable) pending += RefineItem(result.lastIndex, block.text, lang, block.box.top, block.box.left)
+            engineOf[i]?.let { improved[result.lastIndex] = it }
         }
         if (result.isEmpty()) return PipelineOutcome.Failure("La traduction a échoué")
-        return PipelineOutcome.Success(result, result.map { it.sourceLanguage }.toSet(), engineLabel, notice)
+        val cachedEngines = engineOf.values.toSet()
+        // Missing key: said discreetly in the caption (no toast at every tap).
+        val baseEngine = when {
+            provider.online && !online -> "ML Kit (clé ${provider.shortLabel()} à saisir dans Paramètres)"
+            online && modelsMissing -> "traduction en ligne"
+            else -> "ML Kit"
+        }
+        return PipelineOutcome.Success(
+            result, result.map { it.sourceLanguage }.toSet(),
+            engine = if (pending.isEmpty() && cachedEngines.size == 1) cachedEngines.first() else baseEngine,
+            refinement = pending.takeIf { it.isNotEmpty() },
+            improved = improved,
+            // Kept as the last resort when the online engines fail: fetched in the background.
+            modelsToDownload = if (online && modelsMissing) offlineWork.map { languages[it] }.toSet() + target else emptySet(),
+        )
     }
 
     /** Makes sure ML Kit models are present (downloading them if allowed); returns a failure otherwise. */

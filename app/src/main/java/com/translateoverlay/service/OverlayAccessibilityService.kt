@@ -22,6 +22,9 @@ import com.translateoverlay.TranslateOverlayApp
 import com.translateoverlay.capture.NodeTextCollector
 import com.translateoverlay.capture.OcrRecognizer
 import com.translateoverlay.core.BubbleVisibilityPolicy
+import com.translateoverlay.core.CaseStyle
+import com.translateoverlay.core.RefineItem
+import com.translateoverlay.core.RefinementProgress
 import com.translateoverlay.overlay.BubbleController
 import com.translateoverlay.overlay.ScreenMetrics
 import com.translateoverlay.overlay.TranslationOverlayView
@@ -32,6 +35,7 @@ import com.translateoverlay.pipeline.TranslationPipeline
 import com.translateoverlay.settings.Settings
 import com.translateoverlay.settings.SettingsRepository
 import com.translateoverlay.translate.TranslationEngine
+import com.translateoverlay.translate.shortLabel
 import com.translateoverlay.ui.MainActivity
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
@@ -44,6 +48,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
+import java.util.Locale
 import kotlin.coroutines.resume
 
 /**
@@ -53,6 +58,7 @@ import kotlin.coroutines.resume
 class OverlayAccessibilityService : AccessibilityService() {
 
     private val scope = MainScope()
+    private val app get() = application as TranslateOverlayApp
     private lateinit var settingsRepo: SettingsRepository
     private lateinit var engine: TranslationEngine
     private lateinit var bubble: BubbleController
@@ -61,6 +67,8 @@ class OverlayAccessibilityService : AccessibilityService() {
 
     private var overlay: TranslationOverlayView? = null
     private var job: Job? = null
+    /** Online improvement of the overlay shown; cancelled with it. */
+    private var refineJob: Job? = null
     private var bubbleVisible = false
     private var foregroundPackage: String? = null
     private var connected = false
@@ -183,13 +191,60 @@ class OverlayAccessibilityService : AccessibilityService() {
             is PipelineOutcome.Success -> {
                 val langs = outcome.sourceLanguages.joinToString(", ") { it.uppercase() }
                 outcome.notice?.let { toast(it) }
-                showOverlay(
-                    outcome, s.targetLanguage,
-                    "$langs → ${s.targetLanguage.uppercase()} · ${outcome.engine} · touchez hors du texte pour fermer",
-                )
+                fun caption(engine: String) = "$langs → ${s.targetLanguage.uppercase()} · $engine · touchez hors du texte pour fermer"
+                val pending = outcome.refinement
+                val progress = pending?.let {
+                    RefinementProgress(outcome.engine, it.map { item -> item.index }, app.router.ranks(s.provider))
+                        .apply { outcome.improved.forEach { (i, engine) -> offer(i, engine) } }
+                }
+                val view = showOverlay(outcome, s.targetLanguage, caption(progress?.caption() ?: outcome.engine))
+                Log.i(TAG, "overlay shown (${outcome.engine}) in ${SystemClock.uptimeMillis() - startedAt} ms, ${pending?.size ?: 0} blocks to improve")
+                if (outcome.modelsToDownload.isNotEmpty()) downloadModelsInBackground(outcome.modelsToDownload, s)
+                if (pending != null && progress != null) refine(view, pending, progress, s, startedAt, ::caption)
             }
             is PipelineOutcome.NoResult -> toast(outcome.message)
             is PipelineOutcome.Failure -> toast(outcome.message)
+        }
+    }
+
+    /**
+     * Replaces the overlay's offline translations as the online engine answers (primary model,
+     * then fail-safe); the overlay stays usable meanwhile and whatever fails keeps ML Kit's text.
+     */
+    private fun refine(
+        view: TranslationOverlayView,
+        pending: List<RefineItem>,
+        progress: RefinementProgress,
+        s: Settings,
+        startedAt: Long,
+        caption: (String) -> String,
+    ) {
+        val locale = Locale.forLanguageTag(s.targetLanguage)
+        refineJob = scope.launch {
+            app.router.refine(
+                s.provider, pending, s.targetLanguage, s.azureRegion,
+                onChunk = { chunk, out, engine ->
+                    chunk.forEachIndexed { k, item ->
+                        val text = CaseStyle.apply(item.text, out[k], locale)
+                        if (text.isNotBlank() && progress.offer(item.index, engine)) view.update(item.index, text)
+                    }
+                    Log.i(TAG, "refined ${chunk.size} blocks with $engine at ${SystemClock.uptimeMillis() - startedAt} ms")
+                    view.setCaption(caption(progress.caption()))
+                },
+                onFailed = { chunk, failure ->
+                    progress.failed(chunk.map { it.index }, "${s.provider.shortLabel()} indisponible : ${failure.message}")
+                    Log.i(TAG, "refine failed for ${chunk.size} blocks: $failure")
+                    view.setCaption(caption(progress.caption()))
+                },
+            )
+        }
+    }
+
+    private fun downloadModelsInBackground(codes: Set<String>, s: Settings) {
+        if (!engine.canDownloadNow(s.wifiOnlyDownloads)) return
+        scope.launch {
+            for (code in codes) runCatching { engine.download(code, s.wifiOnlyDownloads) }
+                .onFailure { Log.w(TAG, "background download of $code failed", it) }
         }
     }
 
@@ -219,7 +274,7 @@ class OverlayAccessibilityService : AccessibilityService() {
         }
     }
 
-    private fun showOverlay(outcome: PipelineOutcome.Success, targetLanguage: String, caption: String) {
+    private fun showOverlay(outcome: PipelineOutcome.Success, targetLanguage: String, caption: String): TranslationOverlayView {
         dismissOverlay()
         val screen = ScreenMetrics.bounds(this)
         val view = TranslationOverlayView(this, outcome.blocks, targetLanguage, caption, screen.height, ::dismissOverlay)
@@ -240,9 +295,12 @@ class OverlayAccessibilityService : AccessibilityService() {
         getSystemService(WindowManager::class.java).addView(view, params)
         overlay = view
         updateBubble(settingsRepo.settings.value)
+        return view
     }
 
     private fun dismissOverlay() {
+        refineJob?.cancel()
+        refineJob = null
         val view = overlay ?: return
         overlay = null
         runCatching { getSystemService(WindowManager::class.java).removeView(view) }
