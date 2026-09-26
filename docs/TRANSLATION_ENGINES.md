@@ -177,7 +177,8 @@ paires. D'où : **principal = Nemotron 3 Ultra**, **fail-safe = Nemotron 3 Super
 de Gemma, rapide mais souvent surchargé), **dernier recours = ML Kit** hors-ligne.
 
 **Dans l'application (émulateur API 33, x86_64)** — temps depuis l'appui sur la bulle ; l'overlay ML
-Kit s'affiche d'abord (3,6–10,8 s sur l'émulateur, dominé par l'OCR logiciel ; ~1–3 s sur le V30T) :
+Kit s'affiche d'abord (3,6–10,8 s sur l'émulateur, dominé par l'OCR logiciel ; sur le V30T, mesures
+ci-dessous) :
 
 | Écran | Blocs | Overlay ML Kit | 1ᵉʳ bloc amélioré | Tout amélioré | Moteurs |
 |---|---|---|---|---|---|
@@ -198,3 +199,23 @@ l'émulateur), **0 × HTTP 429** ; compteur `tools/mt-bench/nvidia-usage-2.json`
 **Limites** : service d'essai sans SLA (503 fréquents sur Super, files d'attente variables) ; le
 texte de l'écran part chez NVIDIA quand une clé est enregistrée ; la clé est celle de l'utilisateur
 (le quota de 40 req/min est par compte, l'app s'en tient à 20/min).
+
+### Appareil réel (Doogee V30T, Android 12) — 1.6.0, 2026-09-26
+
+Clé NVIDIA **pas encore saisie** par l'utilisateur (elle ne doit pas être injectée sur le téléphone
+réel) : mode ML Kit seul validé, pastille orange « K », carrés orange (à gauche pour une cible RTL),
+légende « ML Kit (clé NVIDIA à saisir dans Paramètres) ». Captures `docs/screenshots/device/`.
+
+| Écran | Blocs (arbre + OCR) | OCR | Overlay ML Kit affiché (3 essais) |
+|---|---|---|---|
+| ynet.co.il he→fr (bannière image + titres) | 8 nœuds + 18 OCR | 3,7–3,8 s | 5,7 / 4,8 / 4,2 s |
+| Wikipédia « Cat » en→fr | 9 + 10 | 0,6–0,9 s | 2,7 / 1,3 / 1,1 s |
+| Wikipédia « Cat » en→he | 9 + 10 | 0,7–0,8 s | 2,8 / 1,3 s |
+
+Le temps est dominé par l'OCR des images (Tesseract hébreu) sur ynet ; le premier essai de chaque
+page est plus lent (démarrage à froid). Plus tôt dans la journée, avec une clé de test injectée par le
+build debug (retirée depuis), le V30T a montré la chaîne complète sur ynet : overlay ML Kit 5,3 s,
+blocs remplacés par Nemotron Ultra à +0,8 s et +3,4 s, pastille verte « U »
+(`docs/screenshots/v30t/`). Reste à valider **avec la clé de l'utilisateur** : secours Super et
+passage Ultra → Super → ML Kit sur l'appareil (validés sur émulateur uniquement).
+
