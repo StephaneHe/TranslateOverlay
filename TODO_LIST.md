@@ -39,8 +39,10 @@
 - [x] 2026-09-26 10:30 — Une seule requête par écran (blocs numérotés, placement au fil du flux, secours groupé pour les blocs manquants) ; 1.7.0 (106 tests) ; émulateur : 1 requête/écran au lieu de 3–7, écran complet +3,0 à +5,2 s (fait 2026-09-26 10:30)
 - [ ] 2026-09-26 10:30 — Mesurer 1.7.0 sur le V30T avec la clé de l'utilisateur (débranché pendant la mesure)
 - [ ] 2026-09-26 09:35 — Avec la clé de l'utilisateur sur le V30T : vérifier Ultra (vert), secours Super (jaune) et repli ML Kit (orange) sur ynet et Wikipédia
-- [ ] 2026-09-26 09:35 — Bug : l'overlay reste affiché (et se décale) si la page change sous lui dans la même appli (URL ouverte dans Chrome par un intent, bannière qui se recharge) ; seul un changement d'appli le ferme — fermer sur changement de fenêtre/défilement de l'appli au premier plan
+- [x] 2026-09-26 09:35 — Bug : l'overlay reste affiché (et se décale) si la page change sous lui dans la même appli (URL ouverte dans Chrome par un intent, bannière qui se recharge) ; seul un changement d'appli le ferme — fermer sur changement de fenêtre/défilement de l'appli au premier plan (fait 2026-09-26 22:10 — 1.8.0 : empreinte des nœuds texte ; validé V30T : nouvelle URL et défilement ferment, prompt Chrome ne ferme pas)
 - [ ] 2026-09-26 09:35 — ynet : les très gros titres hébreux des bannières image (« ראשון מתנה! », « יש הצעות שחייבים לקחת ») ne sont pas lus par l'OCR
-- [ ] 2026-09-26 09:30 — Émulateur 31.3.12 : s'arrête après `svc wifi disable/enable` (2 fois) — mettre à jour l'émulateur du SDK
+- [x] 2026-09-26 09:30 — Émulateur 31.3.12 : s'arrête après `svc wifi disable/enable` (2 fois) — mettre à jour l'émulateur du SDK (fait 2026-09-26 22:15 — emulator 37.1.11 + image API 33 r17 ; 3 cycles overlay→fermeture→am start Chrome et bascule Wi-Fi sans arrêt)
 - [ ] 2026-09-26 08:45 — Post-MVP : sur ynet, la page n'expose parfois aucun nœud d'accessibilité juste après la (ré)activation du service → tout passe par l'OCR (lignes découpées, traduites séparément)
 - [ ] 2026-09-26 08:45 — Post-MVP : gros titres hébreux sur fond coloré dans les images (bannière rouge ynet) non lus par l'OCR
+- [ ] 2026-09-26 22:15 — Texte dans les images : un bloc OCR n'est pas vérifié seul (pas de nœud dessous) ; une pub-image qui change sans changer de nœud garde sa traduction jusqu'à la fermeture
+- [ ] 2026-09-26 22:15 — Émulateur : la nouvelle image API 33 r17 a réinitialisé Chrome (écran d'accueil) — refaire l'initialisation (drapeaux --disable-fre) avant les prochains tests

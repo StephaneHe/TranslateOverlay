@@ -1,6 +1,6 @@
 {
  "budget": 150,
- "requests": 43,
+ "requests": 46,
  "http_429": 0,
  "stopped": false,
  "log": [
@@ -304,8 +304,29 @@
    "status": -1,
    "ttft_ms": null,
    "ms": 60252
+  },
+  {
+   "t": "22:06:44",
+   "label": "target-lang v1",
+   "status": 200,
+   "ttft_ms": null,
+   "ms": 0
+  },
+  {
+   "t": "22:08:07",
+   "label": "target-lang v2",
+   "status": 200,
+   "ttft_ms": null,
+   "ms": 0
+  },
+  {
+   "t": "22:08:33",
+   "label": "target-lang v3",
+   "status": 200,
+   "ttft_ms": null,
+   "ms": 0
   }
  ],
  "app_emulator_requests": 16,
- "note": "requests = banc PC (nvidia_latency.py) ; app_emulator_requests = requêtes de l'app sur l'émulateur (logcat TO-Diag 'nvidia #n'). Total du tour = requests + app_emulator_requests."
+ "note": "requests = banc PC (nvidia_latency.py) ; app_emulator_requests = requ\u00eates de l'app sur l'\u00e9mulateur (logcat TO-Diag 'nvidia #n'). Total du tour = requests + app_emulator_requests."
 }

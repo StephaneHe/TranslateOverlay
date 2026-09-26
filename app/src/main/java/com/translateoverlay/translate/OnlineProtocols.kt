@@ -189,6 +189,14 @@ object NvidiaProtocol {
     fun languageName(code: String): String =
         java.util.Locale.forLanguageTag(code).getDisplayLanguage(java.util.Locale.ENGLISH).ifBlank { code }
 
+    /** "French (français)": the target named in English and in itself. */
+    fun targetReminder(code: String): String {
+        val locale = java.util.Locale.forLanguageTag(code)
+        val native = locale.getDisplayLanguage(locale)
+        val english = languageName(code)
+        return if (native.isBlank() || native.equals(english, ignoreCase = true)) english else "$english ($native)"
+    }
+
     /** Tight output budget: a runaway answer is cut instead of eating the time budget. */
     fun maxTokens(texts: List<String>): Int =
         (32 + 2 * texts.sumOf { it.length } + 12 * texts.size).coerceAtMost(MAX_OUTPUT_TOKENS)
@@ -200,18 +208,22 @@ object NvidiaProtocol {
      */
     fun body(model: String, texts: List<String>, source: String?, target: String): String {
         val lines = texts.mapIndexed { i, t -> "[${i + 1}] " + t.replace(Regex("\\s*\\n\\s*"), " ").trim() }
-        val from = source?.let { "from ${languageName(it)} " } ?: ""
+        val to = languageName(target)
+        // Mixed screens (Hebrew page + English OCR) once came back in English: the target is repeated.
+        val from = source?.let { "from ${languageName(it)} into $to" } ?: "into $to, whatever its language"
         val messages = JSONArray()
             // Nemotron: reasoning off (it multiplied the latency by 15 in the 2026-09-25 bench).
             .put(JSONObject().put("role", "system").put("content", "/no_think"))
             .put(
                 JSONObject().put("role", "system").put(
                     "content",
-                    "Translate each numbered line ${from}to ${languageName(target)}. Answer one line per input, " +
+                    "Translate each numbered line $from. Answer in $to only: one line per input, " +
                         "starting with the same [number], then the translation only.",
                 ),
             )
-            .put(JSONObject().put("role", "user").put("content", lines.joinToString("\n")))
+            // Reminder after the lines, in English and in the target language itself: with the
+            // instruction alone, Nemotron Ultra answered a ynet screen in English (V30T, 2026-09-26).
+            .put(JSONObject().put("role", "user").put("content", lines.joinToString("\n") + "\n\nAnswer in ${targetReminder(target)}."))
         return JSONObject()
             .put("model", model)
             .put("messages", messages)

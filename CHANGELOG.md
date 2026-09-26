@@ -3,7 +3,29 @@
 Toutes les évolutions notables de ce projet sont documentées ici.
 Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), versionnage [SemVer](https://semver.org/lang/fr/).
 
-## [1.7.0] - 2026-09-26
+## [1.8.0] - 2026-09-26
+
+Validé sur le V30T (captures `docs/screenshots/device/`).
+
+### Corrigé
+- **Overlay obsolète** : il restait affiché, décalé, quand la page changeait dans la même appli
+  (URL ouverte dans Chrome, défilement par script, pub rechargée). Pendant l'overlay, le service
+  écoute aussi les changements de contenu et les défilements de l'appli au premier plan, puis
+  (anti-rebond 400 ms, et une vérification 300 ms après l'affichage) **compare les nœuds texte
+  capturés avec ceux de l'écran** — texte et position, tolérance 16 dp :
+  - moins de 60 % du texte encore en place (nouvelle page, défilement) → overlay fermé ;
+  - une zone seulement a changé (carrousel, pub) → seuls ses blocs sont masqués ;
+  - une petite fenêtre par-dessus (proposition de traduction de Chrome qui apparaît ou
+    disparaît) ne compte pas : les nœuds de la page sont toujours là. Un menu qui recouvre
+    presque tout l'écran ferme l'overlay (sinon les traductions masqueraient le menu).
+  - Écran sans texte d'accessibilité (images seules) : pas de vérification, seul un changement
+    d'appli ferme l'overlay, comme avant.
+- **Traductions en anglais au lieu du français** sur ynet (V30T) : malgré la consigne « from Hebrew
+  into French », Nemotron Ultra répondait en anglais sur les écrans de navigation courts. Rappel de la
+  langue cible **après** les lignes, en anglais et dans la langue elle-même (« Answer in French
+  (français). ») : réponse en français sur le même écran.
+
+
 
 Demande : « un seul message pour traduire tout ce qu'il y a à traduire, à toi de répartir dans
 l'écran ». Mesures : `docs/TRANSLATION_ENGINES.md` §7 bis.

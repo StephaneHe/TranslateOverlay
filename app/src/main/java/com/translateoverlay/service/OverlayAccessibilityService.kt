@@ -26,6 +26,8 @@ import com.translateoverlay.core.CaseStyle
 import com.translateoverlay.core.EngineTier
 import com.translateoverlay.core.RefineItem
 import com.translateoverlay.core.RefinementProgress
+import com.translateoverlay.core.Staleness
+import com.translateoverlay.core.TextBlock
 import com.translateoverlay.overlay.BubbleController
 import com.translateoverlay.overlay.ScreenMetrics
 import com.translateoverlay.overlay.TranslationOverlayView
@@ -70,6 +72,13 @@ class OverlayAccessibilityService : AccessibilityService() {
     private var job: Job? = null
     /** Online improvement of the overlay shown; cancelled with it. */
     private var refineJob: Job? = null
+    /** Tree text the shown overlay was made from: compared with the app to spot a changed screen. */
+    private var baseline: List<TextBlock> = emptyList()
+    private var stalenessScheduled = false
+    private val stalenessCheck = Runnable {
+        stalenessScheduled = false
+        checkStaleness()
+    }
     private var bubbleVisible = false
     private var foregroundPackage: String? = null
     private var connected = false
@@ -106,6 +115,45 @@ class OverlayAccessibilityService : AccessibilityService() {
                 handler.postDelayed(foregroundCheck, 150)
             }
         }
+        // The app changed under the overlay (page, scroll, ad)? Checked against the captured text,
+        // not decided from the event: Chrome also fires them for its translate prompt.
+        if (overlay != null && event.packageName?.toString().let { it != null && it != packageName && it == foregroundPackage } &&
+            event.eventType in STALENESS_EVENTS
+        ) {
+            scheduleStalenessCheck(STALENESS_DEBOUNCE_MS)
+        }
+    }
+
+    /** Coalesces bursts; still runs at least every [STALENESS_DEBOUNCE_MS] under continuous changes. */
+    private fun scheduleStalenessCheck(delayMs: Long) {
+        if (stalenessScheduled) return // Handler.hasCallbacks is API 29+
+        stalenessScheduled = true
+        handler.postDelayed(stalenessCheck, delayMs)
+    }
+
+    private fun checkStaleness() {
+        val view = overlay ?: return
+        if (baseline.isEmpty()) return
+        val current = runCatching { NodeTextCollector.collect(windows, packageName, ScreenMetrics.bounds(this)).blocks }.getOrNull() ?: return
+        val verdict = Staleness.evaluate(baseline, view.blockBoxes(), current, (STALENESS_TOLERANCE_DP * resources.displayMetrics.density).toInt())
+        Diag.log { "staleness kept=${"%.2f".format(verdict.keptShare)} dismiss=${verdict.dismiss} stale=${verdict.staleBlocks} lost=${verdict.lost.take(4)}" }
+        if (verdict.dismiss) {
+            Log.i(TAG, "overlay dismissed: the app changed under it (kept ${"%.0f".format(verdict.keptShare * 100)} % of the text)")
+            dismissOverlay()
+        } else if (verdict.staleBlocks.isNotEmpty()) {
+            val hidden = view.hideStale(verdict.staleBlocks)
+            if (hidden > 0) Log.i(TAG, "overlay: $hidden block(s) hidden, their region changed")
+        }
+    }
+
+    /** Also listens to content changes and scrolls, but only while an overlay is shown. */
+    private fun watchContent(enabled: Boolean) {
+        val info = serviceInfo ?: return
+        val base = AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED or AccessibilityEvent.TYPE_WINDOWS_CHANGED
+        val wanted = if (enabled) base or AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED or AccessibilityEvent.TYPE_VIEW_SCROLLED else base
+        if (info.eventTypes == wanted) return
+        info.eventTypes = wanted
+        serviceInfo = info
     }
 
     override fun onInterrupt() = Unit
@@ -169,6 +217,7 @@ class OverlayAccessibilityService : AccessibilityService() {
         val screen = ScreenMetrics.bounds(this)
         val screenText = NodeTextCollector.collect(windows, packageName, screen)
         val nodes = screenText.blocks
+        val captured = nodes
 
         val screenshot = if (s.ocrEnabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             bubble.setHidden(true)
@@ -201,6 +250,10 @@ class OverlayAccessibilityService : AccessibilityService() {
                 // The bubble's position is read before the overlay hides it.
                 val statusBox = bubble.screenBox()
                 val view = showOverlay(outcome, s.targetLanguage, caption(progress?.caption() ?: outcome.engine))
+                baseline = captured
+                watchContent(true)
+                // The page may already have changed during the translation (a few seconds).
+                scheduleStalenessCheck(STALENESS_FIRST_CHECK_MS)
                 val ranks = app.router.ranks(s.provider)
                 view.setStatusBox(statusBox)
                 view.setEngineState(
@@ -318,6 +371,10 @@ class OverlayAccessibilityService : AccessibilityService() {
     private fun dismissOverlay() {
         refineJob?.cancel()
         refineJob = null
+        handler.removeCallbacks(stalenessCheck)
+        stalenessScheduled = false
+        baseline = emptyList()
+        if (connected) runCatching { watchContent(false) }
         val view = overlay ?: return
         overlay = null
         runCatching { getSystemService(WindowManager::class.java).removeView(view) }
@@ -358,6 +415,15 @@ class OverlayAccessibilityService : AccessibilityService() {
         private const val TAG = "TranslateOverlay"
         private const val MIN_SCREENSHOT_INTERVAL_MS = 1100L
         private val SYSTEM_UI = setOf("com.android.systemui")
+        private val STALENESS_EVENTS = setOf(
+            AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED,
+            AccessibilityEvent.TYPE_VIEW_SCROLLED,
+            AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED,
+        )
+        private const val STALENESS_DEBOUNCE_MS = 400L
+        private const val STALENESS_FIRST_CHECK_MS = 300L
+        /** A block may move this much (layout settling) and still be the same screen. */
+        private const val STALENESS_TOLERANCE_DP = 16f
 
         private val _running = MutableStateFlow(false)
         /** Whether the service is currently connected (observed by the UI). */

@@ -93,14 +93,16 @@ class OnlineProtocolsTest {
         assertFalse(body.getJSONObject("chat_template_kwargs").getBoolean("enable_thinking"))
         val messages = body.getJSONArray("messages")
         assertEquals("/no_think", messages.getJSONObject(0).getString("content"))
-        assertTrue(messages.getJSONObject(1).getString("content").startsWith("Translate each numbered line from Hebrew to French."))
+        assertTrue(messages.getJSONObject(1).getString("content").startsWith("Translate each numbered line from Hebrew into French. Answer in French only"))
         // A block's own line breaks are flattened: one line = one numbered block.
-        assertEquals("[1] שורה שנייה\n[2] לכל המבזקים", messages.getJSONObject(2).getString("content"))
+        assertEquals("[1] שורה שנייה\n[2] לכל המבזקים\n\nAnswer in French (français).", messages.getJSONObject(2).getString("content"))
+        assertEquals("Hebrew (עברית)", NvidiaProtocol.targetReminder("he"))
+        assertEquals("English", NvidiaProtocol.targetReminder("en"))
         assertTrue(body.getInt("max_tokens") in 40..200)
         assertEquals("Bearer k", NvidiaProtocol.headers("k")["Authorization"])
         // Mixed languages: no source named.
         val mixed = JSONObject(NvidiaProtocol.body("m", listOf("a"), null, "fr")).getJSONArray("messages")
-        assertTrue(mixed.getJSONObject(1).getString("content").startsWith("Translate each numbered line to French."))
+        assertTrue(mixed.getJSONObject(1).getString("content").startsWith("Translate each numbered line into French, whatever its language. Answer in French only"))
         // Output budget capped for huge screens.
         assertEquals(NvidiaProtocol.MAX_OUTPUT_TOKENS, NvidiaProtocol.maxTokens(listOf("x".repeat(10_000))))
     }

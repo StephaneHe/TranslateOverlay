@@ -20,6 +20,7 @@ import android.view.View
 import android.view.animation.LinearInterpolator
 import com.translateoverlay.core.Bidi
 import com.translateoverlay.core.BlockSource
+import com.translateoverlay.core.Box
 import com.translateoverlay.core.EngineTier
 import com.translateoverlay.core.TextAlign
 import com.translateoverlay.core.TextFitter
@@ -52,6 +53,8 @@ class TranslationOverlayView(
         val background: Paint,
         val outlineColor: Int?,
         var showTranslation: Boolean = true,
+        /** The app changed under this block (carousel, ad reloaded): nothing drawn any more. */
+        var stale: Boolean = false,
     ) {
         /** No translation yet (waiting for the online engine): nothing drawn, original visible. */
         val empty: Boolean get() = layout.text.isEmpty()
@@ -160,7 +163,8 @@ class TranslationOverlayView(
         val block = blocks[index].copy(translation = translation)
         blocks[index] = block
         val shown = items[index].showTranslation
-        items[index] = prepare(block).also { it.showTranslation = shown }
+        val stale = items[index].stale
+        items[index] = prepare(block).also { it.showTranslation = shown; it.stale = stale }
         invalidate()
     }
 
@@ -175,6 +179,17 @@ class TranslationOverlayView(
             spinner.cancel()
         }
         invalidate()
+    }
+
+    /** Screen boxes of the blocks, overlay order (to check them against the app). */
+    fun blockBoxes(): List<Box> = blocks.map { it.block.box }
+
+    /** Hides blocks whose region of the app changed (they stay hidden); returns how many were newly hidden. */
+    fun hideStale(indices: Set<Int>): Int {
+        val fresh = indices.filter { it in items.indices && !items[it].stale }
+        fresh.forEach { items[it].stale = true }
+        if (fresh.isNotEmpty()) invalidate()
+        return fresh.size
     }
 
     /** Screen rectangle of the floating bubble: the status disc is drawn there. */
@@ -198,7 +213,7 @@ class TranslationOverlayView(
         canvas.save()
         canvas.translate(-location[0].toFloat(), -location[1].toFloat())
         for ((i, item) in items.withIndex()) {
-            if (item.empty) continue
+            if (item.empty || item.stale) continue
             if (item.showTranslation) {
                 canvas.drawRect(item.rect, item.background)
                 canvas.save()
@@ -308,7 +323,7 @@ class TranslationOverlayView(
             val y = event.y + location[1]
             // The status disc stands for the bubble: touching it closes, like outside the text.
             val onStatus = statusBox?.contains(x, y) == true
-            val hit = if (onStatus) null else items.lastOrNull { !it.empty && it.rect.contains(x, y) }
+            val hit = if (onStatus) null else items.lastOrNull { !it.empty && !it.stale && it.rect.contains(x, y) }
             if (hit != null) {
                 hit.showTranslation = !hit.showTranslation
                 invalidate()

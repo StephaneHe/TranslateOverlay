@@ -171,7 +171,9 @@ class TranslatorRouter(private val mlKit: TranslationEngine, private val secrets
         try {
             val c = open(NvidiaProtocol.ENDPOINT, NvidiaProtocol.headers(key), STREAM_READ_TIMEOUT_MS)
             conn = c
-            c.outputStream.use { it.write(NvidiaProtocol.body(model.id, texts, source, target).toByteArray(Charsets.UTF_8)) }
+            val body = NvidiaProtocol.body(model.id, texts, source, target)
+            Diag.log { "nvidia #$n source=$source target=$target" }
+            c.outputStream.use { it.write(body.toByteArray(Charsets.UTF_8)) }
             status = c.responseCode
             if (status !in 200..299) throw httpFailure(c, status)
             c.inputStream.bufferedReader(Charsets.UTF_8).use { reader ->
