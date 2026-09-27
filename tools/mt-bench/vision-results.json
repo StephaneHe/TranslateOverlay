@@ -1,0 +1,1183 @@
+{
+ "tesseract|b0_menoupais": {
+  "lines": [
+   {
+    "text": "מנוי פים",
+    "box": [
+     420.0,
+     66.39004149377594,
+     580.0,
+     112.03319502074689
+    ]
+   },
+   {
+    "text": "ny‏ חודפו",
+    "box": [
+     236.25,
+     136.9294605809129,
+     766.25,
+     268.3264177040111
+    ]
+   },
+   {
+    "text": "Inn NN",
+    "box": [
+     116.25,
+     294.6058091286307,
+     883.75,
+     443.98340248962654
+    ]
+   },
+   {
+    "text": "יש הצעות שוחייבים לקחת",
+    "box": [
+     177.5,
+     466.1134163208852,
+     825.0,
+     529.7372060857538
+    ]
+   },
+   {
+    "text": "ar £5 A",
+    "box": [
+     381.25,
+     655.6016597510373,
+     680.0,
+     784.2323651452282
+    ]
+   },
+   {
+    "text": "A",
+    "box": [
+     936.25,
+     869.9861687413555,
+     967.5,
+     907.3305670816044
+    ]
+   }
+  ],
+  "ms": 584,
+  "raw": ""
+ },
+ "tesseract|b1_kumu": {
+  "lines": [
+   {
+    "text": "ההא",
+    "box": [
+     696.25,
+     20.54794520547945,
+     876.25,
+     43.83561643835616
+    ]
+   },
+   {
+    "text": "=",
+    "box": [
+     513.75,
+     27.397260273972602,
+     690.0,
+     89.04109589041096
+    ]
+   },
+   {
+    "text": "-",
+    "box": [
+     0.0,
+     57.534246575342465,
+     10.0,
+     101.36986301369863
+    ]
+   },
+   {
+    "text": "קוחו",
+    "box": [
+     737.5,
+     71.23287671232876,
+     910.0,
+     194.5205479452055
+    ]
+   },
+   {
+    "text": "—",
+    "box": [
+     406.25,
+     152.05479452054797,
+     492.5,
+     163.013698630137
+    ]
+   },
+   {
+    "text": " —",
+    "box": [
+     175.0,
+     200.0,
+     280.0,
+     209.58904109589042
+    ]
+   },
+   {
+    "text": "- --- -",
+    "box": [
+     623.75,
+     209.58904109589042,
+     858.75,
+     239.72602739726025
+    ]
+   },
+   {
+    "text": "-",
+    "box": [
+     447.5,
+     302.73972602739724,
+     470.0,
+     309.5890410958904
+    ]
+   },
+   {
+    "text": "EEL]",
+    "box": [
+     0.0,
+     253.4246575342466,
+     222.5,
+     302.73972602739724
+    ]
+   },
+   {
+    "text": "וש",
+    "box": [
+     773.75,
+     317.8082191780822,
+     943.75,
+     553.4246575342465
+    ]
+   },
+   {
+    "text": "דאר",
+    "box": [
+     515.0,
+     283.56164383561645,
+     766.25,
+     553.4246575342465
+    ]
+   },
+   {
+    "text": "ל נעקם",
+    "box": [
+     50.0,
+     315.0684931506849,
+     443.75,
+     557.5342465753424
+    ]
+   },
+   {
+    "text": "הזינרון",
+    "box": [
+     50.0,
+     549.3150684931506,
+     432.5,
+     671.2328767123288
+    ]
+   },
+   {
+    "text": "MINT",
+    "box": [
+     51.25,
+     676.7123287671233,
+     431.25,
+     790.4109589041096
+    ]
+   },
+   {
+    "text": "₪",
+    "box": [
+     516.25,
+     541.095890410959,
+     988.75,
+     875.3424657534247
+    ]
+   },
+   {
+    "text": "משפחות # באוקטובר",
+    "box": [
+     56.25,
+     821.917808219178,
+     435.0,
+     880.8219178082192
+    ]
+   },
+   {
+    "text": "1 פארה ED YE‏ ח\"א | ווח ררוווי 210 | 1s‏ |",
+    "box": [
+     52.5,
+     908.2191780821918,
+     943.75,
+     1000.0
+    ]
+   }
+  ],
+  "ms": 1087,
+  "raw": ""
+ },
+ "tesseract|b3_kkl": {
+  "lines": [
+   {
+    "text": "בחג הסוכות הזה כולם בצפרתון של קק\"ל",
+    "box": [
+     163.75,
+     330.13698630136986,
+     836.25,
+     367.12328767123284
+    ]
+   },
+   {
+    "text": "ה",
+    "box": [
+     667.5,
+     442.4657534246575,
+     696.25,
+     449.31506849315065
+    ]
+   },
+   {
+    "text": "-",
+    "box": [
+     117.5,
+     441.09589041095893,
+     138.75,
+     456.16438356164383
+    ]
+   },
+   {
+    "text": "ל",
+    "box": [
+     740.0,
+     547.945205479452,
+     765.0,
+     564.3835616438356
+    ]
+   },
+   {
+    "text": "ED",
+    "box": [
+     855.0,
+     817.8082191780823,
+     877.5,
+     847.945205479452
+    ]
+   },
+   {
+    "text": "בר . BOS Me‏ ררא ושארו NYY iN‏ הוולו",
+    "box": [
+     533.75,
+     976.7123287671234,
+     985.0,
+     1000.0
+    ]
+   },
+   {
+    "text": "השש >",
+    "box": [
+     35.0,
+     945.2054794520548,
+     257.5,
+     1000.0
+    ]
+   }
+  ],
+  "ms": 643,
+  "raw": ""
+ },
+ "tesseract|b4_geely": {
+  "lines": [
+   {
+    "text": "= GEELY",
+    "box": [
+     35.0,
+     116.43835616438355,
+     763.75,
+     234.24657534246577
+    ]
+   },
+   {
+    "text": "»",
+    "box": [
+     460.0,
+     295.8904109589041,
+     483.75,
+     320.5479452054795
+    ]
+   },
+   {
+    "text": "[סוכות.",
+    "box": [
+     650.0,
+     284.93150684931504,
+     810.0,
+     347.94520547945206
+    ]
+   },
+   {
+    "text": "ימי מכירות חגיגיים עם מגוון הטבות",
+    "box": [
+     236.25,
+     380.82191780821915,
+     765.0,
+     413.6986301369863
+    ]
+   },
+   {
+    "text": "a ד\"‎",
+    "box": [
+     267.5,
+     441.09589041095893,
+     393.75,
+     457.5342465753425
+    ]
+   },
+   {
+    "text": ">>",
+    "box": [
+     343.75,
+     480.8219178082192,
+     410.0,
+     493.1506849315068
+    ]
+   },
+   {
+    "text": "ea",
+    "box": [
+     302.5,
+     476.71232876712327,
+     327.5,
+     487.67123287671234
+    ]
+   },
+   {
+    "text": "5",
+    "box": [
+     517.5,
+     527.3972602739726,
+     560.0,
+     536.986301369863
+    ]
+   },
+   {
+    "text": "oS",
+    "box": [
+     303.75,
+     569.8630136986301,
+     363.75,
+     582.1917808219179
+    ]
+   },
+   {
+    "text": "=\"",
+    "box": [
+     733.75,
+     580.8219178082192,
+     835.0,
+     616.4383561643835
+    ]
+   },
+   {
+    "text": "- >",
+    "box": [
+     583.75,
+     647.945205479452,
+     637.5,
+     653.4246575342466
+    ]
+   },
+   {
+    "text": "=",
+    "box": [
+     56.25,
+     667.1232876712329,
+     88.75,
+     672.6027397260274
+    ]
+   },
+   {
+    "text": "yi)",
+    "box": [
+     885.0,
+     682.1917808219177,
+     913.75,
+     719.1780821917808
+    ]
+   },
+   {
+    "text": "ור",
+    "box": [
+     328.75,
+     819.1780821917807,
+     363.75,
+     845.2054794520549
+    ]
+   },
+   {
+    "text": "-",
+    "box": [
+     851.25,
+     879.4520547945206,
+     897.5,
+     894.5205479452055
+    ]
+   },
+   {
+    "text": "NING‏ התצו",
+    "box": [
+     400.0,
+     873.972602739726,
+     545.0,
+     905.4794520547945
+    ]
+   },
+   {
+    "text": "ITBETTER BE GEE",
+    "box": [
+     363.75,
+     931.5068493150684,
+     606.25,
+     946.5753424657535
+    ]
+   },
+   {
+    "text": "תקו",
+    "box": [
+     780.0,
+     969.8630136986302,
+     808.75,
+     991.7808219178082
+    ]
+   },
+   {
+    "text": "כו",
+    "box": [
+     775.0,
+     991.7808219178082,
+     798.75,
+     1000.0
+    ]
+   },
+   {
+    "text": "4713 ]",
+    "box": [
+     390.0,
+     964.3835616438356,
+     437.5,
+     1000.0
+    ]
+   },
+   {
+    "text": "ily",
+    "box": [
+     276.25,
+     991.7808219178082,
+     300.0,
+     1000.0
+    ]
+   },
+   {
+    "text": "I.",
+    "box": [
+     277.5,
+     969.8630136986302,
+     298.75,
+     986.3013698630136
+    ]
+   }
+  ],
+  "ms": 771,
+  "raw": ""
+ },
+ "tesseract|en_meme": {
+  "lines": [
+   {
+    "text": "IWHENTHE CODE WORKS",
+    "box": [
+     0.0,
+     62.5,
+     1000.0,
+     152.5
+    ]
+   },
+   {
+    "text": "ON THEFIRST TRY",
+    "box": [
+     133.75,
+     862.5,
+     870.0,
+     952.5
+    ]
+   }
+  ],
+  "ms": 301,
+  "raw": ""
+ },
+ "tesseract|en_poster": {
+  "lines": [
+   {
+    "text": "SUMMER SALE",
+    "box": [
+     62.5,
+     139.11290322580643,
+     766.25,
+     258.06451612903226
+    ]
+   },
+   {
+    "text": "Everything 50% off",
+    "box": [
+     63.75,
+     370.9677419354839,
+     515.0,
+     451.61290322580646
+    ]
+   },
+   {
+    "text": "Today only, while stocks last",
+    "box": [
+     61.25,
+     516.1290322580645,
+     743.75,
+     596.7741935483871
+    ]
+   },
+   {
+    "text": "Free delivery on all orders",
+    "box": [
+     63.75,
+     741.9354838709678,
+     682.5,
+     822.5806451612904
+    ]
+   }
+  ],
+  "ms": 484,
+  "raw": ""
+ },
+ "meta/llama-3.2-90b-vision-instruct|b0_menoupais": {
+  "status": -1,
+  "ms": 170237,
+  "bytes": 65472,
+  "lines": null,
+  "raw": "",
+  "err": "TimeoutError: The read operation timed out",
+  "usage": null
+ },
+ "meta/llama-3.2-11b-vision-instruct|b0_menoupais": {
+  "status": 200,
+  "ms": 52538,
+  "bytes": 65472,
+  "lines": [
+   {
+    "text": "מנוי פיס",
+    "fr": "Abonnement PIS",
+    "box": [
+     0.0,
+     50.0,
+     150.0,
+     150.0
+    ]
+   },
+   {
+    "text": "עם חודש ראשון מתנה!",
+    "fr": "Avec un mois de cadeau!",
+    "box": [
+     350.0,
+     150.0,
+     650.0,
+     350.0
+    ]
+   },
+   {
+    "text": "יש הצעות שחייבים לקחת",
+    "fr": "Il y a des offres qui doivent être prises",
+    "box": [
+     350.0,
+     350.0,
+     650.0,
+     550.0
+    ]
+   },
+   {
+    "text": "לרכישת מנוי",
+    "fr": "Pour l'achat d'un abonnement",
+    "box": [
+     350.0,
+     550.0,
+     650.0,
+     650.0
+    ]
+   },
+   {
+    "text": "2026",
+    "fr": "2026",
+    "box": [
+     50.0,
+     850.0,
+     250.0,
+     950.0
+    ]
+   },
+   {
+    "text": "A",
+    "fr": "A",
+    "box": [
+     850.0,
+     650.0,
+     950.0,
+     850.0
+    ]
+   },
+   {
+    "text": "A",
+    "fr": "A",
+    "box": [
+     850.0,
+     850.0,
+     950.0,
+     950.0
+    ]
+   }
+  ],
+  "raw": "The image contains the following text:\n\n*   \"מנוי פיס\" (top left)\n*   \"עם חודש ראשון מתנה!\" (center)\n*   \"יש הצעות שחייבים לקחת\" (center)\n*   \"לרכישת מנוי\" (center)\n*   \"2026\" (bottom left)\n*   \"A\" (right side, twice)\n\nThe bounding boxes for each text line are:\n\n*   \"מנוי פיס\": [0, 0.05, 0.15, 0.15]\n*   \"עם חודש ראשון מתנה!\" : [0.35, 0.15, 0.65, 0.35]\n*   \"יש הצעות שחייבים לקחת\" : [0.35, 0.35, 0.65, 0.55]\n*   \"לרכישת מנוי\" : [0.35, 0.55, 0.65, 0.65]\n*   \"2026\" : [0.05, 0.85, 0.25, 0.95]\n*   \"A\" : [0.85, 0.65, 0.95, 0.85]\n*   \"A\" : [0.85, 0.85, 0.95, 0.95]\n\nThe French translations for each text line are:\n\n*   \"מנוי פיס\" : \"Abonnement PIS\"\n*   \"עם חודש ראשון מתנה!\" : \"Avec un mois de cadeau!\"\n*   \"יש הצעות שחייבים לקחת\" : \"Il y a des offres qui doivent être prises\"\n*   \"לרכישת מנוי\" : \"Pour l'achat d'un abonnement\"\n*   \"2026\" : \"2026\"\n*   \"A\" : \"A\"\n*   \"A\" : \"A\"\n\nThe final answer is:\n\n[{\"text\": \"מנוי פיס\", \"box\": [0, 0.05, 0.15, 0.15], \"fr\": \"Abonnement PIS\"}, {\"text\": \"עם חודש ראשון מתנה!\", \"box\": [0.35, 0.15, 0.65, 0.35], \"fr\": \"Avec un mois de cadeau!\"}, {\"text\": \"יש הצעות שחייבים לקחת\", \"box\": [0.35, 0.35, 0.65, 0.55], \"fr\": \"Il y a des offres qui doivent être prises\"}, {\"text\": \"לרכישת מנוי\", \"box\": [0.35, 0.55, 0.65, 0.65], \"fr\": \"Pour l'achat d'un abonnement\"}, {\"text\": \"2026\", \"box\": [0.05, 0.85, 0.25, 0.95], \"fr\": \"2026\"}, {\"text\": \"A\", \"box\": [0.85, 0.65, 0.95, 0.85], \"fr\": \"A\"}, {\"text\": \"A\", \"box\": [0.85, 0.85, 0.95, 0.95], \"fr\": \"A\"}]",
+  "err": "",
+  "usage": {
+   "prompt_tokens": 6526,
+   "total_tokens": 7368,
+   "completion_tokens": 842,
+   "prompt_tokens_details": null
+  }
+ },
+ "microsoft/phi-3-vision-128k-instruct|b0_menoupais": {
+  "status": 404,
+  "ms": 472,
+  "bytes": 65472,
+  "lines": null,
+  "raw": "",
+  "err": "{\"status\":404,\"title\":\"Not Found\",\"detail\":\"Function '***': Not found for account '***'\"}",
+  "usage": null
+ },
+ "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning|b0_menoupais": {
+  "status": 200,
+  "ms": 5429,
+  "bytes": 65472,
+  "lines": [
+   {
+    "text": "עברית",
+    "fr": "hébreu",
+    "box": [
+     415.0,
+     60.0,
+     585.0,
+     115.0
+    ]
+   },
+   {
+    "text": "אזל חוברות",
+    "fr": "Fiches en rupture de stock",
+    "box": [
+     29.0,
+     41.0,
+     155.0,
+     76.0
+    ]
+   },
+   {
+    "text": "2026",
+    "fr": "2026",
+    "box": [
+     128.0,
+     928.0,
+     218.0,
+     994.0
+    ]
+   },
+   {
+    "text": "< קריאה נוספת",
+    "fr": "< Lecture supplémentaire",
+    "box": [
+     365.0,
+     565.0,
+     625.0,
+     613.0
+    ]
+   },
+   {
+    "text": "文A",
+    "fr": "文A",
+    "box": [
+     892.0,
+     589.0,
+     965.0,
+     650.0
+    ]
+   },
+   {
+    "text": "文A",
+    "fr": "文A",
+    "box": [
+     892.0,
+     757.0,
+     965.0,
+     818.0
+    ]
+   }
+  ],
+  "raw": "[{\"text\":\"עברית\", \"box\":[415,60,585,115],\"fr\":\"hébreu\"},{\"text\":\"אזל חוברות\", \"box\":[29,41,155,76],\"fr\":\"Fiches en rupture de stock\"},{\"text\":\"2026\", \"box\":[128,928,218,994],\"fr\":\"2026\"},{\"text\":\"< קריאה נוספת\", \"box\":[365,565,625,613],\"fr\":\"< Lecture supplémentaire\"},{\"text\":\"文A\", \"box\":[892,589,965,650],\"fr\":\"文A\"},{\"text\":\"文A\", \"box\":[892,757,965,818],\"fr\":\"文A\"}]",
+  "err": "",
+  "usage": {
+   "prompt_tokens": 709,
+   "completion_tokens": 201,
+   "total_tokens": 910
+  }
+ },
+ "meta/llama-3.2-11b-vision-instruct|b1_kumu": {
+  "status": 200,
+  "ms": 26214,
+  "bytes": 81187,
+  "lines": [
+   {
+    "text": "צילום: זיו קורן",
+    "fr": "Photo: Ziv Koren",
+    "box": [
+     0.0,
+     50.0,
+     250.0,
+     150.0
+    ],
+    "prose": true
+   },
+   {
+    "text": "קוחוי",
+    "fr": "Kouhi",
+    "box": [
+     750.0,
+     50.0,
+     950.0,
+     150.0
+    ],
+    "prose": true
+   },
+   {
+    "text": "7.10",
+    "fr": "7.10",
+    "box": [
+     50.0,
+     350.0,
+     250.0,
+     550.0
+    ],
+    "prose": true
+   },
+   {
+    "text": "ישראל",
+    "fr": "Israël",
+    "box": [
+     250.0,
+     350.0,
+     450.0,
+     550.0
+    ],
+    "prose": true
+   },
+   {
+    "text": "הויכרון",
+    "fr": "L'incendie",
+    "box": [
+     450.0,
+     350.0,
+     650.0,
+     550.0
+    ],
+    "prose": true
+   },
+   {
+    "text": "הלאומי",
+    "fr": "National",
+    "box": [
+     650.0,
+     350.0,
+     850.0,
+     550.0
+    ],
+    "prose": true
+   },
+   {
+    "text": "7 באוקטובר",
+    "fr": "7 octobre",
+    "box": [
+     50.0,
+     550.0,
+     250.0,
+     750.0
+    ],
+    "prose": true
+   },
+   {
+    "text": "21:15 | 7.10",
+    "fr": "21h15 | 7.10",
+    "box": [
+     50.0,
+     750.0,
+     250.0,
+     950.0
+    ],
+    "prose": true
+   },
+   {
+    "text": "פארק גני יהושע, ת",
+    "fr": "Parc Gani Yehoshua, Tel Aviv | Mercredi, 7.10",
+    "box": [
+     50.0,
+     950.0,
+     250.0,
+     1000.0
+    ],
+    "prose": true
+   }
+  ],
+  "raw": "The image contains the following text:\n\n*   The first line of text is located at the top left corner of the image and reads \"צילום: זיו קורן\". Its bounding box is [0, 0.05, 0.25, 0.15] and its French translation is \"Photo: Ziv Koren\".\n*   The second line of text is located at the top right corner of the image and reads \"קוחוי\". Its bounding box is [0.75, 0.05, 0.95, 0.15] and its French translation is \"Kouhi\".\n*   The third line of text is located at the bottom left corner of the image and reads \"7.10\". Its bounding box is [0.05, 0.35, 0.25, 0.55] and its French translation is \"7.10\".\n*   The fourth line of text is located at the bottom left corner of the image and reads \"ישראל\". Its bounding box is [0.25, 0.35, 0.45, 0.55] and its French translation is \"Israël\".\n*   The fifth line of text is located at the bottom left corner of the image and reads \"הויכרון\". Its bounding box is [0.45, 0.35, 0.65, 0.55] and its French translation is \"L'incendie\".\n*   The sixth line of text is located at the bottom left corner of the image and reads \"הלאומי\". Its bounding box is [0.65, 0.35, 0.85, 0.55] and its French translation is \"National\".\n*   The seventh line of text is located at the bottom left corner of the image and reads \"7 באוקטובר\". Its bounding box is [0.05, 0.55, 0.25, 0.75] and its French translation is \"7 octobre\".\n*   The eighth line of text is located at the bottom left corner of the image and reads \"21:15 | 7.10\". Its bounding box is [0.05, 0.75, 0.25, 0.95] and its French translation is \"21h15 | 7.10\".\n*   The ninth line of text is located at the bottom left corner of the image and reads \"פארק גני יהושע, ת\"א | יום רביעי, 7.10\". Its bounding box is [0.05, 0.95, 0.25, 1] and its French translation is \"Parc Gani Yehoshua, Tel Aviv | Mercredi, 7.10\".\n\nThe image contains a total of 9 lines of text, with their corresponding bounding boxes and French translations.",
+  "err": "",
+  "usage": {
+   "prompt_tokens": 6526,
+   "total_tokens": 7170,
+   "completion_tokens": 644,
+   "prompt_tokens_details": null
+  }
+ },
+ "meta/llama-3.2-11b-vision-instruct|b3_kkl": {
+  "status": 200,
+  "ms": 19594,
+  "bytes": 88140,
+  "lines": [
+   {
+    "text": "יש לנו משהו לצפר לכם",
+    "fr": "Nous avons quelque chose à vous montrer",
+    "box": [
+     0.0,
+     150.0,
+     990.0,
+     290.0
+    ],
+    "prose": true
+   },
+   {
+    "text": "בחנ הסוכות הזה כולם בצפרתון של קק",
+    "fr": "Dans ce sukkah, tout le monde est invité à venir voir",
+    "box": [
+     10.0,
+     290.0,
+     990.0,
+     430.0
+    ],
+    "prose": true
+   },
+   {
+    "text": "16:00-09:30 | 28-30.9.26, שני-רביעי, 28-30.9.26, שביל נחל נעמן",
+    "fr": "16h00-09h30 | 28-30.9.26, mardi-jeudi, 28-30.9.26, sentier du wadi Na'aman",
+    "box": [
+     10.0,
+     430.0,
+     990.0,
+     570.0
+    ],
+    "prose": true
+   },
+   {
+    "text": "הפארק האקולוגי הוד השרון, כפר מסריק - שביל נחל נעמן",
+    "fr": "Le parc écologique de Hod HaSharon, Kfar Masrik - sentier du wadi Na'aman",
+    "box": [
+     10.0,
+     570.0,
+     990.0,
+     710.0
+    ],
+    "prose": true
+   },
+   {
+    "text": "לפרטים והרשמה <<",
+    "fr": "Pour plus d'informations et d'inscription <<",
+    "box": [
+     10.0,
+     710.0,
+     990.0,
+     850.0
+    ],
+    "prose": true
+   }
+  ],
+  "raw": "The image contains the following text:\n\n*   The first line of text is in Hebrew and reads \"יש לנו משהו לצפר לכם\". The bounding box for this text is [0, 0.15, 0.99, 0.29] and its French translation is \"Nous avons quelque chose à vous montrer\".\n*   The second line of text is in Hebrew and reads \"בחנ הסוכות הזה כולם בצפרתון של קק\"ל\". The bounding box for this text is [0.01, 0.29, 0.99, 0.43] and its French translation is \"Dans ce sukkah, tout le monde est invité à venir voir\".\n*   The third line of text is in Hebrew and reads \"16:00-09:30 | 28-30.9.26, שני-רביעי, 28-30.9.26, שביל נחל נעמן\". The bounding box for this text is [0.01, 0.43, 0.99, 0.57] and its French translation is \"16h00-09h30 | 28-30.9.26, mardi-jeudi, 28-30.9.26, sentier du wadi Na'aman\".\n*   The fourth line of text is in Hebrew and reads \"הפארק האקולוגי הוד השרון, כפר מסריק - שביל נחל נעמן\". The bounding box for this text is [0.01, 0.57, 0.99, 0.71] and its French translation is \"Le parc écologique de Hod HaSharon, Kfar Masrik - sentier du wadi Na'aman\".\n*   The fifth line of text is in Hebrew and reads \"לפרטים והרשמה <<\". The bounding box for this text is [0.01, 0.71, 0.99, 0.85] and its French translation is \"Pour plus d'informations et d'inscription <<\".\n\nThe image contains a total of five lines of text, all of which are in Hebrew. The text is related to an event or activity that is taking place in a park or nature reserve, and it includes information about the date, time, location, and contact details.",
+  "err": "",
+  "usage": {
+   "prompt_tokens": 6526,
+   "total_tokens": 7098,
+   "completion_tokens": 572,
+   "prompt_tokens_details": null
+  }
+ },
+ "meta/llama-3.2-11b-vision-instruct|b4_geely": {
+  "status": 200,
+  "ms": 44102,
+  "bytes": 102112,
+  "lines": [
+   {
+    "text": "GEELY CARNIVAL",
+    "fr": "GEELY CARNIVAL",
+    "box": [
+     50.0,
+     50.0,
+     950.0,
+     350.0
+    ]
+   },
+   {
+    "text": "GEELY",
+    "fr": "GEELY",
+    "box": [
+     50.0,
+     50.0,
+     150.0,
+     150.0
+    ]
+   },
+   {
+    "text": "סוכות",
+    "fr": "Succoth",
+    "box": [
+     250.0,
+     250.0,
+     550.0,
+     350.0
+    ]
+   },
+   {
+    "text": "ימי מכירות חגיגיים עם מגוון הטבות",
+    "fr": "Jours de ventes festifs avec une variété d'avantages",
+    "box": [
+     250.0,
+     350.0,
+     950.0,
+     450.0
+    ]
+   },
+   {
+    "text": "30-27 בספטמבר",
+    "fr": "30-27 septembre",
+    "box": [
+     250.0,
+     450.0,
+     550.0,
+     650.0
+    ]
+   },
+   {
+    "text": "בכל אולמות התצוגה",
+    "fr": "Dans tous les salons d'exposition",
+    "box": [
+     250.0,
+     650.0,
+     550.0,
+     750.0
+    ]
+   },
+   {
+    "text": "IT BETTER BE GEELY",
+    "fr": "IL FAUT QUE CE SOIT GEELY",
+    "box": [
+     250.0,
+     750.0,
+     550.0,
+     850.0
+    ]
+   },
+   {
+    "text": "30-27.9.26 בן חדש רכב חדש",
+    "fr": "30-27.9.26 nouveau véhicule nouveau",
+    "box": [
+     250.0,
+     850.0,
+     550.0,
+     950.0
+    ]
+   },
+   {
+    "text": "www.geely.co.il ללקוחות פרטיים",
+    "fr": "www.geely.co.il pour les clients privés",
+    "box": [
+     250.0,
+     950.0,
+     550.0,
+     1000.0
+    ]
+   },
+   {
+    "text": "ההטבות בכפוף לתקנון באתר",
+    "fr": "Les avantages sont soumis au règlement du site",
+    "box": [
+     0.25,
+     1.0,
+     0.55,
+     1.05
+    ]
+   }
+  ],
+  "raw": "The image contains the following text:\n\n*   \"GEELY CARNIVAL\" in large white letters at the top center of the image.\n*   \"GEELY\" in small white letters in the top-left corner of the image.\n*   A logo in the top-right corner of the image that appears to be a white circle with a black \"X\" inside it.\n*   A line of text in Hebrew below the \"GEELY CARNIVAL\" logo, which reads \"סוכות\" in large white letters and \"ימי מכירות חגיגיים עם מגוון הטבות\" in smaller blue letters underneath.\n*   A line of text in Hebrew below the \"GEELY CARNIVAL\" logo, which reads \"30-27 בספטמבר\" in large white letters and \"בכל אולמות התצוגה\" in smaller white letters underneath.\n*   A line of text in Hebrew below the \"GEELY CARNIVAL\" logo, which reads \"IT BETTER BE GEELY\" in small white letters.\n*   A line of text in Hebrew at the bottom of the image, which reads \"30-27.9.26 בן חדש רכב חדש\" in small white letters.\n*   A line of text in Hebrew at the bottom of the image, which reads \"www.geely.co.il ללקוחות פרטיים\" in small white letters.\n*   A line of text in Hebrew at the bottom of the image, which reads \"ההטבות בכפוף לתקנון באתר\" in small white letters.\n\nThe French translations for these texts are:\n\n*   \"GEELY CARNIVAL\" - \"GEELY CARNIVAL\"\n*   \"GEELY\" - \"GEELY\"\n*   \"סוכות\" - \"Succoth\"\n*   \"ימי מכירות חגיגיים עם מגוון הטבות\" - \"Jours de ventes festifs avec une variété d'avantages\"\n*   \"30-27 בספטמבר\" - \"30-27 septembre\"\n*   \"בכל אולמות התצוגה\" - \"Dans tous les salons d'exposition\"\n*   \"IT BETTER BE GEELY\" - \"IL FAUT QUE CE SOIT GEELY\"\n*   \"30-27.9.26 בן חדש רכב חדש\" - \"30-27.9.26 nouveau véhicule nouveau\"\n*   \"www.geely.co.il ללקוחות פרטיים\" - \"www.geely.co.il pour les clients privés\"\n*   \"ההטבות בכפוף לתקנון באתר\" - \"Les avantages sont soumis au règlement du site\"\n\nHere is the list of text with their bounding boxes and French translations:\n\n[{\"text\": \"GEELY CARNIVAL\", \"box\": [0.05, 0.05, 0.95, 0.35], \"fr\": \"GEELY CARNIVAL\"}, {\"text\": \"GEELY\", \"box\": [0.05, 0.05, 0.15, 0.15], \"fr\": \"GEELY\"}, {\"text\": \"סוכות\", \"box\": [0.25, 0.25, 0.55, 0.35], \"fr\": \"Succoth\"}, {\"text\": \"ימי מכירות חגיגיים עם מגוון הטבות\", \"box\": [0.25, 0.35, 0.95, 0.45], \"fr\": \"Jours de ventes festifs avec une variété d'avantages\"}, {\"text\": \"30-27 בספטמבר\", \"box\": [0.25, 0.45, 0.55, 0.65], \"fr\": \"30-27 septembre\"}, {\"text\": \"בכל אולמות התצוגה\", \"box\": [0.25, 0.65, 0.55, 0.75], \"fr\": \"Dans tous les salons d'exposition\"}, {\"text\": \"IT BETTER BE GEELY\", \"box\": [0.25, 0.75, 0.55, 0.85], \"fr\": \"IL FAUT QUE CE SOIT GEELY\"}, {\"text\": \"30-27.9.26 בן חדש רכב חדש\", \"box\": [0.25, 0.85, 0.55, 0.95], \"fr\": \"30-27.9.26 nouveau véhicule nouveau\"}, {\"text\": \"www.geely.co.il ללקוחות פרטיים\", \"box\": [0.25, 0.95, 0.55, 1.00], \"fr\": \"www.geely.co.il pour les clients privés\"}, {\"text\": \"ההטבות בכפוף לתקנון באתר\", \"box\": [0.25, 1.00, 0.55, 1.05], \"fr\": \"Les avantages sont soumis au règlement du site\"}]",
+  "err": "",
+  "usage": {
+   "prompt_tokens": 6526,
+   "total_tokens": 7808,
+   "completion_tokens": 1282,
+   "prompt_tokens_details": null
+  }
+ },
+ "meta/llama-3.2-11b-vision-instruct|en_meme": {
+  "status": 200,
+  "ms": 22112,
+  "bytes": 57604,
+  "lines": [
+   {
+    "text": "WHEN THE CODE WORKS",
+    "fr": "LORSQUE LE CODE FONCTIONNE",
+    "box": [
+     0.0,
+     50.0,
+     1000.0,
+     150.0
+    ]
+   },
+   {
+    "text": "ON THE FIRST TRY",
+    "fr": "LA PREMIÈRE FOIS",
+    "box": [
+     0.0,
+     850.0,
+     1000.0,
+     950.0
+    ]
+   }
+  ],
+  "raw": "The image contains the following text:\n\n* \"WHEN THE CODE WORKS\" (top)\n* \"ON THE FIRST TRY\" (bottom)\n\nThe bounding boxes for each text line are:\n\n* \"WHEN THE CODE WORKS\": [0, 0.05, 1, 0.15]\n* \"ON THE FIRST TRY\": [0, 0.85, 1, 0.95]\n\nThe French translations for each text line are:\n\n* \"WHEN THE CODE WORKS\": \"LORSQUE LE CODE FONCTIONNE\"\n* \"ON THE FIRST TRY\": \"LA PREMIÈRE FOIS\"\n\nTherefore, the final answer is:\n\n[\n  {\n    \"text\": \"WHEN THE CODE WORKS\",\n    \"box\": [0, 0.05, 1, 0.15],\n    \"fr\": \"LORSQUE LE CODE FONCTIONNE\"\n  },\n  {\n    \"text\": \"ON THE FIRST TRY\",\n    \"box\": [0, 0.85, 1, 0.95],\n    \"fr\": \"LA PREMIÈRE FOIS\"\n  }\n]",
+  "err": "",
+  "usage": {
+   "prompt_tokens": 6526,
+   "total_tokens": 6765,
+   "completion_tokens": 239,
+   "prompt_tokens_details": null
+  }
+ },
+ "meta/llama-3.2-11b-vision-instruct|en_poster": {
+  "status": 200,
+  "ms": 12444,
+  "bytes": 34290,
+  "lines": [
+   {
+    "text": "SUMMER SALE",
+    "fr": "VENTE D'ÉTÉ",
+    "box": [
+     0.0,
+     150.0,
+     990.0,
+     290.0
+    ],
+    "prose": true
+   },
+   {
+    "text": "Everything 50% off",
+    "fr": "Tout à 50% de réduction",
+    "box": [
+     50.0,
+     340.0,
+     990.0,
+     510.0
+    ],
+    "prose": true
+   },
+   {
+    "text": "Today only, while stocks last",
+    "fr": "Seulement aujourd'hui, tant que les stocks durent",
+    "box": [
+     50.0,
+     540.0,
+     990.0,
+     690.0
+    ],
+    "prose": true
+   },
+   {
+    "text": "Free delivery on all orders",
+    "fr": "Livraison gratuite sur tous les commandes",
+    "box": [
+     50.0,
+     790.0,
+     990.0,
+     920.0
+    ],
+    "prose": true
+   }
+  ],
+  "raw": "The image displays a blue background with yellow and white text, advertising a summer sale. The text is arranged in three lines, with the first line reading \"SUMMER SALE\" in large yellow letters, the second line stating \"Everything 50% off\" in smaller white letters, and the third line saying \"Today only, while stocks last\" in even smaller white letters. At the bottom of the image, there is additional text that reads \"Free delivery on all orders\" in small white letters.\n\nTo answer the question, we need to identify every piece of text visible in the image and provide its exact text as written, along with its bounding box coordinates and French translation. Here is the list of text elements:\n\n*   **SUMMER SALE**\n    *   Text: SUMMER SALE\n    *   Box: [0, 0.15, 0.99, 0.29]\n    *   French Translation: VENTE D'ÉTÉ\n*   **Everything 50% off**\n    *   Text: Everything 50% off\n    *   Box: [0.05, 0.34, 0.99, 0.51]\n    *   French Translation: Tout à 50% de réduction\n*   **Today only, while stocks last**\n    *   Text: Today only, while stocks last\n    *   Box: [0.05, 0.54, 0.99, 0.69]\n    *   French Translation: Seulement aujourd'hui, tant que les stocks durent\n*   **Free delivery on all orders**\n    *   Text: Free delivery on all orders\n    *   Box: [0.05, 0.79, 0.99, 0.92]\n    *   French Translation: Livraison gratuite sur tous les commandes\n\nIn summary, the image displays a blue background with yellow and white text, advertising a summer sale with discounts and free delivery. The text is arranged in three lines, with the first line reading \"SUMMER SALE\" in large yellow letters, the second line stating \"Everything 50% off\" in smaller white letters, and the third line saying \"Today only, while stocks last\" in even smaller white letters. At the bottom of the image, there is additional text that reads \"Free delivery on all orders\" in small white letters.",
+  "err": "",
+  "usage": {
+   "prompt_tokens": 3324,
+   "total_tokens": 3815,
+   "completion_tokens": 491,
+   "prompt_tokens_details": null
+  }
+ },
+ "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning|b1_kumu": {
+  "status": 503,
+  "ms": 709,
+  "bytes": 81187,
+  "lines": null,
+  "raw": "",
+  "err": "{\"error\":{\"message\":\"ResourceExhausted: Worker local total request limit reached (16/16)\",\"type\":\"Service Unavailable\",\"code\":503}}",
+  "usage": null
+ },
+ "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning|b4_geely": {
+  "status": 503,
+  "ms": 793,
+  "bytes": 102112,
+  "lines": null,
+  "raw": "",
+  "err": "{\"error\":{\"message\":\"ResourceExhausted: Worker local total request limit reached (16/16)\",\"type\":\"Service Unavailable\",\"code\":503}}",
+  "usage": null
+ },
+ "meta/llama-3.2-11b-vision-instruct|b1_kumu_titre": {
+  "status": 200,
+  "ms": 6881,
+  "bytes": 19536,
+  "lines": [
+   {
+    "text": "ישראל",
+    "fr": "Israél",
+    "box": [
+     0.0,
+     0.0,
+     500.0,
+     300.0
+    ]
+   },
+   {
+    "text": "אנחהטיה",
+    "fr": "Ankht",
+    "box": [
+     500.0,
+     300.0,
+     1000.0,
+     600.0
+    ]
+   }
+  ],
+  "raw": "The image contains two lines of text in Hebrew, with the first line reading \"ישראל\" and the second line reading \"אנכת\". The bounding boxes for these lines are [0, 0, 0.5, 0.3] and [0.5, 0.3, 1, 0.6], respectively. The French translations for these lines are \"Israël\" and \"Ankht\", respectively.\n\nHere is the JSON array with the requested information:\n\n[{\"text\": \"ישראל\", \"box\": [0, 0, 0.5, 0.3], \"fr\": \"Isra\\u00e9l\"}, {\"text\": \"\\u05d0\\u05e0\\u05d7\\u05d4\\u05d8\\u05d9\\u05d4\", \"box\": [0.5, 0.3, 1, 0.6], \"fr\": \"Ankht\"}]",
+  "err": "",
+  "usage": {
+   "prompt_tokens": 1723,
+   "total_tokens": 1937,
+   "completion_tokens": 214,
+   "prompt_tokens_details": null
+  }
+ }
+}

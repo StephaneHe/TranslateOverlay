@@ -1,0 +1,94 @@
+{
+ "budget": 20,
+ "requests": 14,
+ "http_429": 0,
+ "http_503": 3,
+ "stopped": false,
+ "log": [
+  {
+   "t": "11:37:24",
+   "label": "meta/llama-3.2-90b-vision-instruct b0_menoupais",
+   "status": -1,
+   "ms": 90284
+  },
+  {
+   "t": "11:38:17",
+   "label": "meta/llama-3.2-11b-vision-instruct b0_menoupais",
+   "status": 200,
+   "ms": 52538
+  },
+  {
+   "t": "11:38:18",
+   "label": "microsoft/phi-3-vision-128k-instruct b0_menoupais",
+   "status": 404,
+   "ms": 472
+  },
+  {
+   "t": "11:38:19",
+   "label": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning b0_menoupais",
+   "status": 503,
+   "ms": 666
+  },
+  {
+   "t": "11:39:28",
+   "label": "meta/llama-3.2-11b-vision-instruct b1_kumu",
+   "status": 200,
+   "ms": 26214
+  },
+  {
+   "t": "11:39:48",
+   "label": "meta/llama-3.2-11b-vision-instruct b3_kkl",
+   "status": 200,
+   "ms": 19594
+  },
+  {
+   "t": "11:40:32",
+   "label": "meta/llama-3.2-11b-vision-instruct b4_geely",
+   "status": 200,
+   "ms": 44102
+  },
+  {
+   "t": "11:40:54",
+   "label": "meta/llama-3.2-11b-vision-instruct en_meme",
+   "status": 200,
+   "ms": 22112
+  },
+  {
+   "t": "11:41:06",
+   "label": "meta/llama-3.2-11b-vision-instruct en_poster",
+   "status": 200,
+   "ms": 12444
+  },
+  {
+   "t": "11:41:53",
+   "label": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning b0_menoupais",
+   "status": 200,
+   "ms": 5429
+  },
+  {
+   "t": "11:42:25",
+   "label": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning b1_kumu",
+   "status": 503,
+   "ms": 709
+  },
+  {
+   "t": "11:42:28",
+   "label": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning b4_geely",
+   "status": 503,
+   "ms": 793
+  },
+  {
+   "t": "11:42:57",
+   "label": "meta/llama-3.2-11b-vision-instruct b1_kumu_titre",
+   "status": 200,
+   "ms": 6881
+  },
+  {
+   "t": "11:45:47",
+   "label": "meta/llama-3.2-90b-vision-instruct b0_menoupais",
+   "status": -1,
+   "ms": 170237
+  }
+ ],
+ "note": "3 x 503 Nemotron Omni (worker satur\u00e9) : plus aucun appel \u00e0 ce mod\u00e8le ; arr\u00eat appliqu\u00e9 par mod\u00e8le, 2 mesures Llama restantes autoris\u00e9es."
+}

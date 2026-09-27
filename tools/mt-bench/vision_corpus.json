@@ -1,0 +1,486 @@
+{
+ "_doc": "Vision OCR benchmark corpus (2026-09-27). Boxes are normalized [x0, y0, x1, y1] in 0..1 of the cropped image, established by hand from the images. 'crop' = [left, top, right, bottom] in source pixels. Hebrew banners are real ynet ads captured on the V30T (docs/screenshots/ynet/*_before.png); the app's floating bubble is visible on some, as in real use. 'app_130' = what the app (1.3.0: OCR + ML Kit) displayed, read from *_after.png.",
+ "images": [
+  {
+   "id": "b0_menoupais",
+   "src": "docs/screenshots/ynet/banner0_before.png",
+   "crop": [
+    0,
+    342,
+    1080,
+    1318
+   ],
+   "lang": "he",
+   "lines": [
+    {
+     "text": "מנוי פיס",
+     "box": [
+      0.418,
+      0.062,
+      0.58,
+      0.114
+     ],
+     "fr": "Abonnement Pais"
+    },
+    {
+     "text": "עם חודש",
+     "box": [
+      0.234,
+      0.135,
+      0.769,
+      0.264
+     ],
+     "fr": "Avec le premier mois"
+    },
+    {
+     "text": "ראשון מתנה!",
+     "box": [
+      0.111,
+      0.295,
+      0.886,
+      0.431
+     ],
+     "fr": "offert !"
+    },
+    {
+     "text": "יש הצעות שחייבים לקחת",
+     "box": [
+      0.178,
+      0.462,
+      0.825,
+      0.529
+     ],
+     "fr": "Il y a des offres à ne pas manquer"
+    },
+    {
+     "text": "לרכישת מנוי >",
+     "box": [
+      0.373,
+      0.556,
+      0.613,
+      0.611
+     ],
+     "fr": "Pour s'abonner >"
+    }
+   ],
+   "fr_full": "Abonnement Pais. Avec le premier mois offert ! Il y a des offres à ne pas manquer. Pour s'abonner >",
+   "app_130": "Abonnement PE. Avec AFT. Cadeau en ligne! Il y a des enchères à prendre. Acheter un abonnement>"
+  },
+  {
+   "id": "b1_kumu",
+   "src": "docs/screenshots/ynet/banner1_before.png",
+   "crop": [
+    0,
+    342,
+    1080,
+    1328
+   ],
+   "lang": "he",
+   "lines": [
+    {
+     "text": "קומו!",
+     "box": [
+      0.736,
+      0.067,
+      0.909,
+      0.19
+     ],
+     "fr": "Levez-vous !"
+    },
+    {
+     "text": "צילום: זיו קורן",
+     "box": [
+      0.05,
+      0.265,
+      0.223,
+      0.302
+     ],
+     "fr": "Photo : Ziv Koren"
+    },
+    {
+     "text": "טקס 7.10",
+     "box": [
+      0.05,
+      0.412,
+      0.435,
+      0.529
+     ],
+     "fr": "Cérémonie du 7.10"
+    },
+    {
+     "text": "הזיכרון",
+     "box": [
+      0.05,
+      0.554,
+      0.435,
+      0.671
+     ],
+     "fr": "du souvenir"
+    },
+    {
+     "text": "הלאומי",
+     "box": [
+      0.05,
+      0.689,
+      0.435,
+      0.794
+     ],
+     "fr": "nationale"
+    },
+    {
+     "text": "משפחות 7 באוקטובר",
+     "box": [
+      0.056,
+      0.824,
+      0.435,
+      0.88
+     ],
+     "fr": "Familles du 7 octobre"
+    },
+    {
+     "text": "ישראל",
+     "box": [
+      0.513,
+      0.406,
+      0.942,
+      0.56
+     ],
+     "fr": "Israël"
+    },
+    {
+     "text": "לא",
+     "box": [
+      0.769,
+      0.578,
+      0.936,
+      0.72
+     ],
+     "fr": "n'"
+    },
+    {
+     "text": "שוכחת",
+     "box": [
+      0.513,
+      0.738,
+      0.936,
+      0.88
+     ],
+     "fr": "oublie pas"
+    },
+    {
+     "text": "פארק גני יהושע, ת\"א | יום רביעי, 7.10 | 21:15",
+     "box": [
+      0.134,
+      0.96,
+      0.87,
+      1.0
+     ],
+     "fr": "Parc Ganei Yehoshua, Tel-Aviv | mercredi 7.10 | 21h15"
+    }
+   ],
+   "fr_full": "Levez-vous ! Photo : Ziv Koren. Cérémonie nationale du souvenir du 7.10. Familles du 7 octobre. Israël n'oublie pas. Parc Ganei Yehoshua, Tel-Aviv | mercredi 7.10 | 21h15",
+   "app_130": "Photo: Vue vered. Families to October"
+  },
+  {
+   "id": "b3_kkl",
+   "src": "docs/screenshots/ynet/banner3_before.png",
+   "crop": [
+    0,
+    342,
+    1080,
+    1328
+   ],
+   "lang": "he",
+   "lines": [
+    {
+     "text": "יש לנו משהו",
+     "box": [
+      0.184,
+      0.049,
+      0.814,
+      0.148
+     ],
+     "fr": "Nous avons quelque chose"
+    },
+    {
+     "text": "לצפר לכם",
+     "box": [
+      0.251,
+      0.172,
+      0.758,
+      0.264
+     ],
+     "fr": "à vous faire observer (oiseaux)"
+    },
+    {
+     "text": "בחג הסוכות הזה כולם בצפרתון של קק\"ל",
+     "box": [
+      0.139,
+      0.314,
+      0.858,
+      0.381
+     ],
+     "fr": "Pour cette fête de Souccot, tous au Tsafraton du KKL"
+    },
+    {
+     "text": "מתי? חול המועד סוכות, שני-רביעי, 28-30.9.26 | 09:30-16:00",
+     "box": [
+      0.084,
+      0.769,
+      0.92,
+      0.812
+     ],
+     "fr": "Quand ? Pendant Hol HaMoed Souccot, lundi-mercredi, 28-30.9.26 | 9h30-16h00"
+    },
+    {
+     "text": "איפה? הפארק האקולוגי הוד השרון, כפר מסריק - שביל נחל נעמן",
+     "box": [
+      0.072,
+      0.818,
+      0.925,
+      0.855
+     ],
+     "fr": "Où ? Parc écologique de Hod HaSharon, Kfar Masaryk - sentier du Nahal Naaman"
+    },
+    {
+     "text": "לפרטים והרשמה <<",
+     "box": [
+      0.596,
+      0.917,
+      0.981,
+      0.972
+     ],
+     "fr": "Détails et inscription >>"
+    },
+    {
+     "text": "ההשתתפות ברישום מראש. ללא תשלום",
+     "box": [
+      0.53,
+      0.98,
+      0.981,
+      1.0
+     ],
+     "fr": "Participation sur inscription préalable. Gratuit"
+    }
+   ],
+   "fr_full": "Nous avons quelque chose à vous faire observer. Pour cette fête de Souccot, tous au Tsafraton du KKL. Quand ? Pendant Hol HaMoed Souccot, lundi-mercredi, 28-30.9.26 | 9h30-16h00. Où ? Parc écologique de Hod HaSharon, Kfar Masaryk - sentier du Nahal Naaman. Détails et inscription >>. Participation sur inscription préalable. Gratuit",
+   "app_130": "Nous avons quelque chose. À l'oiseau que vous. Dans ce sukkot, tout le monde dans le kkl-jnf. Où? Le parc écologique Hod Hasharon, Kfar Masaryk - Nahal Nahaman Trail. L'exagération à l'avance. Libre"
+  },
+  {
+   "id": "b4_geely",
+   "src": "docs/screenshots/ynet/banner4_before.png",
+   "crop": [
+    0,
+    342,
+    1080,
+    1328
+   ],
+   "lang": "he",
+   "lines": [
+    {
+     "text": "GEELY CARNIVAL",
+     "box": [
+      0.212,
+      0.111,
+      0.781,
+      0.33
+     ],
+     "fr": "GEELY CARNIVAL"
+    },
+    {
+     "text": "סוכות",
+     "box": [
+      0.652,
+      0.302,
+      0.781,
+      0.351
+     ],
+     "fr": "Souccot"
+    },
+    {
+     "text": "ימי מכירות חגיגיים עם מגוון הטבות",
+     "box": [
+      0.223,
+      0.369,
+      0.781,
+      0.418
+     ],
+     "fr": "Journées de ventes festives avec de nombreux avantages"
+    },
+    {
+     "text": "27-30 בספטמבר",
+     "box": [
+      0.29,
+      0.818,
+      0.714,
+      0.873
+     ],
+     "fr": "27-30 septembre"
+    },
+    {
+     "text": "בכל אולמות התצוגה",
+     "box": [
+      0.362,
+      0.88,
+      0.636,
+      0.911
+     ],
+     "fr": "Dans tous les showrooms"
+    },
+    {
+     "text": "IT BETTER BE GEELY",
+     "box": [
+      0.362,
+      0.935,
+      0.636,
+      0.954
+     ],
+     "fr": "IT BETTER BE GEELY"
+    },
+    {
+     "text": "ההטבות בכפוף לתקנון באתר www.geely.co.il. ללקוחות פרטיים שירכשו רכב חדש בין 27-30.9.26",
+     "box": [
+      0.033,
+      0.972,
+      0.976,
+      1.0
+     ],
+     "fr": "Avantages soumis au règlement sur le site www.geely.co.il. Pour les particuliers achetant un véhicule neuf entre le 27 et le 30.9.26"
+    }
+   ],
+   "fr_full": "GEELY CARNIVAL Souccot. Journées de ventes festives avec de nombreux avantages. 27-30 septembre. Dans tous les showrooms. IT BETTER BE GEELY. Avantages soumis au règlement sur le site www.geely.co.il. Pour les particuliers achetant un véhicule neuf entre le 27 et le 30.9.26",
+   "app_130": "7 à Spepavs: Dans toutes les salles d'affichage. 1T MIEUX ÊTRE. Les avantages soumis à la VS 6. ששש .ופו. Les Lilecots privés ont été condamnés par des voitures de 30 à 27,9,26,"
+  },
+  {
+   "id": "en_meme",
+   "src": "docs/test-assets/meme.png",
+   "crop": [
+    0,
+    0,
+    1000,
+    1000
+   ],
+   "lang": "en",
+   "lines": [
+    {
+     "text": "WHEN THE CODE WORKS",
+     "box": [
+      0.005,
+      0.055,
+      1.0,
+      0.16
+     ],
+     "fr": "QUAND LE CODE FONCTIONNE"
+    },
+    {
+     "text": "ON THE FIRST TRY",
+     "box": [
+      0.13,
+      0.855,
+      0.87,
+      0.955
+     ],
+     "fr": "DU PREMIER COUP"
+    }
+   ],
+   "fr_full": "QUAND LE CODE FONCTIONNE DU PREMIER COUP",
+   "app_130": null
+  },
+  {
+   "id": "en_poster",
+   "src": "docs/test-assets/poster.png",
+   "crop": [
+    0,
+    0,
+    1000,
+    620
+   ],
+   "lang": "en",
+   "lines": [
+    {
+     "text": "SUMMER SALE",
+     "box": [
+      0.06,
+      0.129,
+      0.77,
+      0.266
+     ],
+     "fr": "SOLDES D'ÉTÉ"
+    },
+    {
+     "text": "Everything 50% off",
+     "box": [
+      0.06,
+      0.363,
+      0.515,
+      0.444
+     ],
+     "fr": "Tout à -50 %"
+    },
+    {
+     "text": "Today only, while stocks last",
+     "box": [
+      0.06,
+      0.508,
+      0.745,
+      0.589
+     ],
+     "fr": "Aujourd'hui seulement, dans la limite des stocks disponibles"
+    },
+    {
+     "text": "Free delivery on all orders",
+     "box": [
+      0.06,
+      0.734,
+      0.685,
+      0.815
+     ],
+     "fr": "Livraison gratuite sur toutes les commandes"
+    }
+   ],
+   "fr_full": "SOLDES D'ÉTÉ. Tout à -50 %. Aujourd'hui seulement, dans la limite des stocks disponibles. Livraison gratuite sur toutes les commandes",
+   "app_130": null
+  },
+  {
+   "id": "b1_kumu_titre",
+   "src": "tools/mt-bench/vision/b1_kumu_titre.jpg",
+   "crop": null,
+   "lang": "he",
+   "derived": "b1_kumu cropped to the right headline, <=560 px (one Llama tile): latency test",
+   "lines": [
+    {
+     "text": "ישראל",
+     "box": [
+      0.05,
+      0.05,
+      0.96,
+      0.34
+     ],
+     "fr": "Israël"
+    },
+    {
+     "text": "לא",
+     "box": [
+      0.55,
+      0.38,
+      0.95,
+      0.66
+     ],
+     "fr": "n'"
+    },
+    {
+     "text": "שוכחת",
+     "box": [
+      0.05,
+      0.69,
+      0.95,
+      0.96
+     ],
+     "fr": "oublie pas"
+    }
+   ],
+   "fr_full": "Israël n'oublie pas",
+   "app_130": null
+  }
+ ]
+}

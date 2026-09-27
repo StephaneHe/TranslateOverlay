@@ -1,0 +1,276 @@
+{
+ "meta/llama-3.2-11b-vision-instruct": [
+  {
+   "img": "b0_menoupais",
+   "ms": 52538,
+   "bytes": 65472,
+   "status": 200,
+   "json_ok": true,
+   "src_chrf": 96.03522913750645,
+   "cer": 0.125,
+   "fr_chrf": 39.79844281542178,
+   "iou": 0.24287300941623638,
+   "iou50": 0.0,
+   "invented": [
+    "2026"
+   ]
+  },
+  {
+   "img": "b1_kumu",
+   "ms": 26214,
+   "bytes": 81187,
+   "status": 200,
+   "json_ok": false,
+   "src_chrf": 51.022514400064075,
+   "cer": 0.532258064516129,
+   "fr_chrf": 39.903324674839745,
+   "iou": 0.21297493341657353,
+   "iou50": 0.0,
+   "invented": [
+    "קוחוי"
+   ]
+  },
+  {
+   "img": "b3_kkl",
+   "ms": 19594,
+   "bytes": 88140,
+   "status": 200,
+   "json_ok": false,
+   "src_chrf": 66.33284406935138,
+   "cer": 0.3393665158371041,
+   "fr_chrf": 39.98350701401017,
+   "iou": 0.163230848436594,
+   "iou50": 0.0,
+   "invented": []
+  },
+  {
+   "img": "b4_geely",
+   "ms": 44102,
+   "bytes": 102112,
+   "status": 200,
+   "json_ok": true,
+   "src_chrf": 78.29436205971221,
+   "cer": 0.46875,
+   "fr_chrf": 44.342879707606734,
+   "iou": 0.22201996360041232,
+   "iou50": 0.0,
+   "invented": [
+    "30-27.9.26 בן חדש רכב חדש"
+   ]
+  },
+  {
+   "img": "en_meme",
+   "ms": 22112,
+   "bytes": 57604,
+   "status": 200,
+   "json_ok": true,
+   "src_chrf": 100.0,
+   "cer": 0.0,
+   "fr_chrf": 49.13685131481642,
+   "iou": 0.7688130135421423,
+   "iou50": 1.0,
+   "invented": []
+  },
+  {
+   "img": "en_poster",
+   "ms": 12444,
+   "bytes": 34290,
+   "status": 200,
+   "json_ok": false,
+   "src_chrf": 100.0,
+   "cer": 0.0,
+   "fr_chrf": 49.55857497922648,
+   "iou": 0.2681403384643569,
+   "iou50": 0.25,
+   "invented": []
+  },
+  {
+   "img": "b1_kumu_titre",
+   "ms": 6881,
+   "bytes": 19536,
+   "status": 200,
+   "json_ok": true,
+   "src_chrf": 28.085016835016834,
+   "cer": 0.5,
+   "fr_chrf": 10.07071337395938,
+   "iou": 0.293001751723121,
+   "iou50": 0.3333333333333333,
+   "invented": [
+    "אנחהטיה"
+   ]
+  }
+ ],
+ "meta/llama-3.2-90b-vision-instruct": [
+  {
+   "img": "b0_menoupais",
+   "ms": 170237,
+   "bytes": 65472,
+   "status": -1,
+   "json_ok": false,
+   "fail": true
+  }
+ ],
+ "microsoft/phi-3-vision-128k-instruct": [
+  {
+   "img": "b0_menoupais",
+   "ms": 472,
+   "bytes": 65472,
+   "status": 404,
+   "json_ok": false,
+   "fail": true
+  }
+ ],
+ "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning": [
+  {
+   "img": "b0_menoupais",
+   "ms": 5429,
+   "bytes": 65472,
+   "status": 200,
+   "json_ok": true,
+   "src_chrf": 7.974965334855605,
+   "cer": 0.796875,
+   "fr_chrf": 8.647082631259927,
+   "iou": 0.3310121855001315,
+   "iou50": 0.4,
+   "invented": [
+    "עברית",
+    "אזל חוברות",
+    "2026",
+    "< קריאה נוספת"
+   ]
+  },
+  {
+   "img": "b1_kumu",
+   "ms": 709,
+   "bytes": 81187,
+   "status": 503,
+   "json_ok": false,
+   "fail": true
+  },
+  {
+   "img": "b4_geely",
+   "ms": 793,
+   "bytes": 102112,
+   "status": 503,
+   "json_ok": false,
+   "fail": true
+  }
+ ],
+ "tesseract": [
+  {
+   "img": "b0_menoupais",
+   "ms": 584,
+   "bytes": null,
+   "status": null,
+   "json_ok": true,
+   "src_chrf": 37.29529165866418,
+   "cer": 0.4375,
+   "iou": 0.7283014168454922,
+   "iou50": 0.8,
+   "invented": [
+    "ny‏ חודפו",
+    "Inn NN",
+    "ar £5 A"
+   ]
+  },
+  {
+   "img": "b1_kumu",
+   "ms": 1087,
+   "bytes": null,
+   "status": null,
+   "json_ok": true,
+   "src_chrf": 19.487017017836894,
+   "cer": 0.6290322580645161,
+   "iou": 0.5981418827726915,
+   "iou50": 0.5,
+   "invented": [
+    "ההא",
+    "קוחו",
+    "- --- -",
+    "EEL]",
+    "דאר",
+    "ל נעקם",
+    "MINT",
+    "1 פארה ED YE‏ ח\"א | ווח ררוווי 210 | 1s‏ |"
+   ]
+  },
+  {
+   "img": "b3_kkl",
+   "ms": 643,
+   "bytes": null,
+   "status": null,
+   "json_ok": true,
+   "src_chrf": 20.102740340614485,
+   "cer": 0.7194570135746606,
+   "iou": 0.1975509050929245,
+   "iou50": 0.2857142857142857,
+   "invented": [
+    "בר . BOS Me‏ ררא ושארו NYY iN‏ הוולו",
+    "השש >"
+   ]
+  },
+  {
+   "img": "b4_geely",
+   "ms": 771,
+   "bytes": null,
+   "status": null,
+   "json_ok": true,
+   "src_chrf": 31.741257784873365,
+   "cer": 0.65625,
+   "iou": 0.37074997567729845,
+   "iou50": 0.2857142857142857,
+   "invented": [
+    "= GEELY",
+    "a ד\"‎",
+    "- >",
+    "yi)",
+    "NING‏ התצו",
+    "תקו",
+    "4713 ]",
+    "ily"
+   ]
+  },
+  {
+   "img": "en_meme",
+   "ms": 301,
+   "bytes": null,
+   "status": null,
+   "json_ok": true,
+   "src_chrf": 99.24794044723555,
+   "cer": 0.08333333333333333,
+   "iou": 0.8744529755810135,
+   "iou50": 1.0,
+   "invented": []
+  },
+  {
+   "img": "en_poster",
+   "ms": 484,
+   "bytes": null,
+   "status": null,
+   "json_ok": true,
+   "src_chrf": 100.0,
+   "cer": 0.0,
+   "iou": 0.8284963946425157,
+   "iou50": 1.0,
+   "invented": []
+  }
+ ],
+ "app 1.3.0 (OCR+ML Kit, affiché)": [
+  {
+   "img": "b0_menoupais",
+   "fr_chrf": 34.63931616317331
+  },
+  {
+   "img": "b1_kumu",
+   "fr_chrf": 9.853502058323258
+  },
+  {
+   "img": "b3_kkl",
+   "fr_chrf": 29.353546105049432
+  },
+  {
+   "img": "b4_geely",
+   "fr_chrf": 17.8592606387889
+  }
+ ]
+}
