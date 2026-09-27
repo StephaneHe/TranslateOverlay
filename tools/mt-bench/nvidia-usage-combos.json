@@ -1,0 +1,338 @@
+{
+ "budget": 80,
+ "requests": 41,
+ "http_429": 0,
+ "http_503": {},
+ "dropped": [],
+ "stopped": false,
+ "log": [
+  {
+   "t": "11:51:28",
+   "label": "b0 nvidia/nemotron-3-ultra-550b-a55b S1_ynet",
+   "status": 200,
+   "ttft": 0.89,
+   "first_block": 0.99,
+   "total": 5.45
+  },
+  {
+   "t": "11:52:01",
+   "label": "b0 nvidia/nemotron-3-ultra-550b-a55b S2_banners",
+   "status": 200,
+   "ttft": 0.76,
+   "first_block": 0.81,
+   "total": 33.31
+  },
+  {
+   "t": "11:52:31",
+   "label": "b0 nvidia/nemotron-3-ultra-550b-a55b S3_wiki_fr",
+   "status": 200,
+   "ttft": 3.95,
+   "first_block": 7.35,
+   "total": 30.33
+  },
+  {
+   "t": "11:53:49",
+   "label": "b0 nvidia/nemotron-3-ultra-550b-a55b S4_wiki_he",
+   "status": 200,
+   "ttft": 1.05,
+   "first_block": 1.09,
+   "total": 77.15
+  },
+  {
+   "t": "11:53:55",
+   "label": "b1 nvidia/nemotron-3-ultra-550b-a55b S1_ynet",
+   "status": 200,
+   "ttft": 0.97,
+   "first_block": 1.8,
+   "total": 6.15
+  },
+  {
+   "t": "11:54:36",
+   "label": "b1 nvidia/nemotron-3-ultra-550b-a55b S2_banners",
+   "status": 200,
+   "ttft": 23.85,
+   "first_block": 29.18,
+   "total": 40.9
+  },
+  {
+   "t": "11:54:50",
+   "label": "b1 nvidia/nemotron-3-ultra-550b-a55b S3_wiki_fr",
+   "status": 200,
+   "ttft": 2.55,
+   "first_block": 5.36,
+   "total": 14.64
+  },
+  {
+   "t": "11:54:56",
+   "label": "b1 nvidia/nemotron-3-ultra-550b-a55b S4_wiki_he",
+   "status": 200,
+   "ttft": 0.85,
+   "first_block": 0.9,
+   "total": 5.26
+  },
+  {
+   "t": "11:55:24",
+   "label": "b1 nvidia/nemotron-3-super-120b-a12b S1_ynet",
+   "status": 200,
+   "ttft": 0.69,
+   "first_block": 0.96,
+   "total": 3.62
+  },
+  {
+   "t": "11:56:39",
+   "label": "b1 deepseek-ai/deepseek-v4.1-flash S1_ynet",
+   "status": -1,
+   "ttft": null,
+   "first_block": null,
+   "total": 75.2
+  },
+  {
+   "t": "11:57:54",
+   "label": "b1 z-ai/glm-5.3 S1_ynet",
+   "status": -1,
+   "ttft": null,
+   "first_block": null,
+   "total": 75.25
+  },
+  {
+   "t": "11:58:31",
+   "label": "b1 moonshotai/kimi-k3 S1_ynet",
+   "status": 200,
+   "ttft": 15.09,
+   "first_block": 15.41,
+   "total": 36.35
+  },
+  {
+   "t": "11:58:39",
+   "label": "b1 mistralai/mistral-large S1_ynet",
+   "status": 404,
+   "ttft": null,
+   "first_block": null,
+   "total": 0.37
+  },
+  {
+   "t": "11:59:54",
+   "label": "b1 google/gemma-4-31b-it S1_ynet",
+   "status": -1,
+   "ttft": null,
+   "first_block": null,
+   "total": 75.22
+  },
+  {
+   "t": "11:59:55",
+   "label": "b1 nvidia/llama-3.1-nemotron-ultra-253b-v1 S1_ynet",
+   "status": 404,
+   "ttft": null,
+   "first_block": null,
+   "total": 0.4
+  },
+  {
+   "t": "12:01:11",
+   "label": "b1 mistralai/mistral-nemotron S1_ynet",
+   "status": 200,
+   "ttft": 58.06,
+   "first_block": 58.18,
+   "total": 75.43
+  },
+  {
+   "t": "12:02:30",
+   "label": "review nvidia/nemotron-3-ultra-550b-a55b <- b1|nvidia/nemotron-3-ultra-550b-a55b S1_ynet",
+   "status": 200,
+   "ttft": 0.88,
+   "first_block": 1.12,
+   "total": 13.2
+  },
+  {
+   "t": "12:02:58",
+   "label": "review nvidia/nemotron-3-ultra-550b-a55b <- b1|nvidia/nemotron-3-ultra-550b-a55b S2_banners",
+   "status": 200,
+   "ttft": 1.04,
+   "first_block": 1.14,
+   "total": 27.63
+  },
+  {
+   "t": "12:03:19",
+   "label": "review nvidia/nemotron-3-ultra-550b-a55b <- b1|nvidia/nemotron-3-ultra-550b-a55b S4_wiki_he",
+   "status": 200,
+   "ttft": 1.02,
+   "first_block": 1.27,
+   "total": 21.44
+  },
+  {
+   "t": "12:03:25",
+   "label": "judge nvidia/nemotron-3-ultra-550b-a55b S1_ynet",
+   "status": 200,
+   "ttft": 0.92,
+   "first_block": 0.94,
+   "total": 5.58
+  },
+  {
+   "t": "12:03:38",
+   "label": "image reference -> nvidia/nemotron-3-ultra-550b-a55b",
+   "status": 200,
+   "ttft": 5.79,
+   "first_block": 7.52,
+   "total": 13.21
+  },
+  {
+   "t": "12:04:28",
+   "label": "image meta/llama-3.2-11b-vision-instruct -> nvidia/nemotron-3-ultra-550b-a55b",
+   "status": 200,
+   "ttft": 1.01,
+   "first_block": 3.59,
+   "total": 49.77
+  },
+  {
+   "t": "12:04:31",
+   "label": "image tesseract -> nvidia/nemotron-3-ultra-550b-a55b",
+   "status": 200,
+   "ttft": 0.79,
+   "first_block": 0.85,
+   "total": 3.19
+  },
+  {
+   "t": "12:05:34",
+   "label": "b2 nvidia/nemotron-3-ultra-550b-a55b S1_ynet",
+   "status": 200,
+   "ttft": 1.07,
+   "first_block": 1.64,
+   "total": 8.76
+  },
+  {
+   "t": "12:05:38",
+   "label": "b2 nvidia/nemotron-3-ultra-550b-a55b S2_banners",
+   "status": 200,
+   "ttft": 0.85,
+   "first_block": 0.96,
+   "total": 3.88
+  },
+  {
+   "t": "12:05:43",
+   "label": "b2 nvidia/nemotron-3-ultra-550b-a55b S3_wiki_fr",
+   "status": 200,
+   "ttft": 1.13,
+   "first_block": 1.17,
+   "total": 4.98
+  },
+  {
+   "t": "12:05:53",
+   "label": "b2 nvidia/nemotron-3-ultra-550b-a55b S4_wiki_he",
+   "status": 200,
+   "ttft": 1.22,
+   "first_block": 3.46,
+   "total": 9.75
+  },
+  {
+   "t": "12:07:29",
+   "label": "b1#2 nvidia/nemotron-3-ultra-550b-a55b S1_ynet",
+   "status": 200,
+   "ttft": 46.12,
+   "first_block": 49.23,
+   "total": 68.0
+  },
+  {
+   "t": "12:07:35",
+   "label": "b1#2 nvidia/nemotron-3-ultra-550b-a55b S4_wiki_he",
+   "status": 200,
+   "ttft": 2.96,
+   "first_block": 3.25,
+   "total": 6.03
+  },
+  {
+   "t": "12:07:44",
+   "label": "b2#2 nvidia/nemotron-3-ultra-550b-a55b S1_ynet",
+   "status": 200,
+   "ttft": 2.67,
+   "first_block": 3.17,
+   "total": 8.98
+  },
+  {
+   "t": "12:07:50",
+   "label": "b2#2 nvidia/nemotron-3-ultra-550b-a55b S4_wiki_he",
+   "status": 200,
+   "ttft": 0.83,
+   "first_block": 0.91,
+   "total": 5.83
+  },
+  {
+   "t": "12:07:59",
+   "label": "b2#3 nvidia/nemotron-3-ultra-550b-a55b S1_ynet",
+   "status": 200,
+   "ttft": 2.98,
+   "first_block": 3.03,
+   "total": 9.37
+  },
+  {
+   "t": "12:08:03",
+   "label": "b2#3 nvidia/nemotron-3-ultra-550b-a55b S2_banners",
+   "status": 200,
+   "ttft": 0.78,
+   "first_block": 0.89,
+   "total": 3.79
+  },
+  {
+   "t": "12:08:22",
+   "label": "b2 nvidia/nemotron-3-super-120b-a12b S1_ynet",
+   "status": 200,
+   "ttft": 0.67,
+   "first_block": 0.7,
+   "total": 4.02
+  },
+  {
+   "t": "12:08:27",
+   "label": "b2 nvidia/nemotron-3-super-120b-a12b S2_banners",
+   "status": 200,
+   "ttft": 0.62,
+   "first_block": 0.71,
+   "total": 5.34
+  },
+  {
+   "t": "12:08:32",
+   "label": "b2 nvidia/nemotron-3-super-120b-a12b S3_wiki_fr",
+   "status": 200,
+   "ttft": 0.63,
+   "first_block": 0.68,
+   "total": 4.28
+  },
+  {
+   "t": "12:08:35",
+   "label": "b2 nvidia/nemotron-3-super-120b-a12b S4_wiki_he",
+   "status": 200,
+   "ttft": 0.64,
+   "first_block": 0.69,
+   "total": 3.65
+  },
+  {
+   "t": "12:09:52",
+   "label": "b1 nvidia/nemotron-3-ultra-550b-a55b S2m_banners_merged",
+   "status": 200,
+   "ttft": 1.17,
+   "first_block": 1.21,
+   "total": 5.14
+  },
+  {
+   "t": "12:09:56",
+   "label": "b1 nvidia/nemotron-3-super-120b-a12b S2m_banners_merged",
+   "status": 200,
+   "ttft": 0.74,
+   "first_block": 0.81,
+   "total": 3.02
+  },
+  {
+   "t": "12:10:41",
+   "label": "b1 moonshotai/kimi-k3 S2m_banners_merged",
+   "status": 200,
+   "ttft": 2.88,
+   "first_block": 3.13,
+   "total": 29.92
+  },
+  {
+   "t": "12:11:13",
+   "label": "b1 moonshotai/kimi-k3 S4_wiki_he",
+   "status": 200,
+   "ttft": 11.29,
+   "first_block": null,
+   "total": 15.59
+  }
+ ]
+}

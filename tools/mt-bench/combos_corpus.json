@@ -1,0 +1,490 @@
+{
+ "_doc": "Real screens as the app sends them (blocks top to bottom), with hand-made reference translations (2026-09-27). S1: ynet.co.il home as captured on the V30T (menu, headlines, lede, briefs, ads: tree text + ad text read by OCR). S2: the text of 4 real ynet ad banners (correct source text, see vision_corpus.json). S3/S4: en.wikipedia.org/wiki/Cat top screen, to French and to Hebrew. Tags: menu = short UI label, head = headline, body = paragraph, ad = advertising, legal = small print.",
+ "screens": [
+  {
+   "id": "S1_ynet",
+   "app": "Chrome",
+   "url": "https://www.ynet.co.il/home/0,7340,L-8,00.html",
+   "title": "ynet - חדשות, כלכלה, ספורט ובריאות - דיווחים שוטפים מהארץ ומהעולם",
+   "source": "he",
+   "target": "fr",
+   "blocks": [
+    {
+     "t": "menu",
+     "src": "כותרות",
+     "ref": "À la une"
+    },
+    {
+     "t": "menu",
+     "src": "מבזקים",
+     "ref": "Brèves"
+    },
+    {
+     "t": "menu",
+     "src": "חדשות",
+     "ref": "Actualités"
+    },
+    {
+     "t": "menu",
+     "src": "בחירות 2026",
+     "ref": "Élections 2026"
+    },
+    {
+     "t": "menu",
+     "src": "דעות",
+     "ref": "Opinions"
+    },
+    {
+     "t": "menu",
+     "src": "ידיעות+",
+     "ref": "Yedioth+"
+    },
+    {
+     "t": "head",
+     "src": "דיווח: ראש המודיעין המצרי הגיע לישראל לפני 7/10 והזהיר - \"עזה תתפוצץ לכם בפנים\"",
+     "ref": "Révélation : le chef du renseignement égyptien est venu en Israël avant le 7/10 et a averti : « Gaza va vous exploser au visage »"
+    },
+    {
+     "t": "body",
+     "src": "לפי תחקיר נרחב של מגזין \"אטלנטיק\" האמריקני, עבאס כאמל נחת בחשאי בנתב\"ג 11 ימים לפני הטבח ושהה בישראל 67 דקות בלבד: \"הזהיר שחמאס נערך למתקפה גדולה\". לפי הדיווח, מצרי...",
+     "ref": "Selon une vaste enquête du magazine américain « The Atlantic », Abbas Kamel a atterri secrètement à l'aéroport Ben Gourion 11 jours avant le massacre et n'est resté en Israël que 67 minutes : « Il a averti que le Hamas préparait une grande attaque ». Selon l'article, l'Égypte..."
+    },
+    {
+     "t": "head",
+     "src": "\"נתניהו הוזהר שחמאס יפתח במתקפה גדולה\" -...",
+     "ref": "« Netanyahou a été averti que le Hamas lancerait une grande attaque » -..."
+    },
+    {
+     "t": "head",
+     "src": "שנתיים למות בעלי אימפריית \"מנגו\": השאלות שנותרו",
+     "ref": "Deux ans après la mort du propriétaire de l'empire « Mango » : les questions qui restent"
+    },
+    {
+     "t": "ad",
+     "src": "אל תפספסו את הגרלת הענק בלוטו הערב: עד 44 מיליון ש\"ח",
+     "ref": "Ne manquez pas le méga-tirage du Loto ce soir : jusqu'à 44 millions de shekels"
+    },
+    {
+     "t": "head",
+     "src": "מנהיגי \"גוש השינוי\" נפגשו ופרסמו \"מסמך עקרונות\": \"בחירות קריטיות לגורל המדינה\"",
+     "ref": "Les dirigeants du « bloc du changement » se sont réunis et ont publié un « document de principes » : « Des élections cruciales pour l'avenir du pays »"
+    },
+    {
+     "t": "body",
+     "src": "בלי לסמן מועמד אחד לראש ממשלה: איזנקוט, בנט, ליברמן וגולן נפגשו בביתו של לפיד כדי \"לתאם מהלכים\" לקראת הבחירות בעוד חודש.",
+     "ref": "Sans désigner de candidat unique au poste de Premier ministre : Eisenkot, Bennett, Liberman et Golan se sont réunis chez Lapid pour « coordonner leurs actions » en vue des élections dans un mois."
+    },
+    {
+     "t": "head",
+     "src": "אחרי האזהרות, נתניהו החליט: לקדם הסדרה",
+     "ref": "Après les avertissements, Netanyahou a tranché : faire avancer un arrangement"
+    },
+    {
+     "t": "head",
+     "src": "מבחן דרך: החשמלית הקטנה עם הנשמה הספורטיבית",
+     "ref": "Essai routier : la petite électrique à l'âme sportive"
+    },
+    {
+     "t": "menu",
+     "src": "לכל המבזקים",
+     "ref": "Toutes les brèves"
+    },
+    {
+     "t": "ad",
+     "src": "ימי מכירות חגיגיים עם מגוון הטבות",
+     "ref": "Journées de ventes festives avec de nombreux avantages"
+    },
+    {
+     "t": "ad",
+     "src": "בכל אולמות התצוגה",
+     "ref": "Dans tous les showrooms"
+    },
+    {
+     "t": "ad",
+     "src": "לרכישת מנוי",
+     "ref": "S'abonner"
+    },
+    {
+     "t": "legal",
+     "src": "המכירה אסורה למי שטרם מלאו לו 18 שנים. אזהרה: משרד הרווחה והביטחון החברתי קובע כי הימורים עלולים להיות ממכרים.",
+     "ref": "Vente interdite aux moins de 18 ans. Avertissement : le ministère des Affaires sociales et de la Sécurité sociale indique que les jeux d'argent peuvent créer une dépendance."
+    },
+    {
+     "t": "ad",
+     "src": "מחפשים SUV? קיה ספורטאז' במסלול ליסינג משתלם במיוחד",
+     "ref": "Vous cherchez un SUV ? La Kia Sportage en formule de leasing particulièrement avantageuse"
+    },
+    {
+     "t": "ad",
+     "src": "כך תוכלו לנהוג בקיה ספורטאז' ב-2,390 ₪ לחודש ובתנאי ליסינג משתלמים",
+     "ref": "Voici comment conduire une Kia Sportage pour 2 390 ₪ par mois avec des conditions de leasing avantageuses"
+    },
+    {
+     "t": "menu",
+     "src": "מידע נוסף",
+     "ref": "En savoir plus"
+    },
+    {
+     "t": "ad",
+     "src": "Sponsored Links | Channel22 : News",
+     "ref": "Liens sponsorisés | Channel22 : Actualités"
+    }
+   ]
+  },
+  {
+   "id": "S2_banners",
+   "app": "Chrome",
+   "url": "https://www.ynet.co.il/home/0,7340,L-8,00.html",
+   "title": "ynet - publicités sur la page d'accueil",
+   "source": "he",
+   "target": "fr",
+   "blocks": [
+    {
+     "t": "ad",
+     "src": "מנוי פיס",
+     "ref": "Abonnement Pais"
+    },
+    {
+     "t": "ad",
+     "src": "עם חודש",
+     "ref": "Avec le premier mois"
+    },
+    {
+     "t": "ad",
+     "src": "ראשון מתנה!",
+     "ref": "offert !"
+    },
+    {
+     "t": "ad",
+     "src": "יש הצעות שחייבים לקחת",
+     "ref": "Il y a des offres à ne pas manquer"
+    },
+    {
+     "t": "menu",
+     "src": "לרכישת מנוי >",
+     "ref": "S'abonner >"
+    },
+    {
+     "t": "ad",
+     "src": "קומו!",
+     "ref": "Levez-vous !"
+    },
+    {
+     "t": "legal",
+     "src": "צילום: זיו קורן",
+     "ref": "Photo : Ziv Koren"
+    },
+    {
+     "t": "head",
+     "src": "טקס 7.10",
+     "ref": "Cérémonie du 7.10"
+    },
+    {
+     "t": "head",
+     "src": "הזיכרון",
+     "ref": "du souvenir"
+    },
+    {
+     "t": "head",
+     "src": "הלאומי",
+     "ref": "nationale"
+    },
+    {
+     "t": "head",
+     "src": "משפחות 7 באוקטובר",
+     "ref": "Familles du 7 octobre"
+    },
+    {
+     "t": "head",
+     "src": "ישראל",
+     "ref": "Israël"
+    },
+    {
+     "t": "head",
+     "src": "לא",
+     "ref": "n'oublie"
+    },
+    {
+     "t": "head",
+     "src": "שוכחת",
+     "ref": "pas"
+    },
+    {
+     "t": "body",
+     "src": "פארק גני יהושע, ת\"א | יום רביעי, 7.10 | 21:15",
+     "ref": "Parc Ganei Yehoshua, Tel-Aviv | mercredi 7.10 | 21h15"
+    },
+    {
+     "t": "head",
+     "src": "יש לנו משהו",
+     "ref": "On a quelque chose"
+    },
+    {
+     "t": "head",
+     "src": "לצפר לכם",
+     "ref": "à vous faire observer"
+    },
+    {
+     "t": "ad",
+     "src": "בחג הסוכות הזה כולם בצפרתון של קק\"ל",
+     "ref": "Pour Souccot, tous au Tsafraton du KKL"
+    },
+    {
+     "t": "body",
+     "src": "מתי? חול המועד סוכות, שני-רביעי, 28-30.9.26 | 09:30-16:00",
+     "ref": "Quand ? Pendant Hol HaMoed Souccot, lundi-mercredi, 28-30.9.26 | 9h30-16h00"
+    },
+    {
+     "t": "body",
+     "src": "איפה? הפארק האקולוגי הוד השרון, כפר מסריק - שביל נחל נעמן",
+     "ref": "Où ? Parc écologique de Hod HaSharon, Kfar Masaryk - sentier du Nahal Naaman"
+    },
+    {
+     "t": "menu",
+     "src": "לפרטים והרשמה <<",
+     "ref": "Détails et inscription >>"
+    },
+    {
+     "t": "legal",
+     "src": "ההשתתפות ברישום מראש. ללא תשלום",
+     "ref": "Participation sur inscription préalable. Gratuit"
+    },
+    {
+     "t": "ad",
+     "src": "סוכות",
+     "ref": "Souccot"
+    },
+    {
+     "t": "ad",
+     "src": "ימי מכירות חגיגיים עם מגוון הטבות",
+     "ref": "Journées de ventes festives avec de nombreux avantages"
+    },
+    {
+     "t": "ad",
+     "src": "27-30 בספטמבר",
+     "ref": "27-30 septembre"
+    },
+    {
+     "t": "ad",
+     "src": "בכל אולמות התצוגה",
+     "ref": "Dans tous les showrooms"
+    },
+    {
+     "t": "legal",
+     "src": "ההטבות בכפוף לתקנון באתר www.geely.co.il. ללקוחות פרטיים שירכשו רכב חדש בין 27-30.9.26",
+     "ref": "Avantages soumis au règlement sur le site www.geely.co.il. Pour les particuliers achetant un véhicule neuf entre le 27 et le 30.9.26"
+    }
+   ]
+  },
+  {
+   "id": "S3_wiki_fr",
+   "app": "Chrome",
+   "url": "https://en.wikipedia.org/wiki/Cat",
+   "title": "Cat - Wikipedia",
+   "source": "en",
+   "target": "fr",
+   "blocks": [
+    {
+     "t": "menu",
+     "src": "Wikipedia",
+     "ref": "Wikipédia"
+    },
+    {
+     "t": "menu",
+     "src": "Search",
+     "ref": "Rechercher"
+    },
+    {
+     "t": "head",
+     "src": "Cat",
+     "ref": "Chat"
+    },
+    {
+     "t": "menu",
+     "src": "Article",
+     "ref": "Article"
+    },
+    {
+     "t": "menu",
+     "src": "Talk",
+     "ref": "Discussion"
+    },
+    {
+     "t": "body",
+     "src": "This article is about the species commonly kept as a pet. For the cat family, see Felidae. For other uses, see Cat (disambiguation).",
+     "ref": "Cet article concerne l'espèce couramment gardée comme animal de compagnie. Pour la famille des chats, voir Félidés. Pour les autres significations, voir Chat (homonymie)."
+    },
+    {
+     "t": "body",
+     "src": "\"Cats\" redirects here. For other uses, see Cats (disambiguation).",
+     "ref": "« Cats » redirige ici. Pour les autres significations, voir Cats (homonymie)."
+    },
+    {
+     "t": "body",
+     "src": "The cat (Felis catus), also called domestic cat and house cat, is a small domesticated carnivorous mammal. It is a member of Felidae, the family of mammals in the order Carnivora also colloquially referred to as cats. An obligate carnivore, requiring a predominantly meat-based diet, it has retractable claws adapted to killing small prey species such as mice and rats. It has a strong, flexible body, quick reflexes, and sharp teeth, and its night vision and sense of smell are well developed. It is a social species, but a solitary hunter and a crepuscular predator. Cat communication includes meowing, purring, trilling, hissing, growling, grunting, body language, and scent marking.",
+     "ref": "Le chat (Felis catus), aussi appelé chat domestique, est un petit mammifère carnivore domestiqué. Il appartient à la famille des Félidés, famille de mammifères de l'ordre des Carnivores dont les membres sont aussi appelés familièrement chats. Carnivore strict, qui a besoin d'une alimentation principalement carnée, il possède des griffes rétractiles adaptées à la capture de petites proies comme les souris et les rats. Il a un corps robuste et souple, des réflexes rapides et des dents acérées, et sa vision nocturne et son odorat sont très développés. C'est une espèce sociale, mais un chasseur solitaire et un prédateur crépusculaire. La communication du chat comprend le miaulement, le ronronnement, le roucoulement, le feulement, le grognement, le grondement, le langage corporel et le marquage olfactif."
+    }
+   ]
+  },
+  {
+   "id": "S4_wiki_he",
+   "app": "Chrome",
+   "url": "https://en.wikipedia.org/wiki/Cat",
+   "title": "Cat - Wikipedia",
+   "source": "en",
+   "target": "he",
+   "blocks": [
+    {
+     "t": "menu",
+     "src": "Wikipedia",
+     "ref": "ויקיפדיה"
+    },
+    {
+     "t": "menu",
+     "src": "Search",
+     "ref": "חיפוש"
+    },
+    {
+     "t": "head",
+     "src": "Cat",
+     "ref": "חתול"
+    },
+    {
+     "t": "menu",
+     "src": "Article",
+     "ref": "ערך"
+    },
+    {
+     "t": "menu",
+     "src": "Talk",
+     "ref": "שיחה"
+    },
+    {
+     "t": "body",
+     "src": "This article is about the species commonly kept as a pet. For the cat family, see Felidae. For other uses, see Cat (disambiguation).",
+     "ref": "ערך זה עוסק במין שמוחזק בדרך כלל כחיית מחמד. למשפחת החתוליים, ראו חתוליים. לפירושים אחרים, ראו חתול (פירושונים)."
+    },
+    {
+     "t": "body",
+     "src": "\"Cats\" redirects here. For other uses, see Cats (disambiguation).",
+     "ref": "\"Cats\" מפנה לכאן. לפירושים אחרים, ראו Cats (פירושונים)."
+    },
+    {
+     "t": "body",
+     "src": "The cat (Felis catus), also called domestic cat and house cat, is a small domesticated carnivorous mammal. It is a member of Felidae, the family of mammals in the order Carnivora also colloquially referred to as cats. An obligate carnivore, requiring a predominantly meat-based diet, it has retractable claws adapted to killing small prey species such as mice and rats. It has a strong, flexible body, quick reflexes, and sharp teeth, and its night vision and sense of smell are well developed. It is a social species, but a solitary hunter and a crepuscular predator. Cat communication includes meowing, purring, trilling, hissing, growling, grunting, body language, and scent marking.",
+     "ref": "החתול (Felis catus), המכונה גם חתול בית, הוא יונק טורף קטן ומבוית. הוא שייך למשפחת החתוליים, משפחה של יונקים בסדרת הטורפים שחבריה מכונים גם הם בשפה היומיומית חתולים. כטורף מוחלט, הזקוק לתזונה המבוססת בעיקר על בשר, יש לו טפרים נשלפים המותאמים לצידת בעלי חיים קטנים כמו עכברים וחולדות. יש לו גוף חזק וגמיש, רפלקסים מהירים ושיניים חדות, וראיית הלילה וחוש הריח שלו מפותחים היטב. זהו מין חברתי, אך צייד בודד וטורף דמדומים. התקשורת של החתול כוללת יללות, גרגור, סלסול, נשיפות, נהמות, רטינות, שפת גוף וסימון ריח."
+    }
+   ]
+  },
+  {
+   "id": "S2m_banners_merged",
+   "app": "Chrome",
+   "url": "https://www.ynet.co.il/home/0,7340,L-8,00.html",
+   "title": "ynet - publicités (lignes d'un même titre regroupées)",
+   "source": "he",
+   "target": "fr",
+   "blocks": [
+    {
+     "t": "ad",
+     "src": "מנוי פיס",
+     "ref": "Abonnement Pais"
+    },
+    {
+     "t": "head",
+     "src": "עם חודש ראשון מתנה!",
+     "ref": "Avec le premier mois offert !"
+    },
+    {
+     "t": "ad",
+     "src": "יש הצעות שחייבים לקחת",
+     "ref": "Il y a des offres à ne pas manquer"
+    },
+    {
+     "t": "menu",
+     "src": "לרכישת מנוי >",
+     "ref": "S'abonner >"
+    },
+    {
+     "t": "ad",
+     "src": "קומו!",
+     "ref": "Levez-vous !"
+    },
+    {
+     "t": "legal",
+     "src": "צילום: זיו קורן",
+     "ref": "Photo : Ziv Koren"
+    },
+    {
+     "t": "head",
+     "src": "טקס 7.10 הזיכרון הלאומי",
+     "ref": "Cérémonie nationale du souvenir du 7.10"
+    },
+    {
+     "t": "head",
+     "src": "משפחות 7 באוקטובר",
+     "ref": "Familles du 7 octobre"
+    },
+    {
+     "t": "head",
+     "src": "ישראל לא שוכחת",
+     "ref": "Israël n'oublie pas"
+    },
+    {
+     "t": "body",
+     "src": "פארק גני יהושע, ת\"א | יום רביעי, 7.10 | 21:15",
+     "ref": "Parc Ganei Yehoshua, Tel-Aviv | mercredi 7.10 | 21h15"
+    },
+    {
+     "t": "head",
+     "src": "יש לנו משהו לצפר לכם",
+     "ref": "On a de quoi vous faire observer les oiseaux"
+    },
+    {
+     "t": "ad",
+     "src": "בחג הסוכות הזה כולם בצפרתון של קק\"ל",
+     "ref": "Pour Souccot, tous au Tsafraton du KKL"
+    },
+    {
+     "t": "body",
+     "src": "מתי? חול המועד סוכות, שני-רביעי, 28-30.9.26 | 09:30-16:00",
+     "ref": "Quand ? Pendant Hol HaMoed Souccot, lundi-mercredi, 28-30.9.26 | 9h30-16h00"
+    },
+    {
+     "t": "body",
+     "src": "איפה? הפארק האקולוגי הוד השרון, כפר מסריק - שביל נחל נעמן",
+     "ref": "Où ? Parc écologique de Hod HaSharon, Kfar Masaryk - sentier du Nahal Naaman"
+    },
+    {
+     "t": "menu",
+     "src": "לפרטים והרשמה <<",
+     "ref": "Détails et inscription >>"
+    },
+    {
+     "t": "legal",
+     "src": "ההשתתפות ברישום מראש. ללא תשלום",
+     "ref": "Participation sur inscription préalable. Gratuit"
+    },
+    {
+     "t": "ad",
+     "src": "GEELY CARNIVAL סוכות",
+     "ref": "GEELY CARNIVAL Souccot"
+    },
+    {
+     "t": "ad",
+     "src": "ימי מכירות חגיגיים עם מגוון הטבות",
+     "ref": "Journées de ventes festives avec de nombreux avantages"
+    },
+    {
+     "t": "ad",
+     "src": "27-30 בספטמבר בכל אולמות התצוגה",
+     "ref": "Du 27 au 30 septembre dans tous les showrooms"
+    },
+    {
+     "t": "legal",
+     "src": "ההטבות בכפוף לתקנון באתר www.geely.co.il. ללקוחות פרטיים שירכשו רכב חדש בין 27-30.9.26",
+     "ref": "Avantages soumis au règlement sur le site www.geely.co.il. Pour les particuliers achetant un véhicule neuf entre le 27 et le 30.9.26"
+    }
+   ]
+  }
+ ]
+}

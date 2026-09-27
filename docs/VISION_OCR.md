@@ -117,3 +117,11 @@ ont été faites, arrêt ensuite). Compteur : `tools/mt-bench/nvidia-usage-visio
 - *À surveiller* : un modèle vision rapide (< 5 s) qui lise l'hébreu **et** donne des boîtes fiables
   rendrait la piste « complément sur échec » intéressante ; le banc
   (`tools/mt-bench/vision_bench.py`, corpus et référence) permet de le mesurer en ~10 requêtes.
+
+## 6. Suite (2026-09-27) — pipeline en 2 étapes
+
+Dans l'étude des combinaisons (`docs/TRANSLATION_COMBOS.md`), la lecture Llama 3.2 11B Vision des 4
+bannières a été retraduite par Nemotron 3 Ultra avec contexte : chrF++ **51,1** (par bannière), contre
+**64,0** avec une lecture parfaite (référence) — la lecture reste le goulot, et l'étape vision coûte
+24–53 s par image. Conclusion inchangée : pas de pipeline vision dans l'app pour l'instant.
+
