@@ -3,6 +3,12 @@
 Toutes les évolutions notables de ce projet sont documentées ici.
 Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), versionnage [SemVer](https://semver.org/lang/fr/).
 
+## [1.8.1] - 2026-10-02
+
+### Modifié
+- Dépôt rendu public sous licence **MIT** (`LICENSE`, © 2026 Stéphane Hercot) ; badge et section
+  « Licence » du README mis à jour.
+
 ## [1.8.0] - 2026-09-26
 
 Validé sur le V30T (captures `docs/screenshots/device/`).

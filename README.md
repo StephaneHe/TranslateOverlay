@@ -2,9 +2,9 @@
 
 Bulle flottante Android qui traduit tout le texte visible à l'écran, images comprises, et l'affiche en surimpression à la place de l'original.
 
-![Version](https://img.shields.io/badge/version-1.8.0-blue)
+![Version](https://img.shields.io/badge/version-1.8.1-blue)
 ![Plateforme](https://img.shields.io/badge/plateforme-Android%208%2B-green)
-![Licence](https://img.shields.io/badge/licence-propri%C3%A9taire-lightgrey)
+[![Licence : MIT](https://img.shields.io/badge/licence-MIT-yellow)](LICENSE)
 
 ## Présentation
 
@@ -15,7 +15,7 @@ images), le traduit et le **remplace en surimpression, au même endroit et dans 
 (couleurs, taille, alignement, gras). Langue source détectée automatiquement, langue cible
 configurable (français par défaut).
 
-**Statut** : projet personnel actif, version **1.8.0**, build debug validé sur un téléphone réel
+**Statut** : projet personnel actif, version **1.8.1**, build debug validé sur un téléphone réel
 (Android 12) et sur émulateur API 33. Pas de publication sur le Play Store à ce jour.
 
 ## Fonctionnalités
@@ -182,7 +182,7 @@ Extraits de `TODO_LIST.md` :
 
 ## Sécurité
 
-- Signaler une vulnérabilité en privé à l'auteur via GitHub (dépôt privé, pas d'issue publique).
+- Signaler une vulnérabilité en privé via GitHub (Security › Report a vulnerability), pas d'issue publique.
 - Aucun secret dans le dépôt : la clé API est saisie dans l'application et chiffrée par Android
   Keystore ; `.env`, keystores et fichiers de signature sont exclus par `.gitignore`.
 - Le service d'accessibilité ne lit l'écran **qu'au tap sur la bulle**. Le texte de l'écran est
@@ -196,7 +196,7 @@ tests unitaires verts, entrée dans le CHANGELOG et bump de version.
 
 ## Licence
 
-Propriétaire — tous droits réservés.
+[MIT](LICENSE) © 2026 Stéphane Hercot.
 
 ## Auteur
 
